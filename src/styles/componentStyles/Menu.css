@@ -1,65 +1,16 @@
 .menu {
-  width: 200px;
+  margin: 0;
+  font-family: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", "Figtree", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  background-color: #ffffff;
-  padding: 0;
-  transition: width 0.3s ease;
-  visibility: visible;
-  will-change: auto;
+  font-size: 24px;
 }
-
-/* добавь класс для текста внутри menu-item */
-.menu-item-text {
-  /* добавь отступ слева для текста */
-  margin-left: 10px;
-}
-
-/* добавь стили для иконки при свернутом меню */
-.menu.collapsed .menu-item-icon {
-  /* центрируй иконку по горизонтали при свернутом меню */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.menu-item i {
-  font-size: 20px;
-}
-
-.menu-item span {
-  display: inline-block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-/* Стили для подменю */
-.sub-menu {
-  padding: 0px;
-  display: flex;
-  justify-content: end;
-}
-.sub-menu-item {
-  /* добавь синий цвет для текста submenu-item */
-  color: #00a6ff;
-  /* добавь подчеркивание при наведении на submenu-item */
-  text-decoration: none;
-}
-
-.sub-menu-item:hover {
-  /* добавь синий цвет для фона submenu-item при наведении */
-  background-color: #007bff;
-  /* добавь белый цвет для текста submenu-item при наведении */
-  color: rgb(0, 0, 0);
-  /* добавь плавный переход для эффектов */
-}
-
-.menu1 {
-  margin-bottom: 40px;
-  margin-top: 20px;
-}
-
 .sidebar{
-  background-color: #007bff;
+  border-radius: 20px;
+  top:3%;
+  overflow: hidden;
 }
-h2{
-  color:#007bff;
+.menu-item{
+  background-color: rgb(199, 199, 199);
 }
