@@ -5,30 +5,57 @@ import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import BubbleChartRoundedIcon from "@mui/icons-material/BubbleChartRounded";
-import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
-import SavingsRoundedIcon from "@mui/icons-material/SavingsRounded";
-import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded";
-import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { useEffect, useState } from "react";
 const MenuBar = () =>{
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Создаем функцию для обновления ширины окна просмотра при изменении размера
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  // Добавляем обработчик события resize к window при монтировании компонента
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    // Удаляем обработчик события при размонтировании компонента
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Определяем пороговое значение ширины окна просмотра, при котором компонент будет минимизирован
+  const breakpoint = 768;
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-    <Sidebar className="sidebar">
-      <Menu className="menu" >
-      <SubMenu label="Задачи" icon={<BarChartRoundedIcon />}>
-          <MenuItem className="menu-item" icon={<TimelineRoundedIcon />}> Мои задачи </MenuItem>
-          <MenuItem className="menu-item" icon={<BubbleChartRoundedIcon />}> Все задачи</MenuItem>
-        </SubMenu>
-        <MenuItem icon={<GridViewRoundedIcon />}> Статистика </MenuItem>
-        <MenuItem icon={<ReceiptRoundedIcon />}> Участники </MenuItem>
-        
+    <div style={{ display: "flex", height: "100vh", width: "10vw" }}>
+     <Sidebar className="sidebar" style={{left:"20%", minWidth: windowWidth > breakpoint ? "220px" : "70px" }}>
       
-      </Menu>
-    </Sidebar>
+        <Menu className="menu">
+          <span className="span">{windowWidth > breakpoint ? "Команда Гар" : null}</span>
+          <SubMenu
+            label={windowWidth > breakpoint ? "Задачи" : null}
+            icon={<BarChartRoundedIcon />}
+          >
+            <MenuItem
+              className="menu-item"
+              icon={<TimelineRoundedIcon />}
+            >
+              {windowWidth > breakpoint ? "Мои задачи" : null}
+            </MenuItem>
+            <MenuItem
+              className="menu-item"
+              icon={<BubbleChartRoundedIcon />}
+            >
+              {windowWidth > breakpoint ? "Все задачи" : null}
+            </MenuItem>
+          </SubMenu>
+          <MenuItem icon={<GridViewRoundedIcon />}>
+            {windowWidth > breakpoint ? "Статистика" : null}
+          </MenuItem>
+          <MenuItem icon={<ReceiptRoundedIcon />}>
+            {windowWidth > breakpoint ? "Участники" : null}
+          </MenuItem>
+        </Menu>
+      </Sidebar>
   </div>
   );
 }
