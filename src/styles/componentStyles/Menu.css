@@ -3,36 +3,32 @@
   height: 100vh;
   background-color: #ffffff;
   padding: 0;
-  transition: width 0.3s ease-in-out, visibility 0s;
+  transition: width 0.3s ease;
   visibility: visible;
   will-change: auto;
 }
 
-.menu.collapsed {
-  width: 90px;
-  visibility: collapse;
+/* добавь класс для текста внутри menu-item */
+.menu-item-text {
+  /* добавь отступ слева для текста */
+  margin-left: 10px;
 }
-.ps-menu-button {
-  padding: 0px;
-}
-/* Стили для пунктов меню */
-.menu-item {
+
+/* добавь стили для иконки при свернутом меню */
+.menu.collapsed .menu-item-icon {
+  /* центрируй иконку по горизонтали при свернутом меню */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .menu-item i {
   font-size: 20px;
-  color: black;
 }
 
 .menu-item span {
   display: inline-block;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.menu.collapsed .menu-item span {
-  display: none;
 }
 
 /* Стили для подменю */
@@ -56,6 +52,14 @@
   /* добавь плавный переход для эффектов */
 }
 
-.svg {
-  fill: url(#MyGradient);
+.menu1 {
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+.sidebar{
+  background-color: #007bff;
+}
+h2{
+  color:#007bff;
 }
