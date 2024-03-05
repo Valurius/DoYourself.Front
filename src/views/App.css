@@ -1,0 +1,17 @@
+html {
+  height: 100%;
+  background-image: url("/public/greyfade.jpg");
+  background-position: center, center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}

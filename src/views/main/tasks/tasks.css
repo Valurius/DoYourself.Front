@@ -1,0 +1,9 @@
+﻿.task-h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  background-image: linear-gradient(to left, #92bfb1, #55a6ca);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-align: center;
+}

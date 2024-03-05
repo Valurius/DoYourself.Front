@@ -1,0 +1,32 @@
+.my-list {
+  list-style: none;
+  padding: 0;
+}
+
+.my-list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: white;
+  border: 3px solid #afafaf;
+  border-bottom: 3px solid #726f6f;
+  border-right: 3px solid #726f6f;
+  border-radius: 10px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.my-list-item-label {
+  display: flex;
+  align-items: center;
+}
+
+.my-list-item-label input[type="checkbox"] {
+  margin-right: 10px;
+}
+.done {
+  text-decoration: line-through;
+  color: #999;
+}

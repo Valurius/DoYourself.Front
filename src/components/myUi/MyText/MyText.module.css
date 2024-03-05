@@ -1,0 +1,11 @@
+.MyText {
+  font-size: 24px;
+  background-image: linear-gradient(to left, #92bfb1, #55a6ca);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}

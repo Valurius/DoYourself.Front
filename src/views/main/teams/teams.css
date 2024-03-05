@@ -1,0 +1,50 @@
+/* Стили для списков */
+.team-ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Стили для элементов списка */
+.team-li {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Стили для ссылок внутри элементов списка */
+.team-li a {
+  color: #333; /* Устанавливаем цвет текста для ссылок */
+  text-decoration: none; /* Убираем подчеркивание для ссылок */
+  font-weight: bold; /* Делаем текст ссылок жирным */
+}
+
+/* Добавляем эффект при наведении курсора на элемент списка */
+.team-li:hover {
+  transform: scale(1.1); /* Увеличиваем масштаб элемента списка */
+  transition: 0.3s; /* Делаем переход плавным */
+}
+.team-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Устанавливаем ширину ссылки равной ширине элемента li */
+  height: 100%; /* Устанавливаем высоту ссылки равной высоте элемента li */
+  /* Остальные стили для ссылки */
+  text-align: center;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}

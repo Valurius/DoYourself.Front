@@ -1,0 +1,35 @@
+﻿/* Стиль для контейнера задач */
+.task-list-container {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Добавьте отступ сверху и снизу для разделения от других блоков */
+    max-width: 50%; /* Ограничьте максимальную ширину контейнера */
+}
+
+/* Заголовок списка задач */
+.task-list-title {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Стиль для списка задач */
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+    /* Стиль для отдельной задачи */
+    .task-list li {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #666;
+    }
+
+        /* Подчеркивание при наведении на задачу */
+        .task-list li:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }

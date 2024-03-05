@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\router",
+    "\\src\\styles",
+    "\\src\\styles\\componentStyles",
+    "\\src\\styles\\viewStyles",
+    "\\src\\views",
+    "\\src\\views\\auth",
+    "\\src\\views\\main"
+  ],
+  "PreviewInSolutionExplorer": false
+}
