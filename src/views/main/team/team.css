@@ -1,19 +1,18 @@
 .team-page {
   display: flex;
-  justify-content: space-between;
-  font-family: "Arial", sans-serif;
-
-  margin: 0 auto;
-  padding: 20px;
+  margin-top: 3%;
 }
-
+.left_menu {
+  flex: 1;
+}
 .team-tasks {
-  flex: 3;
+  position: relative;
+  flex-grow: 1;
   padding: 20px;
-  margin-right: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 20px;
+  flex-shrink: 0;
 }
 
 .team-members {

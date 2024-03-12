@@ -62,7 +62,16 @@ const TeamPage = () => {
     [tasks]
   );
 
-  return <MenuBar />;
+  return (
+    <div className="team-page">
+      <div className="left_menu">
+        <MenuBar />
+      </div>
+      <div className="team-tasks">
+        <p>fffffffffffffffffff</p>
+      </div>
+    </div>
+  );
 };
 
 export default TeamPage;
