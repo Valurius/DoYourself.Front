@@ -1,18 +1,17 @@
 .team-page {
-  display: flex;
+  display: grid;
   margin-top: 3%;
 }
 .left_menu {
-  flex: 1;
+  grid-row: 1;
 }
 .team-tasks {
-  position: relative;
-  flex-grow: 1;
+  grid-row: 1;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 20px;
-  flex-shrink: 0;
+  margin-right: 5%;
 }
 
 .team-members {

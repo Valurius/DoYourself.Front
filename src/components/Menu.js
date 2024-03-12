@@ -30,7 +30,7 @@ const MenuBar = () => {
       <Sidebar
         className="sidebar"
         style={{
-          left: "20%",
+          background: "white",
           minWidth: windowWidth > breakpoint ? "220px" : "70px",
         }}
       >
