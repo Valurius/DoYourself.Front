@@ -68,6 +68,7 @@ const TeamPage = () => {
         <MenuBar />
       </div>
       <div className="team-tasks">
+        <MyTitle>Задачи команды</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">

@@ -6,6 +6,7 @@ import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import Menu from "../../../components/Menu";
 import { Sidebar } from "react-pro-sidebar";
 import MenuBar from "../../../components/Menu";
+import MyText from "../../../components/myUi/MyText/MyText";
 
 const Team = () => {
   // Здесь может быть логика для получения данных о команде и участниках
@@ -68,6 +69,7 @@ const Team = () => {
         <MenuBar />
       </div>
       <div className="team-tasks">
+        <MyTitle>Мои задачи</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">
