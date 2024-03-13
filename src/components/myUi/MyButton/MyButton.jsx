@@ -1,12 +1,12 @@
 import React from "react";
-import classes from "./MyButton.module.css"
+import classes from "./MyButton.module.css";
 // Создаем функциональный компонент MyLink
-const MyLink = ({children, ...props}) => {
+const MyButton = ({ children, ...props }) => {
   return (
     <button {...props} className={classes.myButton}>
-            {children}
+      {children}
     </button>
   );
 };
 
-export default MyLink;
+export default MyButton;

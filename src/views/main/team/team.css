@@ -1,9 +1,11 @@
 .team-page {
   display: grid;
+  grid-template-columns: auto 1fr;
   margin-top: 3%;
 }
 .left_menu {
   grid-row: 1;
+  width: 300px;
 }
 .team-tasks {
   grid-row: 1;
@@ -13,7 +15,11 @@
   border-radius: 20px;
   margin-right: 5%;
 }
-
+@media (max-width: 1024px) {
+  .left_menu {
+    width: 130px !important;
+  }
+}
 .team-members {
   flex: 1;
   margin-top: 0;

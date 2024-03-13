@@ -1,13 +1,16 @@
 import { Sidebar, SubMenu, Menu, MenuItem } from "react-pro-sidebar";
 import "../styles/componentStyles/Menu.css";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
-import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
-import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
-import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
-import BubbleChartRoundedIcon from "@mui/icons-material/BubbleChartRounded";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import GroupsIcon from "@mui/icons-material/Groups";
+import ManIcon from "@mui/icons-material/Man";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { useEffect, useState } from "react";
+import MyLink from "./myUi/MyLink/MyLink";
+import { Link } from "react-router-dom";
 const MenuBar = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   // Создаем функцию для обновления ширины окна просмотра при изменении размера
   const handleResize = () => {
@@ -24,36 +27,60 @@ const MenuBar = () => {
   }, []);
 
   // Определяем пороговое значение ширины окна просмотра, при котором компонент будет минимизирован
-  const breakpoint = 768;
+  const breakpoint = 1024;
   return (
     <div style={{ display: "flex", height: "100vh", width: "10vw" }}>
       <Sidebar
         className="sidebar"
         style={{
-          background: "white",
-          minWidth: windowWidth > breakpoint ? "220px" : "70px",
+          minWidth: isMenuOpen
+            ? windowWidth > breakpoint
+              ? "220px"
+              : "70px"
+            : "70px",
         }}
       >
         <Menu className="menu">
           <span className="span">
-            {windowWidth > breakpoint ? "Команда Гар" : null}
+            {isMenuOpen
+              ? windowWidth > breakpoint
+                ? "Команда Гар"
+                : null
+              : null}
           </span>
-          <SubMenu
-            label={windowWidth > breakpoint ? "Задачи" : null}
-            icon={<BarChartRoundedIcon />}
-          >
-            <MenuItem className="menu-item" icon={<TimelineRoundedIcon />}>
-              {windowWidth > breakpoint ? "Мои задачи" : null}
+          <Link to="/teamT" className="link">
+            <MenuItem className="menu-item" icon={<ManIcon />}>
+              {isMenuOpen
+                ? windowWidth > breakpoint
+                  ? "Мои задачи"
+                  : null
+                : null}
             </MenuItem>
-            <MenuItem className="menu-item" icon={<BubbleChartRoundedIcon />}>
-              {windowWidth > breakpoint ? "Все задачи" : null}
+          </Link>
+
+          <Link to="/team/:teamId" className="link">
+            <MenuItem icon={<GroupsIcon />}>
+              {isMenuOpen
+                ? windowWidth > breakpoint
+                  ? "Все Задачи"
+                  : null
+                : null}
             </MenuItem>
-          </SubMenu>
-          <MenuItem icon={<GridViewRoundedIcon />}>
-            {windowWidth > breakpoint ? "Статистика" : null}
+          </Link>
+
+          <MenuItem icon={<QueryStatsIcon />}>
+            {isMenuOpen
+              ? windowWidth > breakpoint
+                ? "Статистика"
+                : null
+              : null}
           </MenuItem>
-          <MenuItem icon={<ReceiptRoundedIcon />}>
-            {windowWidth > breakpoint ? "Участники" : null}
+          <MenuItem icon={<Diversity3Icon />}>
+            {isMenuOpen
+              ? windowWidth > breakpoint
+                ? "Участники"
+                : null
+              : null}
           </MenuItem>
         </Menu>
       </Sidebar>

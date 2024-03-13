@@ -68,7 +68,19 @@ const TeamPage = () => {
         <MenuBar />
       </div>
       <div className="team-tasks">
-        <p>fffffffffffffffffff</p>
+        {tasks.map((task) => (
+          <div key={task.id}>
+            <div className="task">
+              <div className="task-icon">
+                <img src={task.img} alt={task.name} />
+              </div>
+              <h2 className="name">{task.name}</h2>
+              <div className="task-description">
+                <p>{task.desk}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
