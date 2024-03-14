@@ -1,16 +1,14 @@
-import { Sidebar, SubMenu, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import "../styles/componentStyles/Menu.css";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ManIcon from "@mui/icons-material/Man";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { useEffect, useState } from "react";
-import MyLink from "./myUi/MyLink/MyLink";
 import { Link } from "react-router-dom";
 const MenuBar = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen] = useState(true);
 
   // Создаем функцию для обновления ширины окна просмотра при изменении размера
   const handleResize = () => {
@@ -48,7 +46,7 @@ const MenuBar = () => {
                 : null
               : null}
           </span>
-          <Link to="/teamT" className="link">
+          <Link to="/members" className="link">
             <MenuItem className="menu-item" icon={<ManIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -75,13 +73,15 @@ const MenuBar = () => {
                 : null
               : null}
           </MenuItem>
-          <MenuItem icon={<Diversity3Icon />}>
-            {isMenuOpen
-              ? windowWidth > breakpoint
-                ? "Участники"
-                : null
-              : null}
-          </MenuItem>
+          <Link to="/members" className="link">
+            <MenuItem icon={<Diversity3Icon />}>
+              {isMenuOpen
+                ? windowWidth > breakpoint
+                  ? "Участники"
+                  : null
+                : null}
+            </MenuItem>
+          </Link>
         </Menu>
       </Sidebar>
     </div>

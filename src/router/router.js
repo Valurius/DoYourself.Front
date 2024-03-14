@@ -1,10 +1,10 @@
 import RegistrationPage from "../views/auth/RegistrationPage";
 import LoginPage from "../views/auth/LoginPage";
 import WelcomePage from "../views/WelcomePage";
-import TasksPage from "../views/main/tasks/TasksPage";
+import TasksPage from "../views/main/tasks/UserTasksPage";
 import TeamsPage from "../views/main/teams/TeamsPage";
-import TeamPage from "../views/main/team/TeamPage";
-import Team from "../views/main/team/Team";
+import TeamPage from "../views/main/team/TasksPage";
+import Members from "../views/main/team/MembersPage";
 
 export const publicRoutes = [
   { path: "/", element: <RegistrationPage /> },
@@ -14,5 +14,5 @@ export const publicRoutes = [
   { path: "/tasks", element: <TasksPage /> },
   { path: "/teams", element: <TeamsPage /> },
   { path: "/team/:teamId", element: <TeamPage /> },
-  { path: "/teamT", element: <Team /> },
+  { path: "/members", element: <Members /> },
 ];

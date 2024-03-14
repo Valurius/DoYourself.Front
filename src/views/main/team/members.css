@@ -1,0 +1,55 @@
+.members-page {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin-top: 3%;
+}
+
+.left_menu {
+  grid-row: 1;
+  width: 300px;
+}
+
+@media (max-width: 1024px) {
+  .left_menu {
+    width: 130px !important;
+  }
+}
+
+.member {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 0px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.member:hover {
+  transform: scale(1.02); /* Увеличение при наведении */
+}
+
+.member-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.member-icon img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333; /* Цвет имени */
+}
+
+.member-description p {
+  font-size: 14px;
+  color: #777; /* Цвет описания */
+}

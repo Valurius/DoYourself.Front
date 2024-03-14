@@ -1,20 +1,15 @@
 import React, { useCallback, useState } from "react";
-import "../team/team.css"; // Убедитесь, что CSS файл импортирован
-import MyList from "../../../components/myUi/MyList/MyList";
-import MyButton from "../../../components/myUi/MyButton/MyButton";
+import "../team/tasks.css"; // Убедитесь, что CSS файл импортирован
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
-import Menu from "../../../components/Menu";
-import { Sidebar } from "react-pro-sidebar";
 import MenuBar from "../../../components/Menu";
-import MyText from "../../../components/myUi/MyText/MyText";
 
-const Team = () => {
+const TeamPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
 
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      name: "Дизайн Гара сайта",
+      name: "Дизайн сайта",
       desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
       img: "https://w.forfun.com/fetch/da/daf8eb568fea522f6701fb9c66378cdc.jpeg",
     },
@@ -29,27 +24,6 @@ const Team = () => {
       name: "Дизайн сайта",
       desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
       img: "https://w.forfun.com/fetch/da/daf8eb568fea522f6701fb9c66378cdc.jpeg",
-    },
-  ]);
-
-  const [members, setMembers] = useState([
-    {
-      id: 1,
-      name: "Мартиросян Гарегин",
-      desk: "Разработчик",
-      img: "https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663637190_10-mykaleidoscope-ru-p-uspeshnie-molodie-lyudi-vkontakte-10.jpg",
-    },
-    {
-      id: 2,
-      name: "Василий Петров",
-      desk: "Дружок",
-      img: "https://geniy1s.ru/wp-content/uploads/2022/08/15d04cb6c97336bb90dcf65811978a71.jpg",
-    },
-    {
-      id: 3,
-      name: "Петр Васильев",
-      desk: "Пирожок",
-      img: "https://wagerevans.com/wp-content/uploads/2019/03/Looking-For-Ways-To-Make-Your-Smile-Whiter.jpeg",
     },
   ]);
 
@@ -64,12 +38,12 @@ const Team = () => {
   );
 
   return (
-    <div className="team-page">
+    <div className="tasks-page">
       <div className="left_menu">
         <MenuBar />
       </div>
       <div className="team-tasks">
-        <MyTitle>Мои задачи</MyTitle>
+        <MyTitle>Задачи команды</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">
@@ -88,4 +62,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default TeamPage;
