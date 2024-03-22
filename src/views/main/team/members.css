@@ -3,12 +3,17 @@
   grid-template-columns: auto 1fr;
   margin-top: 3%;
 }
-
 .left_menu {
   grid-row: 1;
   width: 300px;
 }
-
+.team-members {
+  grid-row: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  margin-right: 5%;
+}
 @media (max-width: 1024px) {
   .left_menu {
     width: 130px !important;
@@ -16,40 +21,105 @@
 }
 
 .member {
-  border: 1px solid #ddd;
-  padding: 20px;
-  margin: 0px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 600px;
-  transition: transform 0.2s ease-in-out;
+  margin: 1.5em 0;
+  padding: 0.73em;
+  background-color: #fdfff1;
+  box-shadow: 5px 5px 5px 5px #edf1d6;
+  position: relative;
+  list-style: none;
+  display: inline-block;
+  transform: scale(0.85);
+  transition: all 0.4s ease;
+  min-width: 100%;
+  border-radius: 5px;
 }
 
-.member:hover {
-  transform: scale(1.02); /* Увеличение при наведении */
-}
-
-.member-content {
-  display: flex;
-  justify-content: space-between;
+.member-icon {
+  width: 24vmin;
+  height: 24svmin;
+  float: left;
+  margin-right: 1.25em;
+  background-color: #edf1d6;
+  transform: rotate(-4deg);
+  transition: all 0.4s ease;
+  border-radius: 0.25em;
+  overflow: hidden;
+  margin-left: -3em;
+  padding: 0.5em;
 }
 
 .member-icon img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25em;
 }
 
 .name {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333; /* Цвет имени */
+  background-image: linear-gradient(to left, #92bfb1, #55a6ca);
+  color: transparent;
+  padding: 0;
+  background-clip: text;
+  font-size: 40px;
+  margin: 5px 0px;
+  background-clip: text;
+  font-family: Georgia, serif;
+  -webkit-background-clip: text;
+  text-overflow: ellipsis;
 }
 
-.member-description p {
-  font-size: 14px;
-  color: #777; /* Цвет описания */
+.member-status:after {
+  content: attr(data-status);
+  font-size: 1em;
+  max-width: 700px;
+  position: absolute;
+  top: -1.5em;
+  background-color: #ffdd40;
+  right: 4em;
+  transform: rotate(3deg);
+  padding: 0.35em 0.75em 0.5em;
+  border-radius: 0.25em;
+  color: #2f313a;
+  font-weight: bold;
+}
+
+.member-description p a {
+  display: inline-block;
+  margin: 0.5em 0 0 0;
+  background-color: #2f313a;
+  color: #ffdd40;
+  padding: 0.1em 0.5em 0.35em;
+  border-radius: 0.5em;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.member-description p a img {
+  float: left;
+  width: 22px;
+  filter: invert(1);
+  border-radius: 0.15em;
+  padding: 2px;
+  background: #fff;
+  margin-right: 2px;
+}
+
+.p {
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .team-page {
+    flex-direction: column;
+  }
+
+  .team-members,
+  .team-members {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .member .thumb {
+    width: 100px;
+    height: 50px;
+  }
 }

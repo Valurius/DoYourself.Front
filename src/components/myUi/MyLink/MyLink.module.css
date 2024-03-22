@@ -1,16 +1,16 @@
 .myLink {
-    background: linear-gradient(to right, #92bfb1, #55a6ca);
-	color: white;
-	border: none;
-	text-decoration: none;
-	border-radius: 15px;
-	margin: 0px 2px;
-	padding: 5px 15px;
-	font-size: 12px;
-	cursor: pointer;
+  background: linear-gradient(to right, #92bfb1, #55a6ca);
+  color: white;
+  border: none;
+  text-decoration: none;
+  border-radius: 15px;
+  margin: 0px 2px;
+  padding: 5px 15px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-    .myLink:hover {
-        background: linear-gradient(to right, #08714f, #55a6ca);
-        text-decoration: none;
-    }
+.myLink:hover {
+  background: linear-gradient(to right, #08714f, #55a6ca);
+  text-decoration: none;
+}

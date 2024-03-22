@@ -10,20 +10,20 @@ const TeamPage = () => {
     {
       id: 1,
       name: "Дизайн сайта",
-      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
-      img: "https://w.forfun.com/fetch/da/daf8eb568fea522f6701fb9c66378cdc.jpeg",
+      desk: "Нужно .",
+      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
       id: 2,
       name: "Дизайн сайта",
       desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
-      img: "https://w.forfun.com/fetch/da/daf8eb568fea522f6701fb9c66378cdc.jpeg",
+      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
       id: 3,
       name: "Дизайн сайта",
       desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
-      img: "https://w.forfun.com/fetch/da/daf8eb568fea522f6701fb9c66378cdc.jpeg",
+      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
   ]);
 

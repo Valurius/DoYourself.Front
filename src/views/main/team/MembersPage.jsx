@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../team/members.css"; // Убедитесь, что CSS файл импортирован
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../components/Menu";
+import MyText from "../../../components/myUi/MyText/MyText";
 
 const Team = () => {
   // Здесь может быть логика для получения данных о команде и участниках
@@ -33,16 +34,16 @@ const Team = () => {
         <MenuBar />
       </div>
       <div className="team-members">
-        <MyTitle>Участники команды</MyTitle>
+        <MyTitle>Задачи команды</MyTitle>
         {members.map((member) => (
-          <div key={member.id} className="member">
-            <div className="member-content">
+          <div key={member.id}>
+            <div className="member">
               <div className="member-icon">
                 <img src={member.img} alt={member.name} />
               </div>
-              <div className="member-text">
-                <h2 className="name">{member.name}</h2>
-                <p>{member.desk}</p>
+              <h2 className="name">{member.name}</h2>
+              <div className="member-description">
+                <MyText>{member.desk}</MyText>
               </div>
             </div>
           </div>
