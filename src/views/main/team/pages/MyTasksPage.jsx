@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
-import "../team/tasks.css"; // Убедитесь, что CSS файл импортирован
-import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
-import MenuBar from "../../../components/Menu";
+import "../styles/tasks.css"; // Убедитесь, что CSS файл импортирован
+import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
+import MenuBar from "../../../../components/Menu";
 
-const TeamPage = () => {
+const MyTasksPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
 
   const [tasks, setTasks] = useState([
@@ -62,4 +62,4 @@ const TeamPage = () => {
   );
 };
 
-export default TeamPage;
+export default MyTasksPage;

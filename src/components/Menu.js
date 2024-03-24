@@ -4,6 +4,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import ManIcon from "@mui/icons-material/Man";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import Market from "@mui/icons-material/LocalGroceryStoreRounded";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 const MenuBar = () => {
@@ -46,7 +47,7 @@ const MenuBar = () => {
                 : null
               : null}
           </span>
-          <Link to="/members" className="link">
+          <Link to={`/1/myTasks/`} className="link">
             <MenuItem className="menu-item" icon={<ManIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -56,7 +57,7 @@ const MenuBar = () => {
             </MenuItem>
           </Link>
 
-          <Link to="/team/:teamId" className="link">
+          <Link to="/1/tasks/" className="link">
             <MenuItem icon={<GroupsIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -66,18 +67,31 @@ const MenuBar = () => {
             </MenuItem>
           </Link>
 
-          <MenuItem icon={<QueryStatsIcon />}>
-            {isMenuOpen
-              ? windowWidth > breakpoint
-                ? "Статистика"
-                : null
-              : null}
-          </MenuItem>
-          <Link to="/members" className="link">
+          <Link to="/1/statistics/" className="link">
+            <MenuItem icon={<QueryStatsIcon />}>
+              {isMenuOpen
+                ? windowWidth > breakpoint
+                  ? "Статистика"
+                  : null
+                : null}
+            </MenuItem>
+          </Link>
+
+          <Link to="/1/members/" className="link">
             <MenuItem icon={<Diversity3Icon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
                   ? "Участники"
+                  : null
+                : null}
+            </MenuItem>
+          </Link>
+
+          <Link to="/1/market/" className="link">
+            <MenuItem icon={<Market />}>
+              {isMenuOpen
+                ? windowWidth > breakpoint
+                  ? "Магазин"
                   : null
                 : null}
             </MenuItem>

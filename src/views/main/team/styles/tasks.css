@@ -1,4 +1,4 @@
-.members-page {
+.tasks-page {
   display: grid;
   grid-template-columns: auto 1fr;
   margin-top: 3%;
@@ -7,10 +7,11 @@
   grid-row: 1;
   width: 300px;
 }
-.team-members {
+.team-tasks {
   grid-row: 1;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
   border-radius: 20px;
   margin-right: 5%;
 }
@@ -20,7 +21,7 @@
   }
 }
 
-.member {
+.task {
   margin: 1.5em 0;
   padding: 0.73em;
   background-color: #fdfff1;
@@ -34,9 +35,9 @@
   border-radius: 5px;
 }
 
-.member-icon {
-  width: 24vmin;
-  height: 24svmin;
+.task-icon {
+  width: 13vmin;
+  height: 13vmin;
   float: left;
   margin-right: 1.25em;
   background-color: #edf1d6;
@@ -48,7 +49,7 @@
   padding: 0.5em;
 }
 
-.member-icon img {
+.task-icon img {
   width: 100%;
   height: 100%;
   border-radius: 0.25em;
@@ -67,7 +68,7 @@
   text-overflow: ellipsis;
 }
 
-.member-status:after {
+.task-status:after {
   content: attr(data-status);
   font-size: 1em;
   max-width: 700px;
@@ -82,7 +83,7 @@
   font-weight: bold;
 }
 
-.member-description p a {
+.task-description p a {
   display: inline-block;
   margin: 0.5em 0 0 0;
   background-color: #2f313a;
@@ -93,7 +94,7 @@
   transition: all 0.4s ease;
 }
 
-.member-description p a img {
+.task-description p a img {
   float: left;
   width: 22px;
   filter: invert(1);
@@ -112,7 +113,7 @@
     flex-direction: column;
   }
 
-  .team-members,
+  .team-tasks,
   .team-members {
     margin-right: 0;
     margin-bottom: 20px;

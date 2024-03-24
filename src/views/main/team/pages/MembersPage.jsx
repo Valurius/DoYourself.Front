@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "../team/members.css"; // Убедитесь, что CSS файл импортирован
-import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
-import MenuBar from "../../../components/Menu";
-import MyText from "../../../components/myUi/MyText/MyText";
+import "../styles/members.css"; // Убедитесь, что CSS файл импортирован
+import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
+import MenuBar from "../../../../components/Menu";
+import MyText from "../../../../components/myUi/MyText/MyText";
 
 const Team = () => {
   // Здесь может быть логика для получения данных о команде и участниках

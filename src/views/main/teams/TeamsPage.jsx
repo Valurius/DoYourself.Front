@@ -22,7 +22,7 @@ const TeamsPage = () => {
       <ul className="team-ul">
         {teams.map((team) => (
           <li className="team-li" key={team.id}>
-            <MyLink to={`/team/${team.id}`} className="team-link">
+            <MyLink to={`/${team.id}/tasks/`} className="team-link">
               <MyText>{team.name}</MyText>
             </MyLink>
           </li>

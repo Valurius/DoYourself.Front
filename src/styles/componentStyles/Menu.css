@@ -10,7 +10,6 @@
   font-size: 24px;
 }
 .sidebar {
-  width: 30px;
   border-radius: 20px;
   left: 20%;
   overflow: hidden;
@@ -25,6 +24,7 @@
 }
 
 .span {
+  padding-top: 20px;
   background-image: linear-gradient(to left, #92bfb1, #55a6ca);
   color: transparent;
   background-clip: text;

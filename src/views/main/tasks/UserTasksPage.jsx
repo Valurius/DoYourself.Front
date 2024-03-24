@@ -4,7 +4,7 @@ import "../tasks/tasks.css";
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MyList from "../../../components/myUi/MyList/MyList";
 // Создаем компонент TaskList
-const TasksPage = () => {
+const UserTasksPage = () => {
   const [tasks, setTasks] = useState([
     { id: 1, name: "Team A" },
     { id: 2, name: "Team B" },
@@ -39,4 +39,4 @@ const TasksPage = () => {
 };
 
 // Экспортируем компонент TaskList
-export default TasksPage;
+export default UserTasksPage;
