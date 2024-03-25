@@ -2,6 +2,7 @@
 import "../styles/componentStyles/Header.css";
 import MyLink from "./myUi/MyLink/MyLink";
 import MyText from "./myUi/MyText/MyText";
+import MyButton from "./myUi/MyButton/MyButton";
 const Header = () => {
   const [progress, setProgress] = useState(75);
 
@@ -31,8 +32,10 @@ const Header = () => {
           </div>
         </div>
         <div className="header-buttons">
-          <button onClick={Plus}></button>
-          <MyLink to="/tasks">Задачи</MyLink>
+          <MyButton onClick={Plus}>+</MyButton>
+          <MyLink to="/registration">Регистрация</MyLink>
+          <MyLink to="/login">Вход</MyLink>
+          <MyLink to="/userTasks">Задачи</MyLink>
           <MyLink to="/teams">Команды</MyLink>
         </div>
       </div>

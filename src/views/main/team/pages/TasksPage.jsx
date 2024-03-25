@@ -2,10 +2,12 @@ import React, { useCallback, useState } from "react";
 import "../styles/tasks.css"; // Убедитесь, что CSS файл импортирован
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
+import MyButton from "../../../../components/myUi/MyButton/MyButton";
+import { useRoleContext } from "../../../../context/context";
 
 const TasksPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
-
+  const { userRole } = useRoleContext();
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -47,6 +49,7 @@ const TasksPage = () => {
       </div>
       <div className="team-tasks">
         <MyTitle>Задачи команды</MyTitle>
+        {userRole === "admin" ? <MyButton>Добавить</MyButton> : ""}
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">

@@ -1,24 +1,33 @@
-﻿// Импортируем React и useState
-import React, { useCallback, useEffect, useState } from "react";
-import "../tasks/tasks.css";
+﻿import React, { useCallback, useState } from "react";
+import "../tasks/userTasks.css";
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
-import MyList from "../../../components/myUi/MyList/MyList";
-// Создаем компонент TaskList
-const UserTasksPage = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "Team A" },
-    { id: 2, name: "Team B" },
-    { id: 3, name: "Team B" },
-    { id: 4, name: "Team B" },
-    { id: 5, name: "Team B" },
-  ]);
 
-  useEffect(() => {
-    fetch("https://localhost:44305/api/task")
-      .then((response) => response.json())
-      .then((data) => setTasks(data))
-      .catch((error) => console.error("Error fetching tasks:", error));
-  }, []);
+const TasksPage = () => {
+  // Здесь может быть логика для получения данных о команде и участниках
+
+  const [tasks, setTasks] = useState([
+    {
+      id: 1,
+      name: "Дизайн сайта",
+      desk: "Нужно .",
+      member: "Мартиросян Гарегин",
+      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
+    },
+    {
+      id: 2,
+      name: "Дизайн сайта",
+      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
+      member: "Кто-то",
+      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
+    },
+    {
+      id: 3,
+      name: "Дизайн сайта",
+      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
+      member: "Кто-то",
+      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
+    },
+  ]);
 
   const handleToggle = useCallback(
     (id) => {
@@ -31,12 +40,26 @@ const UserTasksPage = () => {
   );
 
   return (
-    <div className="task-list">
-      <MyTitle>Список задач</MyTitle>
-      <MyList items={tasks} onToggle={handleToggle} />
+    <div className="userTasks-page">
+      <div className="userTasks">
+        <MyTitle>Задачи команды</MyTitle>
+        {tasks.map((task) => (
+          <div key={task.id}>
+            <div className="userTask">
+              <div className="userTask-icon">
+                <img src={task.img} alt={task.name} />
+              </div>
+              <h2 className="name">{task.name}</h2>
+              <div className="userTask-description">
+                <p>{task.desk}</p>
+                <p>{task.member}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-// Экспортируем компонент TaskList
-export default UserTasksPage;
+export default TasksPage;
