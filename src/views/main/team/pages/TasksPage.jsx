@@ -11,18 +11,21 @@ const TasksPage = () => {
       id: 1,
       name: "Дизайн сайта",
       desk: "Нужно .",
+      member: "Мартиросян Гарегин",
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
       id: 2,
       name: "Дизайн сайта",
       desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
+      member: "Кто-то",
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
       id: 3,
       name: "Дизайн сайта",
       desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
+      member: "Кто-то",
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
   ]);
@@ -53,6 +56,7 @@ const TasksPage = () => {
               <h2 className="name">{task.name}</h2>
               <div className="task-description">
                 <p>{task.desk}</p>
+                <p>{task.member}</p>
               </div>
             </div>
           </div>
