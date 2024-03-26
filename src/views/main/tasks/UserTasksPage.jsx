@@ -1,6 +1,7 @@
 ﻿import React, { useCallback, useState } from "react";
 import "../tasks/userTasks.css";
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
+import MyText from "../../../components/myUi/MyText/MyText";
 
 const TasksPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
@@ -42,7 +43,7 @@ const TasksPage = () => {
   return (
     <div className="userTasks-page">
       <div className="userTasks">
-        <MyTitle>Задачи команды</MyTitle>
+        <MyTitle>Мои задачи</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="userTask">
@@ -51,8 +52,7 @@ const TasksPage = () => {
               </div>
               <h2 className="name">{task.name}</h2>
               <div className="userTask-description">
-                <p>{task.desk}</p>
-                <p>{task.member}</p>
+                <MyText>{task.desk}</MyText>
               </div>
             </div>
           </div>

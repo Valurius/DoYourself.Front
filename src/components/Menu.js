@@ -58,7 +58,7 @@ const MenuBar = () => {
           </Link>
 
           <Link to="/1/tasks/" className="link">
-            <MenuItem icon={<GroupsIcon />}>
+            <MenuItem className="menu-item" icon={<GroupsIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
                   ? "Все Задачи"
@@ -68,7 +68,7 @@ const MenuBar = () => {
           </Link>
 
           <Link to="/1/statistics/" className="link">
-            <MenuItem icon={<QueryStatsIcon />}>
+            <MenuItem className="menu-item" icon={<QueryStatsIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
                   ? "Статистика"
@@ -78,7 +78,7 @@ const MenuBar = () => {
           </Link>
 
           <Link to="/1/members/" className="link">
-            <MenuItem icon={<Diversity3Icon />}>
+            <MenuItem className="menu-item" icon={<Diversity3Icon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
                   ? "Участники"
@@ -88,7 +88,11 @@ const MenuBar = () => {
           </Link>
 
           <Link to="/1/market/" className="link">
-            <MenuItem icon={<Market />}>
+            <MenuItem
+              variant="contained"
+              className="menu-item"
+              icon={<Market />}
+            >
               {isMenuOpen
                 ? windowWidth > breakpoint
                   ? "Магазин"

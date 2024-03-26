@@ -3,6 +3,7 @@ import LoginPage from "../views/auth/LoginPage";
 import WelcomePage from "../views/WelcomePage";
 import UserTasksPage from "../views/main/tasks/UserTasksPage";
 import TeamsPage from "../views/main/teams/TeamsPage";
+import TaskPage from "../views/main/team/pages/TaskPage";
 import TasksPage from "../views/main/team/pages/TasksPage";
 import MembersPage from "../views/main/team/pages/MembersPage";
 import MarketPage from "../views/main/team/pages/MarketPage";
@@ -16,6 +17,7 @@ export const publicRoutes = [
   { path: "/registration", element: <RegistrationPage /> },
   { path: "/userTasks", element: <UserTasksPage /> },
   { path: "/teams", element: <TeamsPage /> },
+  { path: "/:teamId/task", element: <TaskPage /> },
   { path: "/:teamId/tasks", element: <TasksPage /> },
   { path: "/:teamId/members", element: <MembersPage /> },
   { path: "/:teamId/market", element: <MarketPage /> },

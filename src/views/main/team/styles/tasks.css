@@ -35,6 +35,11 @@
   border-radius: 5px;
 }
 
+.task-content {
+  display: flex;
+  justify-content: space-between;
+}
+
 .task-icon {
   width: 13vmin;
   height: 13vmin;
@@ -83,29 +88,9 @@
   font-weight: bold;
 }
 
-.task-description p a {
-  display: inline-block;
-  margin: 0.5em 0 0 0;
-  background-color: #2f313a;
-  color: #ffdd40;
-  padding: 0.1em 0.5em 0.35em;
-  border-radius: 0.5em;
-  text-decoration: none;
-  transition: all 0.4s ease;
-}
-
-.task-description p a img {
-  float: left;
-  width: 22px;
-  filter: invert(1);
-  border-radius: 0.15em;
-  padding: 2px;
-  background: #fff;
-  margin-right: 2px;
-}
-
-.p {
-  font-size: 20px;
+.task-description {
+  display: grid;
+  grid-column: 1;
 }
 
 @media (max-width: 768px) {

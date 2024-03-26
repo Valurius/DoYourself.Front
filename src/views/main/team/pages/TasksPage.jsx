@@ -4,6 +4,8 @@ import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useRoleContext } from "../../../../context/context";
+import MyText from "../../../../components/myUi/MyText/MyText";
+import MyLink from "../../../../components/myUi/MyLink/MyLink";
 
 const TasksPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
@@ -14,6 +16,7 @@ const TasksPage = () => {
       name: "Дизайн сайта",
       desk: "Нужно .",
       member: "Мартиросян Гарегин",
+      project: "Венера",
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
@@ -57,9 +60,15 @@ const TasksPage = () => {
                 <img src={task.img} alt={task.name} />
               </div>
               <h2 className="name">{task.name}</h2>
-              <div className="task-description">
-                <p>{task.desk}</p>
-                <p>{task.member}</p>
+              <div className="task-content">
+                <div className="task-description">
+                  <MyText>Задача: {task.desk}</MyText>
+                  <MyText>Исполнитель: {task.member}</MyText>
+                  <MyText>Проект: {task.project}</MyText>
+                </div>
+                <div>
+                  <MyLink to="/1/task/">Перейти</MyLink>
+                </div>
               </div>
             </div>
           </div>

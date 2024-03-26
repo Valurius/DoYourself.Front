@@ -2,6 +2,8 @@ import React, { useCallback, useState } from "react";
 import "../styles/tasks.css"; // Убедитесь, что CSS файл импортирован
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
+import MyText from "../../../../components/myUi/MyText/MyText";
+import MyButton from "../../../../components/myUi/MyButton/MyButton";
 
 const MyTasksPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
@@ -32,7 +34,7 @@ const MyTasksPage = () => {
         <MenuBar />
       </div>
       <div className="team-tasks">
-        <MyTitle>Задачи команды</MyTitle>
+        <MyTitle>Мои задачи</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">
@@ -40,9 +42,15 @@ const MyTasksPage = () => {
                 <img src={task.img} alt={task.name} />
               </div>
               <h2 className="name">{task.name}</h2>
-              <div className="task-description">
-                <p>{task.desk}</p>
-                <p>{task.member}</p>
+              <div className="task-content">
+                <div className="task-description">
+                  <MyText>{task.desk}</MyText>
+                  <MyText>{task.member}</MyText>
+                  <MyText>{task.project}</MyText>
+                </div>
+                <div>
+                  <MyButton>Перейти</MyButton>
+                </div>
               </div>
             </div>
           </div>

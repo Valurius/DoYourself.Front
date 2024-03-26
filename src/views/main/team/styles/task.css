@@ -1,0 +1,61 @@
+.task-page {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin-top: 3%;
+}
+.left_menu {
+  grid-row: 1;
+  width: 300px;
+}
+.task-window {
+  grid-row: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-right: 5%;
+}
+@media (max-width: 1024px) {
+  .left_menu {
+    width: 130px !important;
+  }
+}
+
+.task-page-content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.task-page-icon {
+  box-shadow: 5px 5px 5px 5px #edf1d6;
+  border-radius: 5px;
+  width: 50vmin;
+  height: 30vmin;
+}
+
+.task-page-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25em;
+}
+.task-details {
+  display: grid;
+  grid-column: 1;
+}
+
+@media (max-width: 768px) {
+  .team-page {
+    flex-direction: column;
+  }
+
+  .team-tasks,
+  .team-members {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .member .thumb {
+    width: 100px;
+    height: 50px;
+  }
+}
