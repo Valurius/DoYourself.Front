@@ -26,15 +26,11 @@ const Header = () => {
             <div class="profile-text"> Gar </div>
             <div class="profile-text">{progress} lvl</div>
           </div>
-
           <div class="progress" style={{ "--progress": `${progress}%` }}>
             <div class="bar"></div>
           </div>
         </div>
         <div className="header-buttons">
-          <MyButton onClick={Plus}>+</MyButton>
-          <MyLink to="/registration">Регистрация</MyLink>
-          <MyLink to="/login">Вход</MyLink>
           <MyLink to="/userTasks">Задачи</MyLink>
           <MyLink to="/teams">Команды</MyLink>
         </div>

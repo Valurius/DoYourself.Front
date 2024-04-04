@@ -30,11 +30,11 @@ const LoginPage = () => {
       <MyTitle className="auth-h2">Вход</MyTitle>
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="email"></label>
+          <label className="auth-label" htmlFor="email"></label>
           <input
             className="auth-input"
             placeholder="Почта"
-            type="text"
+            type="email"
             id="email"
             name="email"
             value={formData.email}

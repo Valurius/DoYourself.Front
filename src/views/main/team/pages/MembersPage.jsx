@@ -34,7 +34,7 @@ const Team = () => {
         <MenuBar />
       </div>
       <div className="team-members">
-        <MyTitle>Задачи команды</MyTitle>
+        <MyTitle>Участники</MyTitle>
         {members.map((member) => (
           <div key={member.id}>
             <div className="member">

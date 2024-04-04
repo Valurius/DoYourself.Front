@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/statistics.css"; // Убедитесь, что CSS файл импортирован
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
+import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 
 const StatisticPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
@@ -41,6 +42,7 @@ const StatisticPage = () => {
       <div className="team-statistics">
         <div className="stats">dsasf</div>
         <div>
+          <MyTitle>Лидерборд</MyTitle>
           {statistics.map((statistic) => (
             <div key={statistic.id}>
               <div className="statistic">

@@ -9,6 +9,7 @@ import MembersPage from "../views/main/team/pages/MembersPage";
 import MarketPage from "../views/main/team/pages/MarketPage";
 import StatisticPage from "../views/main/team/pages/StatisticPage";
 import MyTasksPage from "../views/main/team/pages/MyTasksPage";
+import TagsPage from "../views/main/team/pages/TagsPage";
 
 export const publicRoutes = [
   { path: "/", element: <RegistrationPage /> },
@@ -23,4 +24,5 @@ export const publicRoutes = [
   { path: "/:teamId/market", element: <MarketPage /> },
   { path: "/:teamId/statistics", element: <StatisticPage /> },
   { path: "/:teamId/myTasks", element: <MyTasksPage /> },
+  { path: "/:teamId/tags", element: <TagsPage /> },
 ];

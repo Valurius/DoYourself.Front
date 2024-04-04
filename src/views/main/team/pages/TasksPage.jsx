@@ -1,29 +1,38 @@
 import React, { useCallback, useState } from "react";
-import "../styles/tasks.css"; // Убедитесь, что CSS файл импортирован
+import "../styles/tasks.css";
+import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useRoleContext } from "../../../../context/context";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
+import MyModal from "../../../../components/myUi/MyModal/MyModal";
 
 const TasksPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
   const { userRole } = useRoleContext();
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   const [tasks, setTasks] = useState([
     {
       id: 1,
       name: "Дизайн сайта",
-      desk: "Нужно .",
+      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
       member: "Мартиросян Гарегин",
       project: "Венера",
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
       id: 2,
-      name: "Дизайн сайта",
-      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
-      member: "Кто-то",
+      name: "Функционал сайта",
+      desk: "Нужно придумать хороший функционал для нашего сайта.",
+      member: "Мартиросян Гарегин",
+      project: "Венера",
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
     {
@@ -47,12 +56,68 @@ const TasksPage = () => {
 
   return (
     <div className="tasks-page">
+      <MyModal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="modal-header">
+          <MyTitle>Добавление задачи</MyTitle>
+        </div>
+        <div className="modal-body">
+          <form>
+            <div className="form-group">
+              <label htmlFor="taskName">Название задачи:</label>
+              <input type="text" id="taskName" name="taskName" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="taskDescription">Описание задачи:</label>
+              <textarea
+                id="taskDescription"
+                name="taskDescription"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label htmlFor="taskPriority">Приоритет:</label>
+              <select id="taskPriority" name="taskPriority">
+                <option value="Высокий">Высокий</option>
+                <option value="Средний" selected>
+                  Средний
+                </option>
+                <option value="Низкий">Низкий</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="taskDeadline">Срок выполнения:</label>
+              <input
+                type="date"
+                id="taskDeadline"
+                name="taskDeadline"
+                required
+              />
+            </div>
+            <div className="modal-footer">
+              <button type="submit">Добавить задачу</button>
+              <button type="button" onClick={closeModal}>
+                Отмена
+              </button>
+            </div>
+          </form>
+        </div>
+      </MyModal>
+
       <div className="left_menu">
         <MenuBar />
       </div>
       <div className="team-tasks">
         <MyTitle>Задачи команды</MyTitle>
-        {userRole === "admin" ? <MyButton>Добавить</MyButton> : ""}
+        {userRole === "admin" ? (
+          <div>
+            <MyLink to="/1/tags/">Тэги</MyLink>
+            <MyButton onClick={openModal}>Добавить</MyButton>
+          </div>
+        ) : (
+          ""
+        )}
+
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">

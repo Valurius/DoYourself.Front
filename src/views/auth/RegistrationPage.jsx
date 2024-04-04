@@ -35,7 +35,6 @@ const RegistrationPage = () => {
           <input
             className="auth-input"
             placeholder="Имя пользователя"
-            type="text"
             id="username"
             name="username"
             value={formData.username}

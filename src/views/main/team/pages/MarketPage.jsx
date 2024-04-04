@@ -24,7 +24,7 @@ const MarketPage = () => {
         <MenuBar />
       </div>
       <div className="team-products">
-        <MyTitle>Задачи команды</MyTitle>
+        <MyTitle>Призы</MyTitle>
         {userRole === "admin" ? <MyButton>Добавить</MyButton> : ""}
         {products.map((product) => (
           <div key={product.id}>

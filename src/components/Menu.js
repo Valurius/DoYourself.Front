@@ -43,7 +43,7 @@ const MenuBar = () => {
           <span className="span">
             {isMenuOpen
               ? windowWidth > breakpoint
-                ? "Команда Гар"
+                ? "Команда Разработчики"
                 : null
               : null}
           </span>
