@@ -4,10 +4,17 @@ import MyLink from "../../components/myUi/MyLink/MyLink";
 import MyText from "../../components/myUi/MyText/MyText";
 import MyButton from "../../components/myUi/MyButton/MyButton";
 import MyTitle from "../../components/myUi/MyTitle/MyTitle";
+import axios from "axios";
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
+    surname: "",
+    nickname: "",
+    birthDate: "2024-02-07",
+    picture: "",
+    points: 0,
+    experience: 0,
     email: "",
     password: "",
   });
@@ -20,10 +27,21 @@ const RegistrationPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь вы можете добавить логику для отправки данных на сервер или другие действия
-    console.log("Form submitted:", formData);
+    try {
+      // Отправка данных на сервер
+      const response = await axios.post(
+        "https://localhost:44305/api/Auth/Register",
+        formData
+      );
+
+      // Обработка успешного ответа
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.log(formData);
+      console.error("Error:", error.message);
+    }
   };
 
   return (
