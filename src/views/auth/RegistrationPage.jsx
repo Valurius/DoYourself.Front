@@ -9,12 +9,6 @@ import axios from "axios";
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
     name: "",
-    surname: "",
-    nickname: "",
-    birthDate: "2024-02-07",
-    picture: "",
-    points: 0,
-    experience: 0,
     email: "",
     password: "",
   });
@@ -30,17 +24,18 @@ const RegistrationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Отправка данных на сервер
-      const response = await axios.post(
-        "https://localhost:44305/api/Auth/Register",
-        formData
-      );
-
-      // Обработка успешного ответа
-      console.log("Response:", response.data);
+      const response = await axios({
+        method: "post",
+        url: "https://localhost:44305/api/Auth/Register",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log("Ответ сервера: ", response.data);
     } catch (error) {
-      console.log(formData);
-      console.error("Error:", error.message);
+      console.error(
+        "Ошибка при регистрации:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -49,13 +44,13 @@ const RegistrationPage = () => {
       <MyTitle className="auth-h2">Регистрация</MyTitle>
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username"></label>
+          <label htmlFor="name"></label>
           <input
             className="auth-input"
             placeholder="Имя пользователя"
-            id="username"
-            name="username"
-            value={formData.username}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
           />

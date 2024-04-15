@@ -4,10 +4,11 @@ import MyLink from "../../components/myUi/MyLink/MyLink";
 import MyText from "../../components/myUi/MyText/MyText";
 import MyButton from "../../components/myUi/MyButton/MyButton";
 import MyTitle from "../../components/myUi/MyTitle/MyTitle";
+import axios from "axios";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -19,10 +20,22 @@ const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Здесь вы можете добавить логику для отправки данных на сервер или другие действия
-    console.log("Form submitted:", formData);
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://localhost:44305/api/Auth/login",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log("Ответ сервера: ", response.data);
+    } catch (error) {
+      console.error(
+        "Ответ сервера:",
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
   return (
