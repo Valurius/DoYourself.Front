@@ -10,18 +10,20 @@
 
 /* Стили для элементов списка */
 .team-li {
-  width: 100px;
-  height: 100px;
+  position: relative;
+  max-width: 120px;
+  min-width: 120px;
+  height: 120px;
   margin: 10px;
   background-color: white;
   border: 2px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  word-wrap: break-word;
 }
 
 /* Стили для ссылок внутри элементов списка */
@@ -29,12 +31,41 @@
   color: #333; /* Устанавливаем цвет текста для ссылок */
   text-decoration: none; /* Убираем подчеркивание для ссылок */
   font-weight: bold; /* Делаем текст ссылок жирным */
+  word-wrap: break-word;
 }
 
 /* Добавляем эффект при наведении курсора на элемент списка */
 .team-li:hover {
   transform: scale(1.1); /* Увеличиваем масштаб элемента списка */
   transition: 0.3s; /* Делаем переход плавным */
+}
+
+.close-btn {
+  position: absolute; /* Позиционируем кнопку абсолютно внутри родительского элемента */
+  color: rgb(243, 185, 185);
+  top: 0; /* Выравниваем по верху */
+  right: 0; /* Выравниваем по правому краю */
+  background: none; /* Без фона */
+  border: none; /* Без границ */
+  font-size: 24px; /* Устанавливаем размер крестика */
+  cursor: pointer; /* Изменяем курсор на указатель при наведении */
+  padding: 2px; /* Добавляем немного отступа */
+}
+.my-text {
+  max-width: 100%; /* Не позволяет тексту выходить за пределы ширины родителя */
+  max-height: 100%; /* Не позволяет тексту выходить за пределы высоты родителя */
+  word-wrap: break-word;
+  word-break: break-all;
+  font-size: 24px;
+  margin: 10px;
+  background-image: linear-gradient(to left, #92bfb1, #55a6ca);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .title {
   display: flexbox;
@@ -46,13 +77,11 @@
   font-size: 40px;
   color: rgb(90, 190, 207);
 }
+/* Стили для ссылок внутри элементов списка */
 .team-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Устанавливаем ширину ссылки равной ширине элемента li */
-  height: 100%; /* Устанавливаем высоту ссылки равной высоте элемента li */
-  /* Остальные стили для ссылки */
   text-align: center;
   color: #333;
   text-decoration: none;

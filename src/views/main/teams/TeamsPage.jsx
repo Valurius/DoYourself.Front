@@ -3,59 +3,50 @@ import "../teams/teams.css";
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MyLink from "../../../components/myUi/MyLink/MyLink";
 import MyText from "../../../components/myUi/MyText/MyText";
+import MyButton from "../../../components/myUi/MyButton/MyButton";
 import MyModal from "../../../components/myUi/MyModal/MyModal";
-// Создаем компонент TeamList
+import { fetchTeams, createTeam, deleteTeam } from "./TeamApi";
+
 const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
-
   const [isModalOpen, setModalOpen] = useState(false);
+  const [teamTitle, setTeamTitle] = useState("");
+
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  const [teamTitle, setTeamTitle] = useState("");
-
-  // Функция для загрузки команд с API
-  const fetchTeams = async () => {
+  const loadTeams = async () => {
     try {
-      const response = await fetch("https://localhost:44305/api/Team");
-      if (!response.ok) {
-        throw new Error("Команды не найдены.");
-      }
-      const data = await response.json();
-      setTeams(data);
+      const teamsData = await fetchTeams();
+      setTeams(teamsData);
     } catch (error) {
-      console.error("Ошибка при получении команд:", error);
+      console.error("Ошибка при загрузке команд:", error);
     }
   };
+
+  useEffect(() => {
+    loadTeams();
+  }, []);
 
   const handleCreateTeam = async () => {
     try {
-      const response = await fetch("https://localhost:44305/api/Team", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          title: teamTitle,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Ошибка при создании команды");
-      }
-      setModalOpen(false);
-      fetchTeams();
+      await createTeam(teamTitle);
+      closeModal();
+      await loadTeams();
     } catch (error) {
-      console.error("Ошибка:", error);
+      console.error("Ошибка при создании команды:", error);
     }
   };
 
-  // Используем useEffect для загрузки команд при монтировании компонента
-  useEffect(() => {
-    fetchTeams();
-  }, []);
+  const handleDeleteTeam = async (id) => {
+    try {
+      await deleteTeam(id);
+      await loadTeams();
+    } catch (error) {
+      console.error("Ошибка при удалении команды:", error);
+    }
+  };
 
-  // Возвращаем JSX код с списком команд
   return (
     <div className="team-list">
       <MyModal isOpen={isModalOpen} onClose={closeModal}>
@@ -65,7 +56,7 @@ const TeamsPage = () => {
           onChange={(e) => setTeamTitle(e.target.value)}
           placeholder="Название команды"
         />
-        <button onClick={handleCreateTeam}>Создать</button>
+        <MyButton onClick={handleCreateTeam}>Создать</MyButton>
       </MyModal>
       <div className="title">
         <MyTitle>Мои команды</MyTitle>
@@ -73,14 +64,20 @@ const TeamsPage = () => {
       <ul className="team-ul">
         {teams.map((team) => (
           <li className="team-li" key={team.id}>
+            <button
+              className="close-btn"
+              onClick={() => handleDeleteTeam(team.id)}
+            >
+              &times;
+            </button>
             <MyLink to={`/${team.id}/tasks/`} className="team-link">
-              <MyText>{team.title}</MyText>
+              <p className="my-text">{team.title}</p>
             </MyLink>
           </li>
         ))}
         <li className="team-li">
           <button onClick={openModal} className="newTeam">
-            dsfdffdsfd
+            +
           </button>
         </li>
       </ul>
@@ -88,5 +85,4 @@ const TeamsPage = () => {
   );
 };
 
-// Экспортируем компонент TeamList по умолчанию
 export default TeamsPage;
