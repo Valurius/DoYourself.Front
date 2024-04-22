@@ -10,6 +10,7 @@ import MarketPage from "../views/main/team/pages/MarketPage";
 import StatisticPage from "../views/main/team/pages/StatisticPage";
 import MyTasksPage from "../views/main/team/pages/MyTasksPage";
 import TagsPage from "../views/main/team/pages/TagsPage";
+import SettingsPage from "../views/main/team/pages/SettingsPage";
 
 export const publicRoutes = [
   { path: "/", element: <RegistrationPage /> },
@@ -25,4 +26,5 @@ export const publicRoutes = [
   { path: "/:teamId/statistics", element: <StatisticPage /> },
   { path: "/:teamId/myTasks", element: <MyTasksPage /> },
   { path: "/:teamId/tags", element: <TagsPage /> },
+  { path: "/:teamId/settings", element: <SettingsPage /> },
 ];

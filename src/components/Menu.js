@@ -5,8 +5,9 @@ import ManIcon from "@mui/icons-material/Man";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Market from "@mui/icons-material/LocalGroceryStoreRounded";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 const MenuBar = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isMenuOpen] = useState(true);
@@ -15,7 +16,7 @@ const MenuBar = () => {
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
-
+  const { teamId } = useParams();
   // Добавляем обработчик события resize к window при монтировании компонента
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -47,7 +48,7 @@ const MenuBar = () => {
                 : null
               : null}
           </span>
-          <Link to={`/1/myTasks/`} className="link">
+          <Link to={`/${teamId}/myTasks/`} className="link">
             <MenuItem className="menu-item" icon={<ManIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -57,7 +58,7 @@ const MenuBar = () => {
             </MenuItem>
           </Link>
 
-          <Link to="/1/tasks/" className="link">
+          <Link to={`/${teamId}/tasks/`} className="link">
             <MenuItem className="menu-item" icon={<GroupsIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -67,7 +68,7 @@ const MenuBar = () => {
             </MenuItem>
           </Link>
 
-          <Link to="/1/statistics/" className="link">
+          <Link to={`/${teamId}/statistics/`} className="link">
             <MenuItem className="menu-item" icon={<QueryStatsIcon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -77,7 +78,7 @@ const MenuBar = () => {
             </MenuItem>
           </Link>
 
-          <Link to="/1/members/" className="link">
+          <Link to={`/${teamId}/members/`} className="link">
             <MenuItem className="menu-item" icon={<Diversity3Icon />}>
               {isMenuOpen
                 ? windowWidth > breakpoint
@@ -87,7 +88,7 @@ const MenuBar = () => {
             </MenuItem>
           </Link>
 
-          <Link to="/1/market/" className="link">
+          <Link to={`/${teamId}/market/`} className="link">
             <MenuItem
               variant="contained"
               className="menu-item"
@@ -96,6 +97,16 @@ const MenuBar = () => {
               {isMenuOpen
                 ? windowWidth > breakpoint
                   ? "Магазин"
+                  : null
+                : null}
+            </MenuItem>
+          </Link>
+
+          <Link to={`/${teamId}/settings/`} className="link">
+            <MenuItem className="menu-item" icon={<SettingsIcon />}>
+              {isMenuOpen
+                ? windowWidth > breakpoint
+                  ? "Настройки"
                   : null
                 : null}
             </MenuItem>

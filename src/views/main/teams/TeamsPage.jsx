@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../teams/teams.css";
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MyLink from "../../../components/myUi/MyLink/MyLink";
-import MyText from "../../../components/myUi/MyText/MyText";
 import MyButton from "../../../components/myUi/MyButton/MyButton";
 import MyModal from "../../../components/myUi/MyModal/MyModal";
 import { fetchTeams, createTeam, deleteTeam } from "./TeamApi";

@@ -8,15 +8,17 @@ import { useRoleContext } from "../../../../context/context";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
+import { useParams } from "react-router-dom";
 
 const TasksPage = () => {
-  // Здесь может быть логика для получения данных о команде и участниках
   const { userRole } = useRoleContext();
 
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
+
+  const { teamId } = useParams();
 
   const [tasks, setTasks] = useState([
     {
@@ -111,7 +113,7 @@ const TasksPage = () => {
         <MyTitle>Задачи команды</MyTitle>
         {userRole === "admin" ? (
           <div>
-            <MyLink to="/1/tags/">Тэги</MyLink>
+            <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
             <MyButton onClick={openModal}>Добавить</MyButton>
           </div>
         ) : (
@@ -132,7 +134,7 @@ const TasksPage = () => {
                   <MyText>Проект: {task.project}</MyText>
                 </div>
                 <div>
-                  <MyLink to="/1/task/">Перейти</MyLink>
+                  <MyLink to={`/${teamId}/task/`}>Перейти</MyLink>
                 </div>
               </div>
             </div>
