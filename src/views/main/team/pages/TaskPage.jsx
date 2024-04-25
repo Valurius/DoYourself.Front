@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from "react";
-import "../styles/task.css"; // Убедитесь, что CSS файл импортирован
+import "../styles/task.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
-import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useRoleContext } from "../../../../context/context";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
@@ -19,12 +18,7 @@ const TasksPage = () => {
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
   ]);
-  const handleToggle = useCallback(
-    (id) => {
-      // ... Логика переключения задач
-    },
-    [tasks]
-  );
+  const handleToggle = useCallback((id) => {}, [tasks]);
 
   return (
     <div className="task-page">
@@ -43,9 +37,6 @@ const TasksPage = () => {
                 <MyText>{task.member}</MyText>
                 <MyText>{task.project}</MyText>
                 <MyLink to="/1/task/">Перейти</MyLink>
-              </div>
-              <div className="task-page-icon">
-                <img src={task.img} alt={task.name} />
               </div>
             </div>
           </div>

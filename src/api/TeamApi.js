@@ -23,42 +23,34 @@ export const fetchTeamById = async (id) => {
   }
 };
 
-export const updateTeam = async (id, teamTitle, teamDesc, teamImage) => {
-  try {
-    const response = await fetch(`https://localhost:44305/api/Team/${id}`, {
-      method: "PUT", // Используем HTTP метод PUT для обновления
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        title: teamTitle,
-        desc: teamDesc,
-        image: teamImage,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Ошибка при обновлении команды");
-    }
-
-    const textResponse = await response.text();
-    return textResponse; // Возвращаем обновленные данные команды
-  } catch (error) {
-    console.error("Ошибка при обновлении команды:", error);
-    throw error; // Передаем ошибку дальше
-  }
-};
-
-export const createTeam = async (teamTitle) => {
+export const createTeam = async (teamData) => {
   try {
     const response = await fetch("https://localhost:44305/api/Team", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: new URLSearchParams({
-        title: teamTitle,
-      }),
+      body: JSON.stringify(teamData),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+  } catch (error) {
+    console.error("Ошибка:", error);
+    throw error;
+  }
+};
+
+export const updateTeam = async (id, teamData) => {
+  try {
+    const response = await fetch(`https://localhost:44305/api/Team/${id}`, {
+      method: "PUT", // Используем HTTP метод PUT для обновления
+      headers: {
+        "Content-Type": "application/json", // Изменено на application/json
+      },
+      body: JSON.stringify(teamData), // Тело запроса преобразуется в строку JSON
     });
 
     if (!response.ok) {
@@ -66,12 +58,9 @@ export const createTeam = async (teamTitle) => {
       const errorText = await response.text();
       throw new Error(errorText);
     }
-    // Если ответ OK, но не JSON, получаем текст сообщения
-    const textResponse = await response.text();
-    return textResponse; // Возвращаем текстовое сообщение
   } catch (error) {
-    console.error("Ошибка:", error);
-    throw error;
+    console.error("Ошибка при обновлении команды:", error);
+    throw error; // Передаем ошибку дальше
   }
 };
 

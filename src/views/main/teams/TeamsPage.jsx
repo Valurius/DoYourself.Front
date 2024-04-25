@@ -4,12 +4,12 @@ import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MyLink from "../../../components/myUi/MyLink/MyLink";
 import MyButton from "../../../components/myUi/MyButton/MyButton";
 import MyModal from "../../../components/myUi/MyModal/MyModal";
-import { fetchTeams, createTeam, deleteTeam } from "./TeamApi";
+import { fetchTeams, createTeam } from "../../../api/TeamApi";
 
 const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [teamTitle, setTeamTitle] = useState("");
+  const [teamData, setTeamData] = useState({ title: "" });
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -27,22 +27,18 @@ const TeamsPage = () => {
     loadTeams();
   }, []);
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setTeamData({ ...teamData, [name]: value });
+  };
+
   const handleCreateTeam = async () => {
     try {
-      await createTeam(teamTitle);
+      await createTeam(teamData);
       closeModal();
       await loadTeams();
     } catch (error) {
       console.error("Ошибка при создании команды:", error);
-    }
-  };
-
-  const handleDeleteTeam = async (id) => {
-    try {
-      await deleteTeam(id);
-      await loadTeams();
-    } catch (error) {
-      console.error("Ошибка при удалении команды:", error);
     }
   };
 
@@ -51,8 +47,9 @@ const TeamsPage = () => {
       <MyModal isOpen={isModalOpen} onClose={closeModal}>
         <input
           type="text"
-          value={teamTitle}
-          onChange={(e) => setTeamTitle(e.target.value)}
+          name="title"
+          value={teamData.title}
+          onChange={handleInputChange}
           placeholder="Название команды"
         />
         <MyButton onClick={handleCreateTeam}>Создать</MyButton>
@@ -63,12 +60,6 @@ const TeamsPage = () => {
       <ul className="team-ul">
         {teams.map((team) => (
           <li className="team-li" key={team.id}>
-            <button
-              className="close-btn"
-              onClick={() => handleDeleteTeam(team.id)}
-            >
-              &times;
-            </button>
             <MyLink to={`/${team.id}/tasks/`} className="team-link">
               <p className="my-text">{team.title}</p>
             </MyLink>

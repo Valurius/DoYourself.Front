@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../styles/tasks.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
@@ -9,52 +9,53 @@ import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { useParams } from "react-router-dom";
+import { fetchTasks, createTask } from "../../../../api/TaskApi";
 
 const TasksPage = () => {
   const { userRole } = useRoleContext();
-
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const [tasks, setTasks] = useState([]);
+  const [taskData, setTaskData] = useState({
+    title: "",
+    description: "",
+    needToBeDoneAt: "2024-04-25",
+  });
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
   const { teamId } = useParams();
 
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      name: "Дизайн сайта",
-      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
-      member: "Мартиросян Гарегин",
-      project: "Венера",
-      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
-    },
-    {
-      id: 2,
-      name: "Функционал сайта",
-      desk: "Нужно придумать хороший функционал для нашего сайта.",
-      member: "Мартиросян Гарегин",
-      project: "Венера",
-      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
-    },
-    {
-      id: 3,
-      name: "Дизайн сайта",
-      desk: "Нужно придумать и нарисовать красивый и удобный дизайн для нашего сайта.",
-      member: "Кто-то",
-      img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
-    },
-  ]);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setTaskData({ ...taskData, [name]: value });
+  };
 
-  const handleToggle = useCallback(
-    (id) => {
-      const newTasks = [...tasks];
-      const index = newTasks.findIndex((task) => task.id === id);
-      newTasks[index].done = !newTasks[index].done;
-      setTasks(newTasks);
-    },
-    [tasks]
-  );
+  const loadTasks = async () => {
+    try {
+      const tasksData = await fetchTasks();
+      setTasks(tasksData);
+    } catch (error) {
+      console.error("Ошибка при загрузке команд:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
+  const handleCreateTask = async (event) => {
+    event.preventDefault();
+    try {
+      console.log(taskData);
+      await createTask(taskData);
+      closeModal();
+      await loadTasks();
+    } catch (error) {
+      console.error("Ошибка при создании команды:", error);
+    }
+  };
 
   return (
     <div className="tasks-page">
@@ -63,36 +64,69 @@ const TasksPage = () => {
           <MyTitle>Добавление задачи</MyTitle>
         </div>
         <div className="modal-body">
-          <form>
+          <form onSubmit={handleCreateTask}>
             <div className="form-group">
-              <label htmlFor="taskName">Название задачи:</label>
-              <input type="text" id="taskName" name="taskName" required />
+              <label htmlFor="title">Название задачи:</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={taskData.title}
+                onChange={handleInputChange}
+                placeholder="Название"
+                required
+              />
             </div>
             <div className="form-group">
-              <label htmlFor="taskDescription">Описание задачи:</label>
+              <label htmlFor="description">Описание задачи:</label>
               <textarea
-                id="taskDescription"
-                name="taskDescription"
+                id="description"
+                value={taskData.description}
+                name="description"
+                onChange={handleInputChange}
+                placeholder="Описание"
                 rows="3"
                 required
               ></textarea>
             </div>
             <div className="form-group">
               <label htmlFor="taskPriority">Приоритет:</label>
-              <select id="taskPriority" name="taskPriority">
+              <select
+                id="taskPriority"
+                name="taskPriority"
+                onChange={handleInputChange}
+              >
                 <option value="Высокий">Высокий</option>
-                <option value="Средний" selected>
-                  Средний
-                </option>
+                <option value="Средний">Средний</option>
                 <option value="Низкий">Низкий</option>
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="taskDeadline">Срок выполнения:</label>
+              <label htmlFor="taskPriority">Ответственный:</label>
+              <select
+                id="taskManager"
+                name="taskManager"
+                onChange={handleInputChange}
+              >
+                <option value="Гар">Гар</option>
+                <option value="Не Гар">Не Гар</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="taskPriority">Временная задача?</label>
+              <select id="taskManager" name="taskManager">
+                <option value="Да">Да</option>
+                <option value="Нет">Нет</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="needToBeDoneAt">Срок выполнения:</label>
               <input
                 type="date"
-                id="taskDeadline"
-                name="taskDeadline"
+                id="needToBeDoneAt"
+                value={taskData.needToBeDoneAt}
+                name="needToBeDoneAt"
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -129,14 +163,15 @@ const TasksPage = () => {
               <h2 className="name">{task.name}</h2>
               <div className="task-content">
                 <div className="task-description">
-                  <MyText>Задача: {task.desk}</MyText>
-                  <MyText>Исполнитель: {task.member}</MyText>
+                  <MyText>Задача: {task.title}</MyText>
+                  <MyText>Описание: {task.description}</MyText>
                   <MyText>Проект: {task.project}</MyText>
                 </div>
                 <div>
                   <MyLink to={`/${teamId}/task/`}>Перейти</MyLink>
                 </div>
               </div>
+              <button>Удалить</button>
             </div>
           </div>
         ))}

@@ -16,7 +16,9 @@ const MenuBar = () => {
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
+
   const { teamId } = useParams();
+
   // Добавляем обработчик события resize к window при монтировании компонента
   useEffect(() => {
     window.addEventListener("resize", handleResize);

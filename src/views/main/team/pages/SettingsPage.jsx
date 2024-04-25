@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../styles/settings.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { deleteTeam, fetchTeamById, updateTeam } from "../../teams/TeamApi";
+import { deleteTeam, updateTeam } from "../../../../api/TeamApi";
 import { useParams, useNavigate } from "react-router-dom";
 
 const SettingsPage = () => {
@@ -30,13 +30,15 @@ const SettingsPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const updatedTeam = await updateTeam(
-        teamId,
-        teamName,
-        teamDescription,
-        teamImage
-      );
-      console.log("Команда обновлена:", updatedTeam);
+      const teamData = {
+        title: teamName,
+        description: teamDescription,
+        image: teamImage,
+      };
+      // Отправляем данные на сервер
+      await updateTeam(teamId, teamData);
+      console.log("Команда обновлена");
+      // После обновления, возможно, вы захотите перенаправить пользователя или обновить UI
     } catch (error) {
       console.error("Ошибка при обновлении команды:", error);
     }
@@ -62,38 +64,38 @@ const SettingsPage = () => {
           <div className="settings-details">
             <div className="settings-team">
               <form onSubmit={handleSubmit}>
-                <div class="form-group">
-                  <label for="teamName">Название команды</label>
+                <div className="form-group">
+                  <label htmlFor="teamName">Название команды</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="teamName"
                     onChange={handleInputChange}
                     placeholder="Введите название команды"
                   />
                 </div>
-                <div class="form-group">
-                  <label for="teamName">Фото</label>
+                <div className="form-group">
+                  <label htmlFor="teamName">Фото</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="teamImage"
                     onChange={handleInputChange}
                     placeholder="Введите название команды"
                   />
                 </div>
-                <div class="form-group">
-                  <label for="teamDescription">Описание команды</label>
+                <div className="form-group">
+                  <label htmlFor="teamDescription">Описание команды</label>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     id="teamDescription"
                     rows="3"
                     onChange={handleInputChange}
                     placeholder="Введите описание команды"
                   ></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                  Отправить
+                <button type="submit" className="btn btn-primary">
+                  Сохранить
                 </button>
               </form>
             </div>
