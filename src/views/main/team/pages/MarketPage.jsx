@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import "../styles/market.css"; // Убедитесь, что CSS файл импортирован
+import "../styles/market.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
-import { useRoleContext } from "../../../../context/context";
+import { useRoleContext } from "../../../../context/RoleContext";
 const MarketPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
   const { userRole } = useRoleContext();

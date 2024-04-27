@@ -1,6 +1,5 @@
 html {
   height: 100%;
-  background-image: url("/public/greyfade.jpg");
   background-position: center, center;
   background-repeat: repeat-y;
   background-size: cover;
@@ -11,7 +10,70 @@ html {
   -o-background-size: cover;
 }
 body {
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
+  animation: theme 21s linear infinite;
+
+  &:after,
+  &:before {
+    content: "";
+    display: block;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    width: 100vmax;
+    height: 100vmax;
+    background: rgba(0, 0, 0, 0.05);
+    animation: background 90s linear infinite;
+  }
+
+  &:after {
+    left: 15vw;
+  }
+
+  &:before {
+    right: 15vw;
+    animation-delay: -30s;
+    animation-direction: reverse;
+  }
+}
+
+@keyframes theme {
+  0% {
+    background: rgb(235, 245, 238);
+  }
+
+  16% {
+    background: rgb(235, 241, 245);
+  }
+
+  33% {
+    background: rgb(240, 238, 245);
+  }
+
+  50% {
+    background: rgb(245, 238, 240);
+  }
+
+  66% {
+    background: rgb(245, 240, 238);
+  }
+
+  83% {
+    background: rgb(238, 245, 240);
+  }
+
+  100% {
+    background: rgb(235, 245, 238);
+  }
+}
+
+@keyframes background {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

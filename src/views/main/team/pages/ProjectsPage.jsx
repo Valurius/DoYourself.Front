@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/tasks.css";
+import "../styles/projects.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
@@ -9,68 +9,69 @@ import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { useParams } from "react-router-dom";
-import { fetchTasks, createTask } from "../../../../api/TaskApi";
+import { fetchProjects, createProject } from "../../../../api/ProjectApi";
+import { fetchTeamTitleById } from "../../../../api/TeamApi";
 import MyLoader from "../../../../components/myUi/MyLoader/MyLoader";
 
-const TasksPage = () => {
+const ProjectsPage = () => {
+  const { teamId } = useParams();
+  const [teamTitle, setTeamTitle] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const { userRole } = useRoleContext();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [tasks, setTasks] = useState([]);
-  const [taskData, setTaskData] = useState({
+  const [projects, setprojects] = useState([]);
+  const [projectData, setprojectData] = useState({
+    teamId: teamId,
     title: "",
     description: "",
     priority: "Низкий",
-    needToBeDoneAt: "2024-04-25",
+    deadline: "2024-04-25",
   });
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  const { teamId } = useParams();
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setTaskData({ ...taskData, [name]: value });
+    setprojectData({ ...projectData, [name]: value });
   };
 
-  const loadTasks = async () => {
+  const loadprojects = async () => {
     try {
-      const tasksData = await fetchTasks();
-      setTasks(tasksData);
+      const projectsData = await fetchProjects();
+      setprojects(projectsData);
     } catch (error) {
       console.error("Ошибка при загрузке команд:", error);
     }
   };
 
   useEffect(() => {
-    const loadTasks = async () => {
+    const loadData = async () => {
       setIsLoading(true);
       try {
-        const tasksData = await fetchTasks();
-        setTasks(tasksData);
+        const title = await fetchTeamTitleById(teamId);
+        setTeamTitle(title);
+        const projectsData = await fetchProjects();
+        setprojects(projectsData);
       } catch (error) {
-        console.error("Ошибка при загрузке команд:", error);
+        console.error("Ошибка при загрузке данных:", error);
       }
       setIsLoading(false);
     };
 
-    loadTasks();
-  }, []);
+    loadData();
+  }, [teamId]);
 
-  const handleCreateTask = async (event) => {
+  const handleCreateproject = async (event) => {
     event.preventDefault();
     try {
-      console.log(taskData);
-      await createTask(taskData);
+      await createProject(projectData);
       closeModal();
-      await loadTasks();
+      await loadprojects();
     } catch (error) {
       console.error("Ошибка при создании команды:", error);
     }
   };
-
   if (isLoading) {
     return (
       <div className="projects-page">
@@ -81,30 +82,42 @@ const TasksPage = () => {
   }
 
   return (
-    <div className="tasks-page">
+    <div className="projects-page">
       <MyModal isOpen={isModalOpen} onClose={closeModal}>
         <div className="modal-header">
-          <MyTitle>Добавление задачи</MyTitle>
+          <MyTitle>Создание проекта"</MyTitle>
         </div>
         <div className="modal-body">
-          <form onSubmit={handleCreateTask}>
+          <form onSubmit={handleCreateproject}>
             <div className="form-group">
-              <label htmlFor="title">Название задачи:</label>
+              <label htmlFor="title">Название проекта:</label>
               <input
                 type="text"
                 id="title"
                 name="title"
-                value={taskData.title}
+                value={projectData.title}
                 onChange={handleInputChange}
                 placeholder="Название"
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Описание задачи:</label>
+              <label htmlFor="title">Цель проекта:</label>
+              <input
+                type="text"
+                id="goal"
+                name="goal"
+                value={projectData.goal}
+                onChange={handleInputChange}
+                placeholder="Цель"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Описание проекта:</label>
               <textarea
                 id="description"
-                value={taskData.description}
+                value={projectData.description}
                 name="description"
                 onChange={handleInputChange}
                 placeholder="Описание"
@@ -117,7 +130,7 @@ const TasksPage = () => {
               <select
                 id="priority"
                 name="priority"
-                value={taskData.priority}
+                value={projectData.priority}
                 onChange={handleInputChange}
               >
                 <option value="Низкий">Низкий</option>
@@ -126,29 +139,11 @@ const TasksPage = () => {
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="taskPriority">Ответственный:</label>
-              <select
-                id="taskManager"
-                name="taskManager"
-                onChange={handleInputChange}
-              >
-                <option value="Гар">Гар</option>
-                <option value="Не Гар">Не Гар</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="taskPriority">Временная задача?</label>
-              <select id="taskManager" name="taskManager">
-                <option value="Да">Да</option>
-                <option value="Нет">Нет</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="needToBeDoneAt">Срок выполнения:</label>
+              <label htmlFor="needToBeDoneAt">Дедлайн выполнения:</label>
               <input
                 type="date"
                 id="needToBeDoneAt"
-                value={taskData.needToBeDoneAt}
+                value={projectData.needToBeDoneAt}
                 name="needToBeDoneAt"
                 onChange={handleInputChange}
                 required
@@ -167,34 +162,32 @@ const TasksPage = () => {
       <div className="left_menu">
         <MenuBar />
       </div>
-
-      <div className="team-tasks">
-        <MyLink to={`/${teamId}/projects/`}>Назад</MyLink>
-        <MyTitle>Задачи команды</MyTitle>
+      <div className="team-projects">
+        <MyTitle>Проекты команды "{teamTitle}"</MyTitle>
         {userRole === "admin" ? (
           <div>
-            <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
             <MyButton onClick={openModal}>Добавить</MyButton>
+            <MyLink to={`/${teamId}/tasks/`}>Задачи проекта</MyLink>
           </div>
         ) : (
-          ""
+          <MyLink to={`/${teamId}/tasks/`}>Задачи проекта</MyLink>
         )}
 
-        {tasks.map((task) => (
-          <div key={task.id}>
-            <div className="task">
-              <div className="task-icon">
-                <img src={task.img} alt={task.name} />
+        {projects.map((project) => (
+          <div key={project.id}>
+            <div className="project">
+              <div className="project-icon">
+                <img src={project.img} alt={project.name} />
               </div>
-              <h2 className="name">{task.name}</h2>
-              <div className="task-content">
-                <div className="task-description">
-                  <MyText>Задача: {task.title}</MyText>
-                  <MyText>Описание: {task.description}</MyText>
-                  <MyText>Проект: {task.project}</MyText>
+              <h2 className="name">{project.name}</h2>
+              <div className="project-content">
+                <div className="project-description">
+                  <MyText>Задача: {project.title}</MyText>
+                  <MyText>Описание: {project.description}</MyText>
+                  <MyText>Проект: {project.project}</MyText>
                 </div>
                 <div>
-                  <MyLink to={`/${teamId}/task/`}>Перейти</MyLink>
+                  <MyLink to={`/${teamId}/project/`}>Перейти</MyLink>
                 </div>
               </div>
               <button>Удалить</button>
@@ -206,4 +199,4 @@ const TasksPage = () => {
   );
 };
 
-export default TasksPage;
+export default ProjectsPage;

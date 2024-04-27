@@ -3,7 +3,8 @@ import Header from "../components/Header";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "../router/appRouter";
 import "./App.css";
-import { RoleProvider } from "../context/context";
+import { RoleProvider } from "../context/RoleContext";
+
 export const App = () => {
   return (
     <div className="App">

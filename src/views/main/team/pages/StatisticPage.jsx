@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import "../styles/statistics.css"; // Убедитесь, что CSS файл импортирован
+import "../styles/statistics.css";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 
 const StatisticPage = () => {
-  // Здесь может быть логика для получения данных о команде и участниках
-
   const [statistics] = useState([
     {
       id: 1,

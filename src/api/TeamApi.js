@@ -23,6 +23,20 @@ export const fetchTeamById = async (id) => {
   }
 };
 
+export const fetchTeamTitleById = async (id) => {
+  try {
+    const response = await fetch(`https://localhost:44305/api/Team/${id}`);
+    if (response.status === 404 || !response.ok) {
+      throw new Error("Команда не найдена");
+    }
+    const data = await response.json();
+    return data.title; // Предполагаем, что ответ в формате JSON
+  } catch (error) {
+    console.error("Ошибка при получении команды:", error);
+    return null; // Возвращаем null или другое значение, указывающее на ошибку
+  }
+};
+
 export const createTeam = async (teamData) => {
   try {
     const response = await fetch("https://localhost:44305/api/Team", {
@@ -46,21 +60,20 @@ export const createTeam = async (teamData) => {
 export const updateTeam = async (id, teamData) => {
   try {
     const response = await fetch(`https://localhost:44305/api/Team/${id}`, {
-      method: "PUT", // Используем HTTP метод PUT для обновления
+      method: "PUT",
       headers: {
-        "Content-Type": "application/json", // Изменено на application/json
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(teamData), // Тело запроса преобразуется в строку JSON
+      body: JSON.stringify(teamData),
     });
 
     if (!response.ok) {
-      // Если ответ не OK, пробуем получить текст ошибки
       const errorText = await response.text();
       throw new Error(errorText);
     }
   } catch (error) {
     console.error("Ошибка при обновлении команды:", error);
-    throw error; // Передаем ошибку дальше
+    throw error;
   }
 };
 

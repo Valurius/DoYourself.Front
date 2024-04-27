@@ -6,30 +6,44 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Market from "@mui/icons-material/LocalGroceryStoreRounded";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { fetchTeamById } from "../api/TeamApi";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 const MenuBar = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isMenuOpen] = useState(true);
+  const [team, setTeam] = useState({});
+  const navigate = useNavigate();
+  const { teamId } = useParams();
+  localStorage.setItem("teamTitle", team.title);
 
-  // Создаем функцию для обновления ширины окна просмотра при изменении размера
+  const savedTeamTitle = localStorage.getItem("teamTitle");
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
 
-  const { teamId } = useParams();
+  const loadTeam = async () => {
+    if (!team || team.id !== teamId) {
+      try {
+        const teamData = await fetchTeamById(teamId);
+        setTeam(teamData);
+      } catch (error) {
+        console.error("Ошибка при загрузке команд:", error);
+      }
+    }
+  };
 
-  // Добавляем обработчик события resize к window при монтировании компонента
   useEffect(() => {
+    loadTeam();
     window.addEventListener("resize", handleResize);
-    // Удаляем обработчик события при размонтировании компонента
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [teamId]);
 
-  // Определяем пороговое значение ширины окна просмотра, при котором компонент будет минимизирован
   const breakpoint = 1024;
+
   return (
     <div style={{ display: "flex", height: "100vh", width: "10vw" }}>
       <Sidebar
@@ -43,79 +57,57 @@ const MenuBar = () => {
         }}
       >
         <Menu className="menu">
-          <span className="span">
-            {isMenuOpen
-              ? windowWidth > breakpoint
-                ? "Команда Разработчики"
-                : null
-              : null}
-          </span>
-          <Link to={`/${teamId}/myTasks/`} className="link">
-            <MenuItem className="menu-item" icon={<ManIcon />}>
-              {isMenuOpen
-                ? windowWidth > breakpoint
-                  ? "Мои задачи"
-                  : null
-                : null}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            className="menu-item"
+            icon={<ManIcon />}
+            onClick={() => navigate(`/${teamId}/myTasks/`)}
+          >
+            {isMenuOpen && windowWidth > breakpoint && "Мои задачи"}
+          </MenuItem>
 
-          <Link to={`/${teamId}/tasks/`} className="link">
-            <MenuItem className="menu-item" icon={<GroupsIcon />}>
-              {isMenuOpen
-                ? windowWidth > breakpoint
-                  ? "Все Задачи"
-                  : null
-                : null}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            className="menu-item"
+            icon={<GroupsIcon />}
+            onClick={() => navigate(`/${teamId}/projects/`)}
+          >
+            {isMenuOpen && windowWidth > breakpoint && "Проекты"}
+          </MenuItem>
 
-          <Link to={`/${teamId}/statistics/`} className="link">
-            <MenuItem className="menu-item" icon={<QueryStatsIcon />}>
-              {isMenuOpen
-                ? windowWidth > breakpoint
-                  ? "Статистика"
-                  : null
-                : null}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            className="menu-item"
+            icon={<QueryStatsIcon />}
+            onClick={() => navigate(`/${teamId}/statistics/`)}
+          >
+            {isMenuOpen && windowWidth > breakpoint && "Статистика"}
+          </MenuItem>
 
-          <Link to={`/${teamId}/members/`} className="link">
-            <MenuItem className="menu-item" icon={<Diversity3Icon />}>
-              {isMenuOpen
-                ? windowWidth > breakpoint
-                  ? "Участники"
-                  : null
-                : null}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            className="menu-item"
+            icon={<Diversity3Icon />}
+            onClick={() => navigate(`/${teamId}/members/`)}
+          >
+            {isMenuOpen && windowWidth > breakpoint && "Участники"}
+          </MenuItem>
 
-          <Link to={`/${teamId}/market/`} className="link">
-            <MenuItem
-              variant="contained"
-              className="menu-item"
-              icon={<Market />}
-            >
-              {isMenuOpen
-                ? windowWidth > breakpoint
-                  ? "Магазин"
-                  : null
-                : null}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            className="menu-item"
+            icon={<Market />}
+            onClick={() => navigate(`/${teamId}/market/`)}
+          >
+            {isMenuOpen && windowWidth > breakpoint && "Магазин"}
+          </MenuItem>
 
-          <Link to={`/${teamId}/settings/`} className="link">
-            <MenuItem className="menu-item" icon={<SettingsIcon />}>
-              {isMenuOpen
-                ? windowWidth > breakpoint
-                  ? "Настройки"
-                  : null
-                : null}
-            </MenuItem>
-          </Link>
+          <MenuItem
+            className="menu-item"
+            icon={<SettingsIcon />}
+            onClick={() => navigate(`/${teamId}/settings/`)}
+          >
+            {isMenuOpen && windowWidth > breakpoint && "Настройки"}
+          </MenuItem>
         </Menu>
       </Sidebar>
     </div>
   );
 };
+
 export default MenuBar;
