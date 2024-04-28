@@ -35,10 +35,8 @@ const SettingsPage = () => {
         description: teamDescription,
         image: teamImage,
       };
-      // Отправляем данные на сервер
       await updateTeam(teamId, teamData);
       console.log("Команда обновлена");
-      // После обновления, возможно, вы захотите перенаправить пользователя или обновить UI
     } catch (error) {
       console.error("Ошибка при обновлении команды:", error);
     }
@@ -73,26 +71,6 @@ const SettingsPage = () => {
                     onChange={handleInputChange}
                     placeholder="Введите название команды"
                   />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="teamName">Фото</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="teamImage"
-                    onChange={handleInputChange}
-                    placeholder="Введите название команды"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="teamDescription">Описание команды</label>
-                  <textarea
-                    className="form-control"
-                    id="teamDescription"
-                    rows="3"
-                    onChange={handleInputChange}
-                    placeholder="Введите описание команды"
-                  ></textarea>
                 </div>
                 <button type="submit" className="btn btn-primary">
                   Сохранить

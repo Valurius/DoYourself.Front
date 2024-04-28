@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../styles/tasks.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
@@ -10,13 +10,13 @@ import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { useParams } from "react-router-dom";
 import { fetchTasks, createTask } from "../../../../api/TaskApi";
-import MyLoader from "../../../../components/myUi/MyLoader/MyLoader";
+import { fetchTeamTitleById } from "../../../../api/TeamApi";
 
 const TasksPage = () => {
+  const { teamId } = useParams();
   const { userRole } = useRoleContext();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [teamTitle, setTeamTitle] = useState("");
   const [tasks, setTasks] = useState([]);
   const [taskData, setTaskData] = useState({
     title: "",
@@ -25,60 +25,50 @@ const TasksPage = () => {
     needToBeDoneAt: "2024-04-25",
   });
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModal = useCallback(() => setModalOpen(true), []);
+  const closeModal = useCallback(() => setModalOpen(false), []);
 
-  const { teamId } = useParams();
-
-  const handleInputChange = (event) => {
+  const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setTaskData({ ...taskData, [name]: value });
-  };
-
-  const loadTasks = async () => {
-    try {
-      const tasksData = await fetchTasks();
-      setTasks(tasksData);
-    } catch (error) {
-      console.error("Ошибка при загрузке команд:", error);
-    }
-  };
-
-  useEffect(() => {
-    const loadTasks = async () => {
-      setIsLoading(true);
-      try {
-        const tasksData = await fetchTasks();
-        setTasks(tasksData);
-      } catch (error) {
-        console.error("Ошибка при загрузке команд:", error);
-      }
-      setIsLoading(false);
-    };
-
-    loadTasks();
+    setTaskData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
 
-  const handleCreateTask = async (event) => {
-    event.preventDefault();
+  const loadTasks = useCallback(async () => {
     try {
-      console.log(taskData);
-      await createTask(taskData);
-      closeModal();
-      await loadTasks();
+      const tasksData = await fetchTasks(teamId); // Убедитесь, что API поддерживает загрузку задач по teamId
+      setTasks(tasksData);
     } catch (error) {
-      console.error("Ошибка при создании команды:", error);
+      console.error("Ошибка при загрузке задач:", error);
     }
-  };
+  }, [teamId]);
 
-  if (isLoading) {
-    return (
-      <div className="projects-page">
-        <MenuBar />
-        <MyLoader></MyLoader>;
-      </div>
-    );
-  }
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const title = await fetchTeamTitleById(teamId);
+        setTeamTitle(title);
+        await loadTasks();
+      } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+      }
+    };
+
+    loadData();
+  }, [teamId, loadTasks]);
+
+  const handleCreateTask = useCallback(
+    async (event) => {
+      event.preventDefault();
+      try {
+        await createTask(taskData);
+        closeModal();
+        await loadTasks();
+      } catch (error) {
+        console.error("Ошибка при создании задачи:", error);
+      }
+    },
+    [taskData, loadTasks]
+  );
 
   return (
     <div className="tasks-page">
@@ -170,7 +160,7 @@ const TasksPage = () => {
 
       <div className="team-tasks">
         <MyLink to={`/${teamId}/projects/`}>Назад</MyLink>
-        <MyTitle>Задачи команды</MyTitle>
+        <MyTitle>Задачи команды "{teamTitle}"</MyTitle>
         {userRole === "admin" ? (
           <div>
             <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>

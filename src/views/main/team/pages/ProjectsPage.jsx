@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "../styles/projects.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
@@ -11,84 +11,75 @@ import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { useParams } from "react-router-dom";
 import { fetchProjects, createProject } from "../../../../api/ProjectApi";
 import { fetchTeamTitleById } from "../../../../api/TeamApi";
-import MyLoader from "../../../../components/myUi/MyLoader/MyLoader";
 
 const ProjectsPage = () => {
   const { teamId } = useParams();
   const [teamTitle, setTeamTitle] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const { userRole } = useRoleContext();
   const [isModalOpen, setModalOpen] = useState(false);
-  const [projects, setprojects] = useState([]);
-  const [projectData, setprojectData] = useState({
-    teamId: teamId,
+  const [projects, setProjects] = useState([]);
+  const [projectData, setProjectData] = useState({
+    teamId,
     title: "",
+    image: "",
     description: "",
     priority: "Низкий",
     deadline: "2024-04-25",
   });
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModal = useCallback(() => setModalOpen(true), []);
+  const closeModal = useCallback(() => setModalOpen(false), []);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setprojectData({ ...projectData, [name]: value });
-  };
+    setProjectData((prevData) => ({ ...prevData, [name]: value }));
+  }, []);
 
-  const loadprojects = async () => {
+  const loadProjects = useCallback(async () => {
     try {
-      const projectsData = await fetchProjects();
-      setprojects(projectsData);
+      const projectsData = await fetchProjects(teamId);
+      setProjects(projectsData);
     } catch (error) {
-      console.error("Ошибка при загрузке команд:", error);
+      console.error("Ошибка при загрузке проектов:", error);
     }
-  };
+  }, [teamId]);
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoading(true);
       try {
         const title = await fetchTeamTitleById(teamId);
         setTeamTitle(title);
-        const projectsData = await fetchProjects();
-        setprojects(projectsData);
+        await loadProjects();
       } catch (error) {
         console.error("Ошибка при загрузке данных:", error);
       }
-      setIsLoading(false);
     };
 
     loadData();
-  }, [teamId]);
+  }, [teamId, loadProjects]);
 
-  const handleCreateproject = async (event) => {
-    event.preventDefault();
-    try {
-      await createProject(projectData);
-      closeModal();
-      await loadprojects();
-    } catch (error) {
-      console.error("Ошибка при создании команды:", error);
-    }
-  };
-  if (isLoading) {
-    return (
-      <div className="projects-page">
-        <MenuBar />
-        <MyLoader></MyLoader>;
-      </div>
-    );
-  }
+  const handleCreateProject = useCallback(
+    async (event) => {
+      event.preventDefault();
+      try {
+        await createProject(projectData);
+        closeModal();
+        await loadProjects();
+      } catch (error) {
+        console.error("Ошибка при создании проекта:", error);
+      }
+    },
+    [projectData, loadProjects]
+  );
 
   return (
     <div className="projects-page">
       <MyModal isOpen={isModalOpen} onClose={closeModal}>
         <div className="modal-header">
-          <MyTitle>Создание проекта"</MyTitle>
+          <MyTitle>Создание проекта</MyTitle>
         </div>
         <div className="modal-body">
-          <form onSubmit={handleCreateproject}>
+          <form onSubmit={handleCreateProject}>
             <div className="form-group">
               <label htmlFor="title">Название проекта:</label>
               <input
@@ -98,6 +89,18 @@ const ProjectsPage = () => {
                 value={projectData.title}
                 onChange={handleInputChange}
                 placeholder="Название"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="image">Фото:</label>
+              <input
+                type="text"
+                id="image"
+                name="image"
+                value={projectData.image}
+                onChange={handleInputChange}
+                placeholder="Адрес фото"
                 required
               />
             </div>
@@ -150,7 +153,7 @@ const ProjectsPage = () => {
               />
             </div>
             <div className="modal-footer">
-              <button type="submit">Добавить задачу</button>
+              <button type="submit">Создать проект</button>
               <button type="button" onClick={closeModal}>
                 Отмена
               </button>
@@ -166,7 +169,7 @@ const ProjectsPage = () => {
         <MyTitle>Проекты команды "{teamTitle}"</MyTitle>
         {userRole === "admin" ? (
           <div>
-            <MyButton onClick={openModal}>Добавить</MyButton>
+            <MyButton onClick={openModal}>Добавить проект</MyButton>
             <MyLink to={`/${teamId}/tasks/`}>Задачи проекта</MyLink>
           </div>
         ) : (
@@ -177,20 +180,26 @@ const ProjectsPage = () => {
           <div key={project.id}>
             <div className="project">
               <div className="project-icon">
-                <img src={project.img} alt={project.name} />
+                <img
+                  src={
+                    "https://zendiar.com/wp-content/uploads/2023/06/planeta-venera-atmosfera-poverhnost-interesnye-fakty-foto-i-video-16ddeb3.jpg"
+                  }
+                  alt={project.name}
+                />
               </div>
               <h2 className="name">{project.name}</h2>
               <div className="project-content">
                 <div className="project-description">
-                  <MyText>Задача: {project.title}</MyText>
+                  <MyText>Проект: {project.title}</MyText>
+                  <MyText>Цель: {project.goal}</MyText>
                   <MyText>Описание: {project.description}</MyText>
-                  <MyText>Проект: {project.project}</MyText>
-                </div>
-                <div>
-                  <MyLink to={`/${teamId}/project/`}>Перейти</MyLink>
+                  <MyText>Приоритет: {project.priority}</MyText>
+                  <MyText>Крайний срок: {project.deadline}</MyText>
                 </div>
               </div>
-              <button>Удалить</button>
+              <div>
+                <MyLink to={`/${teamId}/project/`}>Перейти</MyLink>
+              </div>
             </div>
           </div>
         ))}

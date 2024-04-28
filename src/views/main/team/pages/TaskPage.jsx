@@ -1,13 +1,15 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import "../styles/task.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import { useRoleContext } from "../../../../context/RoleContext";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
+import { useParams } from "react-router-dom";
 
 const TasksPage = () => {
   const { userRole } = useRoleContext();
+  const { teamId } = useParams();
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -18,7 +20,6 @@ const TasksPage = () => {
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
   ]);
-  const handleToggle = useCallback((id) => {}, [tasks]);
 
   return (
     <div className="task-page">
@@ -26,7 +27,7 @@ const TasksPage = () => {
         <MenuBar />
       </div>
       <div className="task-window">
-        <MyLink to="/1/tasks/">Назад</MyLink>
+        <MyLink to={`/${teamId}/tasks/`}>Назад</MyLink>
         <MyTitle>Задача Такая-то</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
