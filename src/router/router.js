@@ -12,6 +12,7 @@ import MyTasksPage from "../views/main/team/pages/MyTasksPage";
 import TagsPage from "../views/main/team/pages/TagsPage";
 import SettingsPage from "../views/main/team/pages/SettingsPage";
 import ProjectsPage from "../views/main/team/pages/ProjectsPage";
+import ProjectPage from "../views/main/team/pages/ProjectPage";
 
 export const publicRoutes = [
   { path: "/", element: <RegistrationPage /> },
@@ -29,4 +30,5 @@ export const publicRoutes = [
   { path: "/:teamId/tags", element: <TagsPage /> },
   { path: "/:teamId/settings", element: <SettingsPage /> },
   { path: "/:teamId/projects", element: <ProjectsPage /> },
+  { path: "/:teamId/:projectId", element: <ProjectPage /> },
 ];

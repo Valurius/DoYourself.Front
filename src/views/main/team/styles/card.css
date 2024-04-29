@@ -1,0 +1,65 @@
+.card {
+  font-family: "Arial", sans-serif;
+  max-width: 750px;
+  margin: 20px auto; /* Центрирование карточки */
+  box-shadow: 0 8px 16px 0 rgba(30, 255, 0, 0.2); /* Увеличенная тень для большей глубины */
+  border-radius: 10px; /* Увеличенный радиус границ для более мягкого вида */
+  display: flex;
+  flex-direction: row;
+  overflow: hidden; /* Обрезка содержимого по границам карточки */
+  background-color: #ffffff; /* Фон карточки */
+  transition: transform 0.3s ease; /* Плавное изменение при наведении */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Подъем карточки при наведении */
+}
+
+.card-image {
+  width: 50%;
+  border-radius: 10px;
+  background-color: #f6f7f3;
+  border-top-left-radius: 10px; /* Скругление только верхнего левого угла */
+  border-bottom-left-radius: 10px; /* Скругление только нижнего левого угла */
+  overflow: hidden; /* Добавлено для обрезки изображения по границам контейнера */
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%; /* Установлено 100% высоты контейнера */
+  object-fit: cover; /* Изображение будет покрывать весь контейнер */
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: calc(100% - 200px); /* Вычитание ширины изображения из общей ширины */
+}
+
+.card-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.card-description {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.card-goal {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-status {
+  font-size: 16px;
+  padding: 10px;
+  color: #4caf50; /* Изменен цвет для соответствия оценкам */
+  margin-bottom: 15px;
+}

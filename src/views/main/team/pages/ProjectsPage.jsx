@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/projects.css";
+import "../styles/card.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
@@ -8,7 +9,7 @@ import { useRoleContext } from "../../../../context/RoleContext";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchProjects, createProject } from "../../../../api/ProjectApi";
 import { fetchTeamTitleById } from "../../../../api/TeamApi";
 
@@ -27,6 +28,9 @@ const ProjectsPage = () => {
     deadline: "2024-04-25",
   });
 
+  function isValidImageURL(str) {
+    return /\.(jpeg|jpg|gif|png)$/.test(str);
+  }
   const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => setModalOpen(false), []);
 
@@ -69,7 +73,7 @@ const ProjectsPage = () => {
         console.error("Ошибка при создании проекта:", error);
       }
     },
-    [projectData, loadProjects]
+    [projectData, loadProjects, closeModal]
   );
 
   return (
@@ -170,36 +174,39 @@ const ProjectsPage = () => {
         {userRole === "admin" ? (
           <div>
             <MyButton onClick={openModal}>Добавить проект</MyButton>
-            <MyLink to={`/${teamId}/tasks/`}>Задачи проекта</MyLink>
           </div>
         ) : (
-          <MyLink to={`/${teamId}/tasks/`}>Задачи проекта</MyLink>
+          ""
         )}
 
         {projects.map((project) => (
           <div key={project.id}>
-            <div className="project">
-              <div className="project-icon">
-                <img
-                  src={
-                    "https://zendiar.com/wp-content/uploads/2023/06/planeta-venera-atmosfera-poverhnost-interesnye-fakty-foto-i-video-16ddeb3.jpg"
-                  }
-                  alt={project.name}
-                />
+            <div class="card">
+              <div className="card-image">
+                {isValidImageURL(project.image) ? (
+                  <img src={project.image} alt={project.name} />
+                ) : (
+                  <img
+                    src="https://sun9-59.userapi.com/impg/_djd7n4HCVLXfczBeRBNC2oyCy37QqPTa7TCcQ/hXXVXfkFF2A.jpg?size=415x383&quality=96&sign=de78da1bc1a16891a4bf12e5fd406521&type=album"
+                    alt={project.name}
+                  />
+                )}
               </div>
-              <h2 className="name">{project.name}</h2>
-              <div className="project-content">
-                <div className="project-description">
-                  <MyText>Проект: {project.title}</MyText>
-                  <MyText>Цель: {project.goal}</MyText>
-                  <MyText>Описание: {project.description}</MyText>
-                  <MyText>Приоритет: {project.priority}</MyText>
-                  <MyText>Крайний срок: {project.deadline}</MyText>
+
+              <div class="card-content">
+                <div class="card-title">{project.title}</div>
+                <div class="card-description">
+                  Описание проекта: {project.description}
                 </div>
+                <div class="card-goal"> Цель проекта: {project.goal}</div>
+                <div class="card-deadline">
+                  Проект необходимо выполнить до: {project.deadline}
+                </div>
+                <Link to={`/${teamId}/project/`} class="link-button">
+                  Перейти
+                </Link>
               </div>
-              <div>
-                <MyLink to={`/${teamId}/project/`}>Перейти</MyLink>
-              </div>
+              <div class="card-status"> ☆{project.priority}</div>
             </div>
           </div>
         ))}
