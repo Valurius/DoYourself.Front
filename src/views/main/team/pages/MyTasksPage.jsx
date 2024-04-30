@@ -1,13 +1,10 @@
 import React, { useCallback, useState } from "react";
-import "../styles/tasks.css"; // Убедитесь, что CSS файл импортирован
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 
 const MyTasksPage = () => {
-  // Здесь может быть логика для получения данных о команде и участниках
-
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -34,7 +31,7 @@ const MyTasksPage = () => {
         <MenuBar />
       </div>
       <div className="team-tasks">
-        <MyTitle>Мои задачи</MyTitle>
+        <MyTitle>Мои задачи в команде</MyTitle>
         {tasks.map((task) => (
           <div key={task.id}>
             <div className="task">

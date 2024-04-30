@@ -6,8 +6,6 @@ import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useRoleContext } from "../../../../context/RoleContext";
-import MyText from "../../../../components/myUi/MyText/MyText";
-import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
 import { fetchProjects, createProject } from "../../../../api/ProjectApi";
@@ -181,32 +179,54 @@ const ProjectsPage = () => {
 
         {projects.map((project) => (
           <div key={project.id}>
-            <div class="card">
+            <div className="card">
               <div className="card-image">
                 {isValidImageURL(project.image) ? (
                   <img src={project.image} alt={project.name} />
                 ) : (
                   <img
-                    src="https://sun9-59.userapi.com/impg/_djd7n4HCVLXfczBeRBNC2oyCy37QqPTa7TCcQ/hXXVXfkFF2A.jpg?size=415x383&quality=96&sign=de78da1bc1a16891a4bf12e5fd406521&type=album"
+                    src="https://sun9-2.userapi.com/impg/bE_b4s_JXMQtcnwsZkhS3fjOqCPDOjEbPBiEgw/kGh4qUrWLkI.jpg?size=1215x684&quality=96&sign=02888951fdd27dfdecf25e59a5055caa&type=album"
                     alt={project.name}
                   />
                 )}
               </div>
 
-              <div class="card-content">
-                <div class="card-title">{project.title}</div>
-                <div class="card-description">
+              <div className="card-content">
+                <div className="card-title">{project.title}</div>
+                <div className="card-description">
                   Описание проекта: {project.description}
                 </div>
-                <div class="card-goal"> Цель проекта: {project.goal}</div>
-                <div class="card-deadline">
-                  Проект необходимо выполнить до: {project.deadline}
+                <div className="card-goal"> Цель проекта: {project.goal}</div>
+                <div className="card-deadline">
+                  Проект необходимо выполнить до:{" "}
+                  {new Date(project.deadline).toLocaleDateString("ru-RU")}
                 </div>
-                <Link to={`/${teamId}/project/`} class="link-button">
-                  Перейти
-                </Link>
+                <div className="link-button-container">
+                  <Link
+                    to={`/${teamId}/${project.id}/`}
+                    className="link-button"
+                  >
+                    Перейти
+                  </Link>
+                </div>
               </div>
-              <div class="card-status"> ☆{project.priority}</div>
+
+              <div
+                className={
+                  project.priority === "Высокий"
+                    ? "card-status-high"
+                    : project.priority === "Средний"
+                    ? "card-status-medium"
+                    : "card-status-low"
+                }
+              >
+                {project.priority === "Высокий"
+                  ? "☆☆☆"
+                  : project.priority === "Средний"
+                  ? "☆☆"
+                  : "☆"}
+                {project.priority}
+              </div>
             </div>
           </div>
         ))}

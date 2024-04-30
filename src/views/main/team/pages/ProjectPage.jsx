@@ -5,19 +5,23 @@ import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useRoleContext } from "../../../../context/RoleContext";
-import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
 import { fetchTasks, createTask } from "../../../../api/TaskApi";
+import { fetchProjectById } from "../../../../api/ProjectApi";
 import { fetchTeamTitleById } from "../../../../api/TeamApi";
 
 const ProjectPage = () => {
   const { teamId } = useParams();
+  const { projectId } = useParams();
   const { userRole } = useRoleContext();
   const [isModalOpen, setModalOpen] = useState(false);
   const [teamTitle, setTeamTitle] = useState("");
+  const [project, setProject] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [membersData, setMembersData] = useState({});
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -40,11 +44,13 @@ const ProjectPage = () => {
   const loadTasks = useCallback(async () => {
     try {
       const tasksData = await fetchTasks(teamId);
+      const projectData = await fetchProjectById(projectId);
+      setProject(projectData);
       setTasks(tasksData);
     } catch (error) {
       console.error("Ошибка при загрузке задач:", error);
     }
-  }, [teamId]);
+  }, [teamId, projectId]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -71,7 +77,7 @@ const ProjectPage = () => {
         console.error("Ошибка при создании задачи:", error);
       }
     },
-    [taskData, loadTasks]
+    [taskData, loadTasks, closeModal]
   );
 
   return (
@@ -141,9 +147,9 @@ const ProjectPage = () => {
               <label htmlFor="needToBeDoneAt">Срок выполнения:</label>
               <input
                 type="date"
-                id="needToBeDoneAt"
-                value={taskData.needToBeDoneAt}
-                name="needToBeDoneAt"
+                id="deadline"
+                value={taskData.deadline}
+                name="deadline"
                 onChange={handleInputChange}
                 required
               />
@@ -179,39 +185,47 @@ const ProjectPage = () => {
             {tasks.map((task) => (
               <div key={task.id}>
                 <div class="card">
-                  <div className="card-image">
-                    {isValidImageURL(task.image) ? (
-                      <img src={task.image} alt={task.name} />
-                    ) : (
-                      <img
-                        src="https://sun9-59.userapi.com/impg/_djd7n4HCVLXfczBeRBNC2oyCy37QqPTa7TCcQ/hXXVXfkFF2A.jpg?size=415x383&quality=96&sign=de78da1bc1a16891a4bf12e5fd406521&type=album"
-                        alt={task.name}
-                      />
-                    )}
-                  </div>
-
                   <div class="card-content">
                     <div class="card-title">{task.title}</div>
                     <div class="card-description">
-                      Описание проекта: {task.description}
+                      Описание задачи: {task.description}
                     </div>
-                    <div class="card-goal"> Цель проекта: {task.goal}</div>
                     <div class="card-deadline">
-                      Проект необходимо выполнить до: {task.deadline}
+                      Задачу необходимо выполнить до:{" "}
+                      {new Date(task.deadline).toLocaleDateString("ru-RU")}
                     </div>
-                    <Link to={`/${teamId}/project/`} class="link-button">
-                      Перейти
-                    </Link>
+                    <div className="link-button-container">
+                      <Link to={`/${teamId}/task/`} class="link-button">
+                        Перейти
+                      </Link>
+                    </div>
                   </div>
-                  <div class="card-status"> ☆{task.priority}</div>
+                  <div
+                    className={
+                      task.priority === "Высокий"
+                        ? "card-status-high"
+                        : task.priority === "Средний"
+                        ? "card-status-medium"
+                        : "card-status-low"
+                    }
+                  >
+                    {task.priority === "Высокий"
+                      ? "☆☆☆"
+                      : task.priority === "Средний"
+                      ? "☆☆"
+                      : "☆"}
+                    {task.priority}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
           <div className="project-params">
-            <MyTitle>
-              Информация <br /> о проекте
-            </MyTitle>
+            <MyTitle>Информация</MyTitle>
+            <div className="project-param">Название: {project.title}</div>
+            <div className="project-param">Цель: {project.goal}</div>
+            <div className="project-param">Описание: {project.description}</div>
+            <div className="project-param">Бюджет: {project.budget}</div>
           </div>
           <div className="project-members">
             <MyTitle>Участники</MyTitle>

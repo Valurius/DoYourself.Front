@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import "../styles/tasks.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
