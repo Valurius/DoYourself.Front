@@ -10,6 +10,20 @@ export const fetchTasks = async () => {
   }
 };
 
+export const fetchTasksByProjectId = async (projectId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:44305/api/Task/${projectId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      return [];
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении задач:", error);
+  }
+};
+
 export const fetchTaskById = async (id) => {
   try {
     const response = await fetch(`https://localhost:44305/api/Task/${id}`);

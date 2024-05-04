@@ -1,5 +1,6 @@
 ﻿.form-page {
   max-width: 250px;
+  height: 370px;
   margin: 50px auto;
   background-color: white;
   border: 2px solid #ddd;
@@ -35,4 +36,8 @@
 .auth-a {
   text-decoration: none;
   color: #0056b3;
+}
+
+.link-desc {
+  margin: 3px;
 }

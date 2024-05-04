@@ -71,6 +71,9 @@ export const updateTeam = async (id, teamData) => {
       const errorText = await response.text();
       throw new Error(errorText);
     }
+
+    const updatedTeamData = await response.json();
+    return updatedTeamData;
   } catch (error) {
     console.error("Ошибка при обновлении команды:", error);
     throw error;

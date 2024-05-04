@@ -87,9 +87,8 @@ const RegistrationPage = () => {
         <MyButton className="auth-button" type="submit">
           Зарегистрироваться
         </MyButton>
-        <MyText className="auth-p">
-          Уже есть аккаунт? <MyLink to="/login">Войти</MyLink>
-        </MyText>
+        <MyText className="auth-p">Уже есть аккаунт?</MyText>
+        <MyLink to="/login">Войти</MyLink>
       </form>
     </div>
   );

@@ -147,9 +147,9 @@ const ProjectsPage = () => {
               <label htmlFor="needToBeDoneAt">Дедлайн выполнения:</label>
               <input
                 type="date"
-                id="needToBeDoneAt"
-                value={projectData.needToBeDoneAt}
-                name="needToBeDoneAt"
+                id="deadline"
+                value={projectData.deadline}
+                name="deadline"
                 onChange={handleInputChange}
                 required
               />

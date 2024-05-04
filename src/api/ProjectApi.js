@@ -43,25 +43,29 @@ export const createProject = async (projectData) => {
   }
 };
 
-// export const updateTeam = async (id, teamData) => {
-//   try {
-//     const response = await fetch(`https://localhost:44305/api/Project/${id}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(teamData),
-//     });
+export const updateProject = async (id, projectData) => {
+  try {
+    const response = await fetch(`https://localhost:44305/api/Project/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(projectData),
+    });
 
-//     if (!response.ok) {
-//       const errorText = await response.text();
-//       throw new Error(errorText);
-//     }
-//   } catch (error) {
-//     console.error("Ошибка при обновлении команды:", error);
-//     throw error;
-//   }
-// };
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+
+    // Возвращаем обновленные данные проекта
+    const updatedProjectData = await response.json();
+    return updatedProjectData;
+  } catch (error) {
+    console.error("Ошибка при обновлении проекта:", error);
+    throw error;
+  }
+};
 
 export const deleteProject = async (id) => {
   try {

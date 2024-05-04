@@ -21,7 +21,7 @@ export const publicRoutes = [
   { path: "/registration", element: <RegistrationPage /> },
   { path: "/userTasks", element: <UserTasksPage /> },
   { path: "/teams", element: <TeamsPage /> },
-  { path: "/:teamId/task", element: <TaskPage /> },
+  { path: "/:teamId/:projectId/task", element: <TaskPage /> },
   { path: "/:teamId/tasks", element: <TasksPage /> },
   { path: "/:teamId/members", element: <MembersPage /> },
   { path: "/:teamId/market", element: <MarketPage /> },

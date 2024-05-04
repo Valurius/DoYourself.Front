@@ -74,8 +74,9 @@ const LoginPage = () => {
           Войти
         </MyButton>
         <MyText>
-          Нет аккаунта? <MyLink to="/registration">Регистрация</MyLink>
+          <p className="link-desc">Нет аккаунта?</p>
         </MyText>
+        <MyLink to="/registration">Регистрация</MyLink>
       </form>
     </div>
   );

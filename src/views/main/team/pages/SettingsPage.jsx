@@ -9,22 +9,14 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const SettingsPage = () => {
   const [teamName, setTeamName] = useState("");
-  const [teamDescription, setTeamDescription] = useState("");
-  const [teamImage, setTeamImage] = useState("");
 
   const { teamId } = useParams();
 
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
-    const { id, value } = event.target;
-    if (id === "teamName") {
-      setTeamName(value);
-    } else if (id === "teamDescription") {
-      setTeamDescription(value);
-    } else if (id === "teamImage") {
-      setTeamImage(value);
-    }
+    const { value } = event.target;
+    setTeamName(value);
   };
 
   const handleSubmit = async (event) => {
@@ -32,8 +24,6 @@ const SettingsPage = () => {
     try {
       const teamData = {
         title: teamName,
-        description: teamDescription,
-        image: teamImage,
       };
       await updateTeam(teamId, teamData);
       console.log("Команда обновлена");
