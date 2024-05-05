@@ -53,7 +53,7 @@ const RegistrationPage = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            autocomplete="off"
+            autoСomplete="off"
           />
         </div>
         <div className="form-group">
@@ -67,7 +67,7 @@ const RegistrationPage = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            autocomplete="off"
+            autoСomplete="off"
           />
         </div>
         <div className="form-group">
@@ -81,7 +81,7 @@ const RegistrationPage = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            autocomplete="new-password"
+            autoСomplete="new-password"
           />
         </div>
         <MyButton className="auth-button" type="submit">

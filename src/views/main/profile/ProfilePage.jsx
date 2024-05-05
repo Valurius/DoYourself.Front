@@ -7,7 +7,7 @@ const ProfilePage = () => {
   const [user, setUser] = useState([]);
   useEffect(() => {
     const userId = localStorage.getItem("userId");
-    console.log(userId);
+
     const getUser = async () => {
       {
         const userf = await fetchUserById(userId);
@@ -16,12 +16,11 @@ const ProfilePage = () => {
     };
     getUser();
   }, []);
-  console.log(user);
+
   return (
     <div className="profile-page">
       <div className="profile-container">
         <div className="profile-photo">
-          {/* Здесь должна быть ссылка на фото пользователя */}
           <img
             src={
               user.photoUrl ||
@@ -34,7 +33,7 @@ const ProfilePage = () => {
           <MyText>Профиль пользователя</MyText>
           <MyText>Имя: {user.name}</MyText>
           <MyText>Email: {user.email}</MyText>
-          <MyText>Роль: {user.role}</MyText>
+          <MyText>Роль: {user.permition}</MyText>
         </div>
       </div>
     </div>

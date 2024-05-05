@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import "../styles/tags.css";
 import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
@@ -17,7 +17,7 @@ const TagsPage = () => {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  const [tags, settags] = useState([
+  const [tags] = useState([
     {
       id: 1,
       name: "Обычная задача",
@@ -37,16 +37,6 @@ const TagsPage = () => {
       img: "https://gas-kvas.com/uploads/posts/2023-03/1678093105_gas-kvas-com-p-fon-prirodi-dlya-risunka-krasivii-18.jpg",
     },
   ]);
-
-  const handleToggle = useCallback(
-    (id) => {
-      const newtags = [...tags];
-      const index = newtags.findIndex((tag) => tag.id === id);
-      newtags[index].done = !newtags[index].done;
-      settags(newtags);
-    },
-    [tags]
-  );
 
   return (
     <div className="tags-page">

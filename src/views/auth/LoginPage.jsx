@@ -7,10 +7,11 @@ import MyTitle from "../../components/myUi/MyTitle/MyTitle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useRole } from "../../context/RoleContext";
 
 const LoginPage = () => {
   const { login } = useAuth();
-  const [userId, setUserId] = useState("");
+  const { getUser } = useRole();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -34,9 +35,9 @@ const LoginPage = () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("Ответ сервера: ", response.data);
       login(response.data.token, response.data.userId);
-      navigate("/teams"); // Используем navigate для перенаправления на главную страницу
+      getUser();
+      navigate("/teams");
     } catch (error) {
       console.error(
         "Ответ сервера:",

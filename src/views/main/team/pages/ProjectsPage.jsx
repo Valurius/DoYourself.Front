@@ -14,7 +14,7 @@ import { fetchTeamTitleById } from "../../../../api/TeamApi";
 const ProjectsPage = () => {
   const { teamId } = useParams();
   const [teamTitle, setTeamTitle] = useState("");
-  const { userRole } = useRoleContext();
+  const userRole = localStorage.getItem("permition");
   const [isModalOpen, setModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [projectData, setProjectData] = useState({
@@ -38,6 +38,7 @@ const ProjectsPage = () => {
     try {
       const projectsData = await fetchProjects(teamId);
       setProjects(projectsData);
+      console.log(userRole);
     } catch (error) {
       console.error("Ошибка при загрузке проектов:", error);
     }
@@ -166,7 +167,7 @@ const ProjectsPage = () => {
       </div>
       <div className="team-projects">
         <MyTitle>Проекты команды "{teamTitle}"</MyTitle>
-        {userRole === "admin" ? (
+        {userRole === "Админ" ? (
           <div>
             <MyButton onClick={openModal}>Добавить проект</MyButton>
           </div>

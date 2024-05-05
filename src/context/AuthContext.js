@@ -27,12 +27,19 @@ export const AuthProvider = ({ children }) => {
   const login = (token, userId) => {
     localStorage.setItem("token", token);
     localStorage.setItem("userId", userId);
+    console.log(localStorage.getItem("token"));
+    console.log(localStorage.getItem("permition"));
+    console.log(localStorage.getItem("userId"));
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.setItem("userId", userId);
+    localStorage.removeItem("permition");
+    localStorage.removeItem("userId");
+    console.log(localStorage.getItem("token"));
+    console.log(localStorage.getItem("permition"));
+    console.log(localStorage.getItem("userId"));
     setIsAuthenticated(false);
   };
 

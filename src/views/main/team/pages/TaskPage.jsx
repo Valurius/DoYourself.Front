@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 const TasksPage = () => {
   const { teamId, projectId } = useParams();
 
-  const [tasks, setTasks] = useState([
+  const [tasks] = useState([
     {
       id: 1,
       name: "Дизайн сайта",
