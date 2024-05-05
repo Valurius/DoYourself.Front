@@ -5,12 +5,17 @@ import MyText from "../../components/myUi/MyText/MyText";
 import MyButton from "../../components/myUi/MyButton/MyButton";
 import MyTitle from "../../components/myUi/MyTitle/MyTitle";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginPage = () => {
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate(); // Используем хук useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +35,8 @@ const LoginPage = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Ответ сервера: ", response.data);
+      login(response.data.token);
+      navigate("/teams"); // Используем navigate для перенаправления на главную страницу
     } catch (error) {
       console.error(
         "Ответ сервера:",
@@ -53,7 +60,7 @@ const LoginPage = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            autocomplete="off"
+            autoComplete="off"
           />
         </div>
         <div className="form-group">
@@ -67,15 +74,13 @@ const LoginPage = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            autocomplete="new-password"
+            autoComplete="new-password"
           />
         </div>
         <MyButton className="auth-button" type="submit">
           Войти
         </MyButton>
-        <MyText>
-          <p className="link-desc">Нет аккаунта?</p>
-        </MyText>
+        <MyText className="link-desc">Нет аккаунта?</MyText>
         <MyLink to="/registration">Регистрация</MyLink>
       </form>
     </div>

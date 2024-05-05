@@ -1,9 +1,6 @@
 export const fetchTasks = async () => {
   try {
     const response = await fetch("https://localhost:44305/api/Task");
-    if (response.status === 404 || !response.ok) {
-      return [];
-    }
     return await response.json();
   } catch (error) {
     console.error("Ошибка при получении команд:", error);

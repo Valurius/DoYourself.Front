@@ -1,11 +1,11 @@
 .card {
+  display: flex;
+  flex-direction: row;
   font-family: "Arial", sans-serif;
   max-width: 750px;
   margin: 30px auto;
   box-shadow: 8px 8px 16px 8px rgba(207, 205, 205, 0.2);
   border-radius: 10px;
-  display: flex;
-  flex-direction: row;
   overflow: hidden;
   background-color: #ffffff;
   transition: transform 0.3s ease;
@@ -37,9 +37,28 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-  width: calc(100% - 150px);
 }
 
+.card-status {
+  font-size: 16px;
+  padding: 16px;
+  margin-bottom: 15px;
+}
+
+.card-status-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.card-content {
+  flex: 2;
+}
+.card-status,
+.card-priority {
+  flex: 1; /* Каждый элемент будет занимать одну треть доступного пространства */
+}
 .card-title {
   font-size: 24px;
   color: #333;
@@ -73,23 +92,26 @@
   cursor: pointer;
 }
 
-.card-status-low {
-  font-size: 16px;
+.card-priority-low {
+  font-size: 24px;
   padding: 10px;
-  color: #4caf50;
+  color: #497e4b;
   margin-bottom: 15px;
+  font-weight: bold;
 }
-.card-status-medium {
-  font-size: 16px;
+.card-priority-medium {
+  font-size: 24px;
   padding: 10px;
   color: #b4b22d;
   margin-bottom: 15px;
+  font-weight: bold;
 }
-.card-status-high {
-  font-size: 16px;
+.card-priority-high {
+  font-size: 24px;
   padding: 10px;
   color: #eca093;
   margin-bottom: 15px;
+  font-weight: bold;
 }
 
 .card-deadline {

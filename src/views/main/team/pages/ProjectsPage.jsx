@@ -26,9 +26,6 @@ const ProjectsPage = () => {
     deadline: "2024-04-25",
   });
 
-  function isValidImageURL(str) {
-    return /\.(jpeg|jpg|gif|png)$/.test(str);
-  }
   const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => setModalOpen(false), []);
 
@@ -180,17 +177,6 @@ const ProjectsPage = () => {
         {projects.map((project) => (
           <div key={project.id}>
             <div className="card">
-              <div className="card-image">
-                {isValidImageURL(project.image) ? (
-                  <img src={project.image} alt={project.name} />
-                ) : (
-                  <img
-                    src="https://sun9-2.userapi.com/impg/bE_b4s_JXMQtcnwsZkhS3fjOqCPDOjEbPBiEgw/kGh4qUrWLkI.jpg?size=1215x684&quality=96&sign=02888951fdd27dfdecf25e59a5055caa&type=album"
-                    alt={project.name}
-                  />
-                )}
-              </div>
-
               <div className="card-content">
                 <div className="card-title">{project.title}</div>
                 <div className="card-description">
@@ -210,14 +196,16 @@ const ProjectsPage = () => {
                   </Link>
                 </div>
               </div>
-
+              <div className="card-status">
+                <div className="card-status-title">Статус</div>
+              </div>
               <div
                 className={
                   project.priority === "Высокий"
-                    ? "card-status-high"
+                    ? "card-priority-high"
                     : project.priority === "Средний"
-                    ? "card-status-medium"
-                    : "card-status-low"
+                    ? "card-priority-medium"
+                    : "card-priority-low"
                 }
               >
                 {project.priority === "Высокий"

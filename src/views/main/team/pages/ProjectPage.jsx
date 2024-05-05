@@ -8,11 +8,7 @@ import { useRoleContext } from "../../../../context/RoleContext";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
-import {
-  fetchTasks,
-  createTask,
-  fetchTasksByProjectId,
-} from "../../../../api/TaskApi";
+import { createTask, fetchTasksByProjectId } from "../../../../api/TaskApi";
 import { fetchProjectById, updateProject } from "../../../../api/ProjectApi";
 
 const ProjectPage = () => {
@@ -22,8 +18,6 @@ const ProjectPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [project, setProject] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [members, setMembers] = useState([]);
-  const [membersData, setMembersData] = useState({});
   const [taskData, setTaskData] = useState({
     projectId: projectId,
     title: "",
@@ -57,7 +51,7 @@ const ProjectPage = () => {
     } catch (error) {
       console.error("Ошибка при загрузке задач:", error);
     }
-  }, [teamId, projectId]);
+  }, [projectId]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -244,10 +238,10 @@ const ProjectPage = () => {
                       <div
                         className={
                           task.priority === "Высокий"
-                            ? "card-status-high"
+                            ? "card-priority-high"
                             : task.priority === "Средний"
-                            ? "card-status-medium"
-                            : "card-status-low"
+                            ? "card-priority-medium"
+                            : "card-priority-low"
                         }
                       >
                         {task.priority === "Высокий"
@@ -334,15 +328,17 @@ const ProjectPage = () => {
 
               {editing ? (
                 <div className="form-group">
-                  <label htmlFor="priority">Приоритет</label>
-                  <input
+                  <label htmlFor="priority">Приоритет:</label>
+                  <select
                     id="priority"
                     name="priority"
-                    type="text"
                     value={projectData.priority}
                     onChange={handleInputChangeProject}
-                    placeholder={project.priority}
-                  />
+                  >
+                    <option value="Низкий">Низкий</option>
+                    <option value="Средний">Средний</option>
+                    <option value="Высокий">Высокий</option>
+                  </select>
                 </div>
               ) : (
                 <div className="project-param">

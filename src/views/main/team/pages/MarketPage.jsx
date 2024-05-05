@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "../styles/market.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
-import MyText from "../../../../components/myUi/MyText/MyText";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useRoleContext } from "../../../../context/RoleContext";
+import { Link } from "react-router-dom";
 const MarketPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
   const { userRole } = useRoleContext();
@@ -27,15 +27,18 @@ const MarketPage = () => {
         <MyTitle>Призы</MyTitle>
         {userRole === "admin" ? <MyButton>Добавить</MyButton> : ""}
         {products.map((product) => (
-          <div key={product.id}>
-            <div className="product">
-              <div className="product-icon">
-                <img src={product.img} alt={product.name} />
-              </div>
-              <h2 className="name">{product.name}</h2>
-              <div className="product-description">
-                <MyText>{product.desk}</MyText>
-                <MyText>{product.price} очков</MyText>
+          <div key={product.id} className="card">
+            <div className="card-image">
+              <img src={product.img} alt={product.name} />
+            </div>
+            <div className="card-content">
+              <h2 className="card-title">{product.name}</h2>
+              <div className="card-description">{product.desk}</div>
+              <div className="card-description">{product.price} очков</div>
+              <div className="link-button-container">
+                <Link href="#" className="link-button">
+                  Купить
+                </Link>
               </div>
             </div>
           </div>

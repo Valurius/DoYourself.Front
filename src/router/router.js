@@ -13,22 +13,127 @@ import TagsPage from "../views/main/team/pages/TagsPage";
 import SettingsPage from "../views/main/team/pages/SettingsPage";
 import ProjectsPage from "../views/main/team/pages/ProjectsPage";
 import ProjectPage from "../views/main/team/pages/ProjectPage";
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Импортируйте контекст аутентификации
+import ProfilePage from "../views/main/profile/ProfilePage";
 
+// Защищенный маршрут, который проверяет, авторизован ли пользователь
+const RequireAuth = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
+
+// Защищенные маршруты
+export const privateRoutes = [
+  {
+    path: "/userTasks",
+    element: (
+      <RequireAuth>
+        <UserTasksPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <RequireAuth>
+        <ProfilePage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/teams",
+    element: (
+      <RequireAuth>
+        <TeamsPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/:projectId/task",
+    element: (
+      <RequireAuth>
+        <TaskPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/tasks",
+    element: (
+      <RequireAuth>
+        <TasksPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/members",
+    element: (
+      <RequireAuth>
+        <MembersPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/market",
+    element: (
+      <RequireAuth>
+        <MarketPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/statistics",
+    element: (
+      <RequireAuth>
+        <StatisticPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/myTasks",
+    element: (
+      <RequireAuth>
+        <MyTasksPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/tags",
+    element: (
+      <RequireAuth>
+        <TagsPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/settings",
+    element: (
+      <RequireAuth>
+        <SettingsPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/projects",
+    element: (
+      <RequireAuth>
+        <ProjectsPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/:teamId/:projectId",
+    element: (
+      <RequireAuth>
+        <ProjectPage />
+      </RequireAuth>
+    ),
+  },
+];
 export const publicRoutes = [
   { path: "/", element: <RegistrationPage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/welcome", element: <WelcomePage /> },
   { path: "/registration", element: <RegistrationPage /> },
-  { path: "/userTasks", element: <UserTasksPage /> },
-  { path: "/teams", element: <TeamsPage /> },
-  { path: "/:teamId/:projectId/task", element: <TaskPage /> },
-  { path: "/:teamId/tasks", element: <TasksPage /> },
-  { path: "/:teamId/members", element: <MembersPage /> },
-  { path: "/:teamId/market", element: <MarketPage /> },
-  { path: "/:teamId/statistics", element: <StatisticPage /> },
-  { path: "/:teamId/myTasks", element: <MyTasksPage /> },
-  { path: "/:teamId/tags", element: <TagsPage /> },
-  { path: "/:teamId/settings", element: <SettingsPage /> },
-  { path: "/:teamId/projects", element: <ProjectsPage /> },
-  { path: "/:teamId/:projectId", element: <ProjectPage /> },
 ];
