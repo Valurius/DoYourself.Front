@@ -1,5 +1,6 @@
 // AuthContext.js
 import React, { createContext, useContext, useState } from "react";
+import { fetchUserById } from "../api/UserApi";
 
 const AuthContext = createContext(null);
 
@@ -8,7 +9,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("token") ? true : false
   );
   const [userId, setUserId] = useState("");
-
+  const [userRole, setUserRole] = useState("");
+  const [user, setUser] = useState({});
   const updateAuthState = (token) => {
     if (token) {
       setIsAuthenticated(true);
@@ -24,13 +26,17 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  const login = (token, userId) => {
+  const login = async (token, userId) => {
+    const userf = await fetchUserById(userId);
+    setUser(userf);
+    console.log(userf);
+    localStorage.setItem("permition", userf.permition);
     localStorage.setItem("token", token);
     localStorage.setItem("userId", userId);
     console.log(localStorage.getItem("token"));
     console.log(localStorage.getItem("permition"));
     console.log(localStorage.getItem("userId"));
-    setIsAuthenticated(true);
+    await setIsAuthenticated(true);
   };
 
   const logout = () => {

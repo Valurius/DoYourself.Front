@@ -36,7 +36,6 @@ const LoginPage = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       login(response.data.token, response.data.userId);
-      getUser();
       navigate("/teams");
     } catch (error) {
       console.error(
