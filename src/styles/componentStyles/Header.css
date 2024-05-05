@@ -46,7 +46,7 @@
 .profile {
   margin-left: 1%;
 }
-.profile-info {
+.profile-short-info {
   display: flex;
 }
 .progress {
@@ -57,16 +57,6 @@
   text-align: center;
   border-radius: 5px;
 }
-
-.progress .bar {
-  width: var(--progress);
-  height: 100%;
-  border-radius: 5px;
-  background: linear-gradient(gold, rgb(221, 166, 125), gold);
-  background-repeat: repeat;
-  animation: shine 4s ease-in infinite, end 1s ease-out 1 7s;
-  transition: width 1s ease 0.1s;
-}
 .profile-text {
   font-size: 20px;
   background-image: linear-gradient(to left, #92bfb1, #55a6ca);
@@ -75,6 +65,19 @@
   -webkit-background-clip: text;
   margin-left: 5px;
 }
+.progress .bar {
+  width: var(--progress);
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(
+    rgb(142, 233, 137),
+    rgb(128, 221, 125),
+    rgb(175, 230, 182)
+  );
+  background-repeat: repeat-y;
+  animation: shine 5s ease-in infinite, end 0.5s ease-out 1 7s;
+}
+
 @property --progress {
   syntax: "<length>";
   initial-value: 0%;
@@ -86,6 +89,6 @@
     background-position: 0 0;
   }
   100% {
-    background-position: 0 50px;
+    background-position: 0px 60px;
   }
 }

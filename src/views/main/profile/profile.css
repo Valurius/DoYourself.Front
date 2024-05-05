@@ -1,0 +1,50 @@
+.profile-page {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  margin-top: 1%;
+}
+
+.profile-container {
+  display: flex;
+  max-width: 93%;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.profile-photo {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.profile-photo img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  padding-left: 20px;
+}
+
+/* Добавление адаптивности */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-photo,
+  .profile-info {
+    padding: 0;
+  }
+
+  .profile-photo img {
+    width: 80%;
+  }
+}

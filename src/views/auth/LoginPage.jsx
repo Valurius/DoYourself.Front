@@ -10,12 +10,12 @@ import { useAuth } from "../../context/AuthContext";
 
 const LoginPage = () => {
   const { login } = useAuth();
-
+  const [userId, setUserId] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate(); // Используем хук useNavigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +35,7 @@ const LoginPage = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Ответ сервера: ", response.data);
-      login(response.data.token);
+      login(response.data.token, response.data.userId);
       navigate("/teams"); // Используем navigate для перенаправления на главную страницу
     } catch (error) {
       console.error(

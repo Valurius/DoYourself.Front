@@ -7,11 +7,12 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("token") ? true : false
   );
+  const [userId, setUserId] = useState("");
 
-  // Функция для обновления состояния аутентификации
   const updateAuthState = (token) => {
     if (token) {
       setIsAuthenticated(true);
+      setUserId();
     } else {
       setIsAuthenticated(false);
     }
@@ -22,13 +23,16 @@ export const AuthProvider = ({ children }) => {
       updateAuthState(event.newValue);
     }
   });
-  const login = (token) => {
+
+  const login = (token, userId) => {
     localStorage.setItem("token", token);
+    localStorage.setItem("userId", userId);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.setItem("userId", userId);
     setIsAuthenticated(false);
   };
 

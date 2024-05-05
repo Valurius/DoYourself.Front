@@ -23,7 +23,7 @@ const Header = () => {
           // Если пользователь авторизован, показываем профиль и кнопки
           <>
             <div className="profile">
-              <div className="profile-info">
+              <div className="profile-short-info">
                 <Link to="/profile" className="profile-text">
                   dsf
                 </Link>
