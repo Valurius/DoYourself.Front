@@ -39,14 +39,18 @@ export const fetchTeamTitleById = async (id) => {
 
 export const createTeam = async (teamData) => {
   try {
-    const response = await fetch("https://localhost:44305/api/Team", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(teamData),
-    });
-
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+    const response = await fetch(
+      `https://localhost:44305/api/Team?userId=${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(teamData),
+      }
+    );
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText);
@@ -71,9 +75,6 @@ export const updateTeam = async (id, teamData) => {
       const errorText = await response.text();
       throw new Error(errorText);
     }
-
-    const updatedTeamData = await response.json();
-    return updatedTeamData;
   } catch (error) {
     console.error("Ошибка при обновлении команды:", error);
     throw error;

@@ -35,7 +35,7 @@ const LoginPage = () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      login(response.data.token, response.data.userId);
+      await login(response.data.token, response.data.userId);
       navigate("/teams");
     } catch (error) {
       console.error(

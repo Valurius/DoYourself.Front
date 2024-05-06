@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState("");
   const [userRole, setUserRole] = useState("");
   const [user, setUser] = useState({});
-  const updateAuthState = (token) => {
+  const updateAuthState = async (token) => {
     if (token) {
       setIsAuthenticated(true);
       setUserId();
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     console.log(localStorage.getItem("token"));
     console.log(localStorage.getItem("permition"));
     console.log(localStorage.getItem("userId"));
-    await setIsAuthenticated(true);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
