@@ -14,7 +14,7 @@ import { fetchTeamTitleById } from "../../../../api/TeamApi";
 const ProjectsPage = () => {
   const { teamId } = useParams();
   const [teamTitle, setTeamTitle] = useState("");
-  const userRole = localStorage.getItem("permition");
+  const userRole = localStorage.getItem("permission");
   const [isModalOpen, setModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [projectData, setProjectData] = useState({

@@ -34,7 +34,7 @@ const TasksPage = () => {
 
   const loadTasks = useCallback(async () => {
     try {
-      const tasksData = await fetchTasks(teamId); // Убедитесь, что API поддерживает загрузку задач по teamId
+      const tasksData = await fetchTasks(teamId);
       setTasks(tasksData);
     } catch (error) {
       console.error("Ошибка при загрузке задач:", error);
@@ -160,7 +160,7 @@ const TasksPage = () => {
       <div className="team-tasks">
         <MyLink to={`/${teamId}/projects/`}>Назад</MyLink>
         <MyTitle>Задачи команды "{teamTitle}"</MyTitle>
-        {userRole === "admin" ? (
+        {userRole === "Админ" ? (
           <div>
             <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
             <MyButton onClick={openModal}>Добавить</MyButton>

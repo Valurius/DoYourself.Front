@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/members.css"; // Убедитесь, что CSS файл импортирован
+import "../styles/members.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";

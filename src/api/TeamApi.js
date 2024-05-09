@@ -40,7 +40,6 @@ export const fetchTeamTitleById = async (id) => {
 export const createTeam = async (teamData) => {
   try {
     const userId = localStorage.getItem("userId");
-    console.log(userId);
     const response = await fetch(
       `https://localhost:44305/api/Team?userId=${userId}`,
       {

@@ -10,12 +10,10 @@ export const App = () => {
   return (
     <div className="App">
       <AuthProvider>
-        <RoleProvider>
-          <BrowserRouter>
-            <Header />
-            <AppRouter />
-          </BrowserRouter>
-        </RoleProvider>
+        <BrowserRouter>
+          <Header />
+          <AppRouter />
+        </BrowserRouter>
       </AuthProvider>
     </div>
   );

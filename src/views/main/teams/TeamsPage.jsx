@@ -1,38 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../teams/teams.css";
 import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MyLink from "../../../components/myUi/MyLink/MyLink";
 import MyButton from "../../../components/myUi/MyButton/MyButton";
 import MyModal from "../../../components/myUi/MyModal/MyModal";
 import { fetchTeams, createTeam } from "../../../api/TeamApi";
+import MyText from "../../../components/myUi/MyText/MyText";
 
 const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [teamData, setTeamData] = useState({ title: "" });
+  const userRole = localStorage.getItem("permission");
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModal = useCallback(() => setModalOpen(true), []);
+  const closeModal = useCallback(() => setModalOpen(false), []);
 
-  const loadTeams = async () => {
+  const loadTeams = useCallback(async () => {
     try {
       const teamsData = await fetchTeams();
       setTeams(teamsData);
     } catch (error) {
       console.error("Ошибка при загрузке команд:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadTeams();
+  }, [loadTeams]);
+
+  const handleInputChange = useCallback((event) => {
+    const { name, value } = event.target;
+    setTeamData((prevTeamData) => ({ ...prevTeamData, [name]: value }));
   }, []);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setTeamData({ ...teamData, [name]: value });
-  };
-
-  const handleCreateTeam = async () => {
+  const handleCreateTeam = useCallback(async () => {
     try {
       await createTeam(teamData);
       closeModal();
@@ -40,19 +42,29 @@ const TeamsPage = () => {
     } catch (error) {
       console.error("Ошибка при создании команды:", error);
     }
-  };
+  }, [teamData, loadTeams]);
 
   return (
     <div className="team-list">
-      <MyModal isOpen={isModalOpen} onClose={closeModal}>
-        <input
-          type="text"
-          name="title"
-          value={teamData.title}
-          onChange={handleInputChange}
-          placeholder="Название команды"
-        />
-        <MyButton onClick={handleCreateTeam}>Создать</MyButton>
+      <MyModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        className="custom-modal"
+      >
+        <div className="modal-content">
+          <MyText>Создание новой команды</MyText>
+          <input
+            type="text"
+            name="title"
+            value={teamData.title}
+            onChange={handleInputChange}
+            placeholder="Название команды"
+            className="modal-input"
+          />
+          <MyButton onClick={handleCreateTeam} className="modal-button">
+            Создать
+          </MyButton>
+        </div>
       </MyModal>
       <div className="title">
         <MyTitle>Мои команды</MyTitle>
@@ -65,11 +77,20 @@ const TeamsPage = () => {
             </MyLink>
           </li>
         ))}
-        <li className="team-li">
-          <button onClick={openModal} className="newTeam">
-            +
-          </button>
-        </li>
+
+        {userRole === "Админ" ? (
+          <li className="team-li">
+            <button onClick={openModal} className="newTeam">
+              +
+            </button>
+          </li>
+        ) : (
+          <li className="team-li">
+            <button onClick={openModal} className="newTeam">
+              <MyText>Войти по коду</MyText>
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );

@@ -11,7 +11,6 @@ import { useRole } from "../../context/RoleContext";
 
 const LoginPage = () => {
   const { login } = useAuth();
-  const { getUser } = useRole();
   const [formData, setFormData] = useState({
     email: "",
     password: "",

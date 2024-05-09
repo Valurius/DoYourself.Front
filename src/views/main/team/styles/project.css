@@ -66,6 +66,7 @@
 }
 .project-param {
   background-image: linear-gradient(to right, #92bfb1, #55a6ca);
+  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;

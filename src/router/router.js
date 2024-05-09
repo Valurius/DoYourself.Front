@@ -1,7 +1,7 @@
 import RegistrationPage from "../views/auth/RegistrationPage";
 import LoginPage from "../views/auth/LoginPage";
 import WelcomePage from "../views/WelcomePage";
-import UserTasksPage from "../views/main/tasks/UserTasksPage";
+import Workers from "../views/main/workers/Workers";
 import TeamsPage from "../views/main/teams/TeamsPage";
 import TaskPage from "../views/main/team/pages/TaskPage";
 import TasksPage from "../views/main/team/pages/TasksPage";
@@ -27,10 +27,10 @@ const RequireAuth = ({ children }) => {
 // Защищенные маршруты
 export const privateRoutes = [
   {
-    path: "/userTasks",
+    path: "/workers",
     element: (
       <RequireAuth>
-        <UserTasksPage />
+        <Workers />
       </RequireAuth>
     ),
   },

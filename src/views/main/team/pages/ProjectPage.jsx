@@ -13,7 +13,7 @@ import { fetchProjectById, updateProject } from "../../../../api/ProjectApi";
 
 const ProjectPage = () => {
   const { teamId, projectId } = useParams();
-  const { userRole } = useRoleContext();
+  const userRole = localStorage.getItem("permission");
   const [editing, setEditing] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [project, setProject] = useState("");
@@ -196,7 +196,7 @@ const ProjectPage = () => {
           <MyLink to={`/${teamId}/projects/`}>Назад</MyLink>
         </div>
         <MyTitle>Проект "{project.title}"</MyTitle>
-        {userRole === "admin" ? (
+        {userRole === "Админ" ? (
           <div>
             <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
             <MyButton onClick={openModal}>Добавить</MyButton>
@@ -349,7 +349,9 @@ const ProjectPage = () => {
             {editing ? (
               <MyButton onClick={handleSaveClick}>Сохранить</MyButton>
             ) : (
-              <MyButton onClick={handleEditClick}>Редактировать</MyButton>
+              userRole === "Админ" && (
+                <MyButton onClick={handleEditClick}>Редактировать</MyButton>
+              )
             )}
           </div>
           <div className="project-members">

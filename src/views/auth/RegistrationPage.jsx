@@ -8,7 +8,7 @@ import axios from "axios";
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -44,13 +44,15 @@ const RegistrationPage = () => {
       <MyTitle className="auth-h2">Регистрация</MyTitle>
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="name"></label>
+          <label htmlFor="phone"></label>
           <input
             className="auth-input"
-            placeholder="Имя пользователя"
-            id="name"
-            name="name"
-            value={formData.name}
+            placeholder="Телефон"
+            id="phone"
+            name="phone"
+            pattern="[8]{1}[0-9]{10}"
+            type="tel"
+            value={formData.phone}
             onChange={handleChange}
             required
             autoComplete="off"

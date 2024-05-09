@@ -3,10 +3,12 @@
   grid-template-columns: auto 1fr;
   margin-top: 3%;
 }
+
 .left_menu {
   grid-row: 1;
   width: 300px;
 }
+
 .task-window {
   grid-row: 1;
   padding: 20px;
@@ -14,7 +16,10 @@
   border: 1px solid #ddd;
   border-radius: 20px;
   margin-right: 5%;
+  display: flex;
+  flex-direction: column;
 }
+
 @media (max-width: 1024px) {
   .left_menu {
     width: 130px !important;
@@ -23,38 +28,116 @@
 
 .task-page-content {
   display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
 }
 
-.task-page-icon {
-  box-shadow: 5px 5px 5px 5px #edf1d6;
+.task-details {
+  margin-top: 15px;
+  padding: 1rem;
+  background-color: white;
   border-radius: 5px;
-  width: 50vmin;
-  height: 30vmin;
 }
 
-.task-page-icon img {
+.name {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.comment {
+  padding: 0.73em;
+  background-color: #fafafa;
+  box-shadow: 5px 5px 5px 5px #c8c9c7;
+  position: relative;
+  list-style: none;
+  display: inline-block;
+  transform: scale(0.85);
+  transition: all 0.4s ease;
+  min-width: 100%;
+  border-radius: 5px;
+}
+
+.comment a {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 8px 16px;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.comment a:hover {
+  background-color: #0056b3;
+}
+
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.comment-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+  width: 90%;
+}
+
+.comment-input input {
+  width: calc(100% - 32px);
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  align-self: center;
+}
+
+.commment-icon img {
   width: 100%;
   height: 100%;
   border-radius: 0.25em;
-}
-.task-details {
-  display: grid;
-  grid-column: 1;
+  padding: 0;
 }
 
+.comment img {
+  max-width: 100px; /* Максимальная ширина изображения */
+  max-height: 100px; /* Максимальная высота изображения */
+  object-fit: cover; /* Обрезка изображения, чтобы оно соответствовало размерам */
+}
+
+.comment-icon {
+  width: 8vmin;
+  height: 8vmin;
+  float: left;
+  margin-right: 1.25em;
+  box-shadow: 5px 5px 5px 5px #c8c9c7;
+  transform: rotate(-4deg);
+  transition: all 0.4s ease;
+  padding: 1px;
+  border-radius: 0.25em;
+  overflow: hidden;
+  margin-left: -3em;
+}
 @media (max-width: 768px) {
-  .team-page {
-    flex-direction: column;
+  .task-page {
+    grid-template-columns: 1fr;
+    margin-top: 1%;
   }
 
-  .team-tasks,
-  .team-members {
+  .left_menu,
+  .task-window {
+    width: 100%;
     margin-right: 0;
-    margin-bottom: 20px;
+    padding: 10px;
   }
 
-  .member .thumb {
-    width: 100px;
-    height: 50px;
+  .task-window {
+    border-radius: 10px;
   }
 }

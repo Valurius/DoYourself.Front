@@ -12,6 +12,7 @@ const ProfilePage = () => {
       {
         const userf = await fetchUserById(userId);
         setUser(userf);
+        console.log(userf);
       }
     };
     getUser();
@@ -21,13 +22,7 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-container">
         <div className="profile-photo">
-          <img
-            src={
-              user.photoUrl ||
-              "https://pichold.ru/wp-content/uploads/2021/04/picture-1-1.jpg"
-            }
-            alt="Фото профиля"
-          />
+          <img src={user.picture || ""} />
         </div>
         <div className="profile-info">
           <MyText>Профиль пользователя</MyText>
