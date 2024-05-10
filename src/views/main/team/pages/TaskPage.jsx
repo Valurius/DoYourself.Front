@@ -3,39 +3,43 @@ import "../styles/task.css";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
+import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useParams } from "react-router-dom";
 
 const TasksPage = () => {
   const { teamId, projectId } = useParams();
   const [comments, setComments] = useState([]);
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState(""); // Добавлено состояние для имени файла
+  const [fileName, setFileName] = useState("");
+  const [commentText, setCommentText] = useState(""); // Добавлено состояние для текста комментария
 
-  // Функция для добавления нового комментария с файлом
+  // Функция для добавления нового комментария
   const addComment = (text, file, fileName) => {
-    const newComment = { text, file, fileName }; // Добавлено имя файла в объект комментария
+    const newComment = { text, file, fileName };
     setComments([...comments, newComment]);
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFileName(file.name); // Сохраняем имя файла
+      setFileName(file.name);
       setFile(file);
     }
   };
-  const handleSubmission = (text) => {
-    if (text && !file) {
-      // Если есть текст и нет файла, добавляем только комментарий
-      addComment(text, null, null);
-    } else if (file && !text) {
-      // Если есть файл и нет текста, добавляем только файл
-      const fileUrl = URL.createObjectURL(file);
-      addComment("", fileUrl, fileName);
+
+  const handleTextChange = (e) => {
+    setCommentText(e.target.value);
+  };
+
+  // Обработчик для кнопки отправки комментария
+  const handleSubmission = () => {
+    if (file || commentText) {
+      const fileUrl = file ? URL.createObjectURL(file) : null;
+      addComment(commentText, fileUrl, fileName);
+      setFile(null);
+      setFileName("");
+      setCommentText("");
     }
-    // Очищаем состояния после отправки
-    setFile(null);
-    setFileName("");
   };
 
   const [tasks] = useState([
@@ -73,8 +77,10 @@ const TasksPage = () => {
           <MyText>Комментарии</MyText>
           {comments.map((comment, index) => (
             <div key={index} className="comment">
-              <MyText>{comment.text}</MyText>
-              {comment.file || (
+              <div className="comment-text">
+                <MyText>{comment.text}</MyText>
+              </div>
+              {comment.file && (
                 <a
                   href={comment.file}
                   target="_blank"
@@ -83,7 +89,7 @@ const TasksPage = () => {
                   {comment.fileName}
                 </a>
               )}
-              {
+              {comment.file && (
                 <img
                   src={
                     "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666389923_30-mykaleidoscope-ru-p-klassnaya-priroda-oboi-32.jpg"
@@ -91,30 +97,22 @@ const TasksPage = () => {
                   alt="Фото комментария"
                   className="comment-icon"
                 />
-              }
+              )}
             </div>
           ))}
           <div className="comment-input">
-            <input
-              type="text"
-              placeholder="Напишите комментарий..."
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  handleSubmission(e.target.value);
-                  e.target.value = ""; // Очистить поле ввода после отправки комментария
-                }
-              }}
-            />
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => {
-                handleFileChange(e);
-                if (e.target.files[0]) {
-                  handleSubmission(""); // Отправить файл без комментария
-                }
-              }}
-            />
+            <div className="comment-input-both">
+              <input
+                type="text"
+                placeholder="Напишите комментарий..."
+                value={commentText}
+                onChange={handleTextChange}
+              />
+              <input type="file" name="file" onChange={handleFileChange} />
+            </div>
+            <div className="comment-submit">
+              <MyButton onClick={handleSubmission}>Отправить</MyButton>
+            </div>
           </div>
         </div>
       </div>

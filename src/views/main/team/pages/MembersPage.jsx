@@ -33,21 +33,19 @@ const Team = () => {
       <div className="left_menu">
         <MenuBar />
       </div>
-      <div className="team-members">
-        <MyTitle>Участники</MyTitle>
-        {members.map((member) => (
-          <div key={member.id}>
-            <div className="member">
-              <div className="member-icon">
-                <img src={member.img} alt={member.name} />
-              </div>
-              <h2 className="name">{member.name}</h2>
-              <div className="member-description">
-                <MyText>{member.desk}</MyText>
+      <div className="members-page">
+        <div className="members-list">
+          <MyTitle>Список работников</MyTitle>
+          {members.map((member) => (
+            <div key={member.id} className="member-card">
+              <img src={member.img} alt={member.name} className="member-icon" />
+              <div className="member-info">
+                <h2 className="member-name">{member.name}</h2>
+                <MyText>{member.position}</MyText>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

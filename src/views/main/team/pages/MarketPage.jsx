@@ -7,7 +7,7 @@ import { useRoleContext } from "../../../../context/RoleContext";
 import { Link } from "react-router-dom";
 const MarketPage = () => {
   // Здесь может быть логика для получения данных о команде и участниках
-  const { userRole } = useRoleContext();
+  const { userRole } = localStorage.getItem("permission");
   const [products] = useState([
     {
       id: 1,
@@ -27,14 +27,20 @@ const MarketPage = () => {
         <MyTitle>Призы</MyTitle>
         {userRole === "admin" ? <MyButton>Добавить</MyButton> : ""}
         {products.map((product) => (
-          <div key={product.id} className="card">
-            <div className="card-image">
-              <img src={product.img} alt={product.name} />
-            </div>
-            <div className="card-content">
-              <h2 className="card-title">{product.name}</h2>
-              <div className="card-description">{product.desk}</div>
-              <div className="card-description">{product.price} очков</div>
+          <div key={product.id} className="card-product">
+            <h2 className="card-product-title">
+              <MyTitle>{product.name}</MyTitle>
+            </h2>
+            <div className="card-product-content">
+              <div className="card-product-image">
+                <img src={product.img} alt={product.name} />
+              </div>
+              <div className="card-product-description">
+                <div className="card-product-description">{product.desk}</div>
+                <div className="card-product-description">
+                  {product.price} очков
+                </div>
+              </div>
               <div className="link-button-container">
                 <Link href="#" className="link-button">
                   Купить

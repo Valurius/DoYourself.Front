@@ -5,7 +5,6 @@ import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
-import { useRoleContext } from "../../../../context/RoleContext";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
 import { fetchProjects, createProject } from "../../../../api/ProjectApi";
@@ -17,10 +16,12 @@ const ProjectsPage = () => {
   const userRole = localStorage.getItem("permission");
   const [isModalOpen, setModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
+
   const [projectData, setProjectData] = useState({
     teamId,
     title: "",
     image: "",
+    goal: "",
     description: "",
     priority: "Низкий",
     deadline: "2024-04-25",
@@ -42,7 +43,7 @@ const ProjectsPage = () => {
     } catch (error) {
       console.error("Ошибка при загрузке проектов:", error);
     }
-  }, [teamId]);
+  }, [teamId, userRole]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -92,18 +93,7 @@ const ProjectsPage = () => {
                 required
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="image">Фото:</label>
-              <input
-                type="text"
-                id="image"
-                name="image"
-                value={projectData.image}
-                onChange={handleInputChange}
-                placeholder="Адрес фото"
-                required
-              />
-            </div>
+
             <div className="form-group">
               <label htmlFor="title">Цель проекта:</label>
               <input
@@ -176,30 +166,10 @@ const ProjectsPage = () => {
         )}
 
         {projects.map((project) => (
-          <div key={project.id}>
-            <div className="card">
-              <div className="card-content">
-                <div className="card-title">{project.title}</div>
-                <div className="card-description">
-                  Описание проекта: {project.description}
-                </div>
-                <div className="card-goal"> Цель проекта: {project.goal}</div>
-                <div className="card-deadline">
-                  Проект необходимо выполнить до:{" "}
-                  {new Date(project.deadline).toLocaleDateString("ru-RU")}
-                </div>
-                <div className="link-button-container">
-                  <Link
-                    to={`/${teamId}/${project.id}/`}
-                    className="link-button"
-                  >
-                    Перейти
-                  </Link>
-                </div>
-              </div>
-              <div className="card-status">
-                <div className="card-status-title">Статус</div>
-              </div>
+          <div key={project.id} className="card">
+            <div className="card-header">
+              <div className="card-title">{project.title}</div>
+
               <div
                 className={
                   project.priority === "Высокий"
@@ -215,6 +185,21 @@ const ProjectsPage = () => {
                   ? "☆☆"
                   : "☆"}
                 {project.priority}
+              </div>
+            </div>
+            <div className="card-body">
+              <div className="card-description">
+                Описание проекта: {project.description}
+              </div>
+              <div className="card-goal">Цель проекта: {project.goal}</div>
+              <div className="card-deadline">
+                Проект необходимо выполнить до:{" "}
+                {new Date(project.deadline).toLocaleDateString("ru-RU")}
+              </div>
+              <div className="link-button-container">
+                <Link to={`/${teamId}/${project.id}/`} className="link-button">
+                  Перейти
+                </Link>
               </div>
             </div>
           </div>

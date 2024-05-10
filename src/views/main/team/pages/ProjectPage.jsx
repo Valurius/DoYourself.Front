@@ -4,12 +4,13 @@ import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
-import { useRoleContext } from "../../../../context/RoleContext";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
 import { createTask, fetchTasksByProjectId } from "../../../../api/TaskApi";
 import { fetchProjectById, updateProject } from "../../../../api/ProjectApi";
+import { fetchUsers, fetchUserById } from "../../../../api/UserApi";
+import MyText from "../../../../components/myUi/MyText/MyText";
 
 const ProjectPage = () => {
   const { teamId, projectId } = useParams();
@@ -17,13 +18,38 @@ const ProjectPage = () => {
   const [editing, setEditing] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [project, setProject] = useState("");
+  const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [userNames, setUserNames] = useState({});
+
+  const [workers] = useState([
+    {
+      id: 1,
+      name: "Алексей Иванов",
+      position: "Фронтенд-разработчик",
+      img: "https://74foto.ru/800/600/http/cdn1.flamp.ru/bc57c2126b20646180c92643db78d9f0.jpg",
+    },
+    {
+      id: 2,
+      name: "Мария Петрова",
+      position: "Дизайнер",
+      img: "https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663258653_39-mykaleidoscope-ru-p-spokoinii-muzhchina-instagram-42.jpg",
+    },
+    {
+      id: 3,
+      name: "Игорь Смирнов",
+      position: "Бэкенд-разработчик",
+      img: "/images/worker3.jpg",
+    },
+  ]);
+
   const [taskData, setTaskData] = useState({
     projectId: projectId,
+    userId: "",
     title: "",
     description: "",
     priority: "Низкий",
-    needToBeDoneAt: "2024-04-25",
+    Deadline: "2024-04-25",
   });
 
   const [projectData, setProjectData] = useState({
@@ -34,66 +60,57 @@ const ProjectPage = () => {
     budget: project.budget,
   });
 
-  const openModal = useCallback(() => setModalOpen(true), []);
-  const closeModal = useCallback(() => setModalOpen(false), []);
+  // Функция для загрузки данных
+  const loadData = useCallback(async () => {
+    try {
+      const [usersData, tasksData, projectData] = await Promise.all([
+        fetchUsers(),
+        fetchTasksByProjectId(projectId),
+        fetchProjectById(projectId),
+      ]);
+      setUsers(usersData);
+      setTasks(tasksData);
+      setProject(projectData);
+      const names = {};
+      for (const task of tasksData) {
+        if (!names[task.userId]) {
+          const user = await fetchUserById(task.userId);
+          names[task.userId] = user.name;
+        }
+      }
+      setUserNames(names);
+    } catch (error) {
+      console.error("Ошибка при загрузке данных:", error);
+    }
+  }, [projectId]);
+
+  // Обработчики событий
+  const toggleModal = useCallback(() => setModalOpen((prev) => !prev), []);
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
     setTaskData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
 
-  const loadTasks = useCallback(async () => {
-    try {
-      const tasksData = await fetchTasksByProjectId(projectId);
-      const projectData = await fetchProjectById(projectId);
-      setProject(projectData);
-      setTasks(tasksData);
-    } catch (error) {
-      console.error("Ошибка при загрузке задач:", error);
-    }
-  }, [projectId]);
+  const handleInputChangeProject = useCallback((event) => {
+    const { name, value } = event.target;
+    setProjectData((prevData) => ({ ...prevData, [name]: value }));
+  }, []);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        await loadTasks();
-      } catch (error) {
-        console.error("Ошибка при загрузке данных:", error);
-      }
-    };
-
-    loadData();
-  }, [loadTasks]);
-
+  // Создание и обновление задач и проектов
   const handleCreateTask = useCallback(
     async (event) => {
       event.preventDefault();
       try {
         await createTask(taskData);
-        closeModal();
-        await loadTasks();
+        toggleModal();
+        loadData();
       } catch (error) {
         console.error("Ошибка при создании задачи:", error);
       }
     },
-    [taskData, loadTasks, closeModal]
+    [taskData, loadData, toggleModal]
   );
-
-  const handleEditClick = () => {
-    setProjectData({
-      title: project.title,
-      goal: project.goal,
-      description: project.description,
-      budget: project.budget,
-      priority: project.priority,
-    });
-    setEditing(true);
-  };
-
-  const handleInputChangeProject = useCallback((e) => {
-    const { name, value } = e.target;
-    setProjectData((prevData) => ({ ...prevData, [name]: value }));
-  }, []);
 
   const handleSaveClick = async () => {
     try {
@@ -105,9 +122,26 @@ const ProjectPage = () => {
     }
   };
 
+  // Использование useEffect для вызова loadData при монтировании
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  // Дополнительные функции для редактирования
+  const handleEditClick = () => {
+    setProjectData({
+      title: project.title,
+      goal: project.goal,
+      description: project.description,
+      budget: project.budget,
+      priority: project.priority,
+    });
+    setEditing(true);
+  };
+
   return (
     <div className="projects-page">
-      <MyModal isOpen={isModalOpen} onClose={closeModal}>
+      <MyModal isOpen={isModalOpen} onToggle={toggleModal}>
         <div className="modal-header">
           <MyTitle>Добавление задачи</MyTitle>
         </div>
@@ -151,14 +185,19 @@ const ProjectPage = () => {
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="taskPriority">Ответственный:</label>
+              <label htmlFor="userId">Ответственный:</label>
               <select
-                id="taskManager"
-                name="taskManager"
+                id="userId"
+                name="userId"
+                required
                 onChange={handleInputChange}
               >
-                <option value="Гар">Гар</option>
-                <option value="Не Гар">Не Гар</option>
+                <option value="">Ответственный</option>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="form-group">
@@ -181,7 +220,7 @@ const ProjectPage = () => {
             </div>
             <div className="modal-footer">
               <button type="submit">Добавить задачу</button>
-              <button type="button" onClick={closeModal}>
+              <button type="button" onClick={toggleModal}>
                 Отмена
               </button>
             </div>
@@ -199,7 +238,7 @@ const ProjectPage = () => {
         {userRole === "Админ" ? (
           <div>
             <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
-            <MyButton onClick={openModal}>Добавить</MyButton>
+            <MyButton onClick={toggleModal}>Добавить</MyButton>
           </div>
         ) : (
           ""
@@ -215,41 +254,44 @@ const ProjectPage = () => {
               <>
                 <MyTitle>Задачи проекта</MyTitle>
                 {tasks.map((task) => (
-                  <div key={task.id}>
-                    <div className="card">
-                      <div className="card-content">
+                  <div key={task.id} className="card">
+                    <div className="card-content">
+                      <div className="card-header">
                         <div className="card-title">{task.title}</div>
-                        <div className="card-description">
-                          Описание задачи: {task.description}
-                        </div>
-                        <div className="card-deadline">
-                          Задачу необходимо выполнить до:{" "}
-                          {new Date(task.deadline).toLocaleDateString("ru-RU")}
-                        </div>
-                        <div className="link-button-container">
-                          <Link
-                            to={`/${teamId}/${projectId}/task/`}
-                            className="link-button"
-                          >
-                            Перейти
-                          </Link>
+                        <div
+                          className={
+                            task.priority === "Высокий"
+                              ? "card-priority-high"
+                              : task.priority === "Средний"
+                              ? "card-priority-medium"
+                              : "card-priority-low"
+                          }
+                        >
+                          {task.priority === "Высокий"
+                            ? "☆☆☆"
+                            : task.priority === "Средний"
+                            ? "☆☆"
+                            : "☆"}
+                          {task.priority}
                         </div>
                       </div>
-                      <div
-                        className={
-                          task.priority === "Высокий"
-                            ? "card-priority-high"
-                            : task.priority === "Средний"
-                            ? "card-priority-medium"
-                            : "card-priority-low"
-                        }
-                      >
-                        {task.priority === "Высокий"
-                          ? "☆☆☆"
-                          : task.priority === "Средний"
-                          ? "☆☆"
-                          : "☆"}
-                        {task.priority}
+                      <div className="card-description">
+                        Описание задачи: {task.description}
+                      </div>
+                      <div className="card-description">
+                        Ответственный: {userNames[task.userId]}
+                      </div>
+                      <div className="card-deadline">
+                        Задачу необходимо выполнить до:{" "}
+                        {new Date(task.deadline).toLocaleDateString("ru-RU")}
+                      </div>
+                      <div className="link-button-container">
+                        <Link
+                          to={`/${teamId}/${projectId}/task/`}
+                          className="link-button"
+                        >
+                          Перейти
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -356,6 +398,23 @@ const ProjectPage = () => {
           </div>
           <div className="project-members">
             <MyTitle>Участники</MyTitle>
+            <div className="workers-page">
+              <div className="workers-list">
+                {workers.map((worker) => (
+                  <div key={worker.id} className="worker-card">
+                    <img
+                      src={worker.img}
+                      alt={worker.name}
+                      className="worker-icon"
+                    />
+                    <div className="worker-info">
+                      <h2 className="worker-name">{worker.name}</h2>
+                      <MyText>{worker.position}</MyText>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

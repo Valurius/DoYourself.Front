@@ -6,6 +6,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteTeam, updateTeam } from "../../../../api/TeamApi";
 import { useParams, useNavigate } from "react-router-dom";
+import MyText from "../../../../components/myUi/MyText/MyText";
 
 const SettingsPage = () => {
   const [teamName, setTeamName] = useState("");
@@ -53,7 +54,9 @@ const SettingsPage = () => {
             <div className="settings-team">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="teamName">Название команды</label>
+                  <label htmlFor="teamName">
+                    <MyText>Название команды</MyText>
+                  </label>
                   <input
                     type="text"
                     className="form-control"

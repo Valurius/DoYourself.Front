@@ -1,6 +1,6 @@
 html {
   height: 100%;
-  background-position: center, center;
+  background-position: center center;
   background-repeat: repeat-y;
   background-size: cover;
   margin: 0;
@@ -9,6 +9,7 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
 }
+
 body {
   animation: theme 21s linear infinite;
 
