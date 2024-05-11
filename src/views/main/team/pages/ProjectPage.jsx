@@ -287,7 +287,7 @@ const ProjectPage = () => {
                       </div>
                       <div className="link-button-container">
                         <Link
-                          to={`/${teamId}/${projectId}/task/`}
+                          to={`/${teamId}/${projectId}/${task.id}/`}
                           className="link-button"
                         >
                           Перейти

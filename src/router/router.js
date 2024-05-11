@@ -51,7 +51,7 @@ export const privateRoutes = [
     ),
   },
   {
-    path: "/:teamId/:projectId/task",
+    path: "/:teamId/:projectId/:taskId",
     element: (
       <RequireAuth>
         <TaskPage />
