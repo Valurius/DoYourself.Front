@@ -1,0 +1,22 @@
+# Публичные маршруты
+/ /registration 200
+/login /login 200
+/welcome /welcome 200
+
+# Защищенные маршруты
+/workers /workers 200! Role=admin
+/profile /profile 200! Role=user
+/teams /teams 200! Role=user
+/:teamId/:projectId/task /:teamId/:projectId/task 200! Role=user
+/:teamId/tasks /:teamId/tasks 200! Role=user
+/:teamId/members /:teamId/members 200! Role=user
+/:teamId/market /:teamId/market 200! Role=user
+/:teamId/statistics /:teamId/statistics 200! Role=user
+/:teamId/myTasks /:teamId/myTasks 200! Role=user
+/:teamId/tags /:teamId/tags 200! Role=user
+/:teamId/settings /:teamId/settings 200! Role=user
+/:teamId/projects /:teamId/projects 200! Role=user
+/:teamId/:projectId /:teamId/:projectId 200! Role=user
+
+# Перенаправление неавторизованных пользователей на страницу входа
+/* /login 302! Role=guest
