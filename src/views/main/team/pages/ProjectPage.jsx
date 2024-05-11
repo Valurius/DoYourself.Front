@@ -102,14 +102,14 @@ const ProjectPage = () => {
     async (event) => {
       event.preventDefault();
       try {
-        await createTask(taskData);
+        await createTask(taskData, teamId);
         toggleModal();
         loadData();
       } catch (error) {
         console.error("Ошибка при создании задачи:", error);
       }
     },
-    [taskData, loadData, toggleModal]
+    [taskData, loadData, toggleModal, teamId]
   );
 
   const handleSaveClick = async () => {

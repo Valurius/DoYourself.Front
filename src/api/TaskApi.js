@@ -34,13 +34,14 @@ export const fetchTaskById = async (id) => {
   }
 };
 
-export const createTask = async (taskData) => {
+export const createTask = async (taskData, teamId) => {
   try {
-    const response = await fetch("https://localhost:44305/api/Task", {
+    const response = await fetch(`https://localhost:44305/api/Task/${teamId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify(taskData),
     });
 
