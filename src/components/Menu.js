@@ -7,7 +7,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Market from "@mui/icons-material/LocalGroceryStoreRounded";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { fetchTeamById } from "../api/TeamApi";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const MenuBar = () => {
@@ -18,12 +18,11 @@ const MenuBar = () => {
   const { teamId } = useParams();
   localStorage.setItem("teamTitle", team.title);
 
-  const savedTeamTitle = localStorage.getItem("teamTitle");
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
 
-  const loadTeam = async () => {
+  const loadTeam = useCallback(async () => {
     if (!team || team.id !== teamId) {
       try {
         const teamData = await fetchTeamById(teamId);
@@ -32,7 +31,7 @@ const MenuBar = () => {
         console.error("Ошибка при загрузке команд:", error);
       }
     }
-  };
+  }, [team, teamId]); // Зависимости useCallback
 
   useEffect(() => {
     loadTeam();
@@ -40,7 +39,7 @@ const MenuBar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [teamId]);
+  }, [loadTeam]);
 
   const breakpoint = 1024;
 
