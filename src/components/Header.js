@@ -4,7 +4,7 @@ import MyLink from "./myUi/MyLink/MyLink";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import MyButton from "./myUi/MyButton/MyButton";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PersonIcon from "@mui/icons-material/Person";
 import MyModal from "./myUi/MyModal/MyModal";
 import MyTitle from "./myUi/MyTitle/MyTitle";
 
@@ -27,36 +27,18 @@ const Header = () => {
 
   return (
     <header className="header-container">
-      <MyModal isOpen={isModalOpen} onClose={toggleModal}>
-        <div>
-          <MyTitle>Сообщения</MyTitle>
-        </div>
-        <div>
-          <div></div>
-        </div>
-      </MyModal>
-
       <div className="header-frame">
         {isAuthenticated && (
           <>
             <div className="profile">
               <div className="profile-short-info">
-                <Link to="/profile" className="profile-text">
-                  {userName}
-                </Link>
-                <div className="profile-text">{progress} lvl</div>
-              </div>
-              <div
-                className="progress"
-                style={{ "--progress": `${progress}%` }}
-              >
-                <div className="bar"></div>
+                <div className="profile-text">хайзенберг</div>
               </div>
             </div>
             <div className="header-buttons">
-              <MyButton onClick={toggleModal} className="message-icon-button">
-                <MailOutlineIcon />
-              </MyButton>
+              <MyLink to="/profile">
+                <PersonIcon />
+              </MyLink>
               {userRole === "Админ" && <MyLink to="/workers">Работники</MyLink>}
               <MyLink to="/teams">Команды</MyLink>
               <MyButton onClick={logout}>Выйти</MyButton>

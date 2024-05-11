@@ -5,12 +5,7 @@ const MyModal = ({ isOpen, children, onClose }) => {
 
   return (
     <div className={classes.modal}>
-      <div className={classes.modal_content}>
-        <span className={classes.close} onClick={onClose}>
-          &times;
-        </span>
-        {children}
-      </div>
+      <div className={classes.modal_content}>{children}</div>
     </div>
   );
 };

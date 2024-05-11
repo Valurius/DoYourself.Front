@@ -1,39 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/members.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
+import { fetchTeamMembersById } from "../../../../api/TeamApi";
+import { useParams } from "react-router-dom";
 
 const Team = () => {
-  // Здесь может быть логика для получения данных о команде и участниках
+  const [members, setMembers] = useState([]);
+  const { teamId } = useParams();
 
-  const [members] = useState([
-    {
-      id: 1,
-      name: "Мартиросян Гарегин",
-      desk: "Разработчик",
-      img: "https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663637190_10-mykaleidoscope-ru-p-uspeshnie-molodie-lyudi-vkontakte-10.jpg",
-    },
-    {
-      id: 2,
-      name: "Василий Петров",
-      desk: "Дружок",
-      img: "https://geniy1s.ru/wp-content/uploads/2022/08/15d04cb6c97336bb90dcf65811978a71.jpg",
-    },
-    {
-      id: 3,
-      name: "Петр Васильев",
-      desk: "Пирожок",
-      img: "https://geniy1s.ru/wp-content/uploads/2022/08/15d04cb6c97336bb90dcf65811978a71.jpg",
-    },
-  ]);
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        console.log(teamId);
+        const membersOfTeam = await fetchTeamMembersById(teamId);
+        console.log(membersOfTeam);
+        setMembers(membersOfTeam);
+      } catch (error) {
+        console.error("Ошибка при получении участников команды:", error);
+      }
+    };
+
+    fetchMembers();
+  }, [teamId]);
 
   return (
     <div className="members-page">
       <div className="left_menu">
         <MenuBar />
       </div>
-      <div className="members-page">
+      <div className="members-info">
         <div className="members-list">
           <MyTitle>Список работников</MyTitle>
           {members.map((member) => (
@@ -41,7 +38,7 @@ const Team = () => {
               <img src={member.img} alt={member.name} className="member-icon" />
               <div className="member-info">
                 <h2 className="member-name">{member.name}</h2>
-                <MyText>{member.position}</MyText>
+                <MyText>{member.desk}</MyText>
               </div>
             </div>
           ))}

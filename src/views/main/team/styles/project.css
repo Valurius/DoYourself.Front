@@ -33,6 +33,7 @@
   margin-right: 20px;
 }
 .project-members {
+  grid-column: 2;
   background-color: #f8f4f4;
   padding: 20px;
   border-radius: 10px;
@@ -42,9 +43,7 @@
 .project-params {
   grid-column: 2;
 }
-.project-members {
-  grid-column: 2;
-}
+
 @media (max-width: 1024px) {
   .left_menu {
     width: 130px;
@@ -86,4 +85,8 @@
   border-radius: 10px;
   overflow: hidden;
   background-color: #ffffff;
+}
+
+.add {
+  padding: 6px;
 }

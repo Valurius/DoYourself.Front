@@ -81,3 +81,26 @@ export const deleteProject = async (id) => {
     throw error;
   }
 };
+
+export const addUserForProject = async (userId, ProjectId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:44305/api/ProjectUser/${userId}/${ProjectId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "",
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+  } catch (error) {
+    console.error("Ошибка:", error);
+    throw error;
+  }
+};

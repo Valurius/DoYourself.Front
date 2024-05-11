@@ -41,7 +41,6 @@
 
 .header-buttons {
   display: flex;
-  margin-top: 15px;
 }
 .profile {
   margin-left: 1%;
@@ -57,14 +56,34 @@
   text-align: center;
   border-radius: 5px;
 }
+
 .profile-text {
-  font-size: 20px;
-  background-image: linear-gradient(to left, #92bfb1, #55a6ca);
-  color: transparent;
-  background-clip: text;
+  background: linear-gradient(-45deg, #74dac0, #93afdf, #04f2de, #1c234d);
+  background-size: 200%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 3vw;
+  letter-spacing: -2px;
+  text-transform: uppercase;
   -webkit-background-clip: text;
-  margin-left: 5px;
+  -webkit-text-fill-color: transparent;
+  animation: animated_text 10s ease-in-out infinite;
+  -moz-animation: animated_text 10s ease-in-out infinite;
+  -webkit-animation: animated_text 10s ease-in-out infinite;
 }
+
+@keyframes animated_text {
+  0% {
+    background-position: 0px 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0px 50%;
+  }
+}
+
 .progress .bar {
   width: var(--progress);
   height: 100%;

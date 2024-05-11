@@ -7,16 +7,22 @@
   grid-row: 1;
   width: 300px;
 }
+
+@media (max-width: 1024px) {
+  .left_menu {
+    width: 130px !important;
+  }
+}
 .members-list {
+  grid-row: 1;
   padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #ffffff;
   border-radius: 20px;
-  box-shadow: 5px 5px 5px 5px #c8c9c7;
+  margin-right: 5%;
+  margin: 0;
 }
 
 .member-card {
-  margin: 1.5em 0;
   padding: 0.73em;
   background-color: #fafafa;
   box-shadow: 5px 5px 5px 5px #c8c9c7;
@@ -76,11 +82,6 @@
   border-radius: 0.25em;
   color: #2f313a;
   font-weight: bold;
-}
-
-.member-description {
-  display: grid;
-  grid-column: 1;
 }
 
 @media (max-width: 768px) {

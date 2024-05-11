@@ -8,9 +8,15 @@ import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
 import { createTask, fetchTasksByProjectId } from "../../../../api/TaskApi";
-import { fetchProjectById, updateProject } from "../../../../api/ProjectApi";
+import {
+  addUserForProject,
+  fetchProjectById,
+  updateProject,
+} from "../../../../api/ProjectApi";
 import { fetchUsers, fetchUserById } from "../../../../api/UserApi";
 import MyText from "../../../../components/myUi/MyText/MyText";
+import { fetchTeamMembersById } from "../../../../api/TeamApi";
+import { Padding } from "@mui/icons-material";
 
 const ProjectPage = () => {
   const { teamId, projectId } = useParams();
@@ -21,27 +27,7 @@ const ProjectPage = () => {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [userNames, setUserNames] = useState({});
-
-  const [workers] = useState([
-    {
-      id: 1,
-      name: "Алексей Иванов",
-      position: "Фронтенд-разработчик",
-      img: "https://74foto.ru/800/600/http/cdn1.flamp.ru/bc57c2126b20646180c92643db78d9f0.jpg",
-    },
-    {
-      id: 2,
-      name: "Мария Петрова",
-      position: "Дизайнер",
-      img: "https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663258653_39-mykaleidoscope-ru-p-spokoinii-muzhchina-instagram-42.jpg",
-    },
-    {
-      id: 3,
-      name: "Игорь Смирнов",
-      position: "Бэкенд-разработчик",
-      img: "/images/worker3.jpg",
-    },
-  ]);
+  const [members, setMembers] = useState([]);
 
   const [taskData, setTaskData] = useState({
     projectId: projectId,
@@ -63,11 +49,14 @@ const ProjectPage = () => {
   // Функция для загрузки данных
   const loadData = useCallback(async () => {
     try {
-      const [usersData, tasksData, projectData] = await Promise.all([
-        fetchUsers(),
-        fetchTasksByProjectId(projectId),
-        fetchProjectById(projectId),
-      ]);
+      const [membersOfTeam, usersData, tasksData, projectData] =
+        await Promise.all([
+          fetchTeamMembersById(teamId),
+          fetchUsers(),
+          fetchTasksByProjectId(projectId),
+          fetchProjectById(projectId),
+        ]);
+      setMembers(membersOfTeam);
       setUsers(usersData);
       setTasks(tasksData);
       setProject(projectData);
@@ -85,7 +74,13 @@ const ProjectPage = () => {
   }, [projectId]);
 
   // Обработчики событий
-  const toggleModal = useCallback(() => setModalOpen((prev) => !prev), []);
+  // Состояния и функции для управления первым модальным окном
+  const [isFirstModalOpen, setFirstModalOpen] = useState(false);
+  const toggleFirstModal = () => setFirstModalOpen(!isFirstModalOpen);
+
+  // Состояния и функции для управления вторым модальным окном
+  const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+  const toggleSecondModal = () => setSecondModalOpen(!isSecondModalOpen);
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -103,13 +98,28 @@ const ProjectPage = () => {
       event.preventDefault();
       try {
         await createTask(taskData, teamId);
-        toggleModal();
+        toggleFirstModal();
         loadData();
       } catch (error) {
         console.error("Ошибка при создании задачи:", error);
       }
     },
-    [taskData, loadData, toggleModal, teamId]
+    [taskData, loadData, toggleFirstModal, teamId]
+  );
+
+  const handleAddUser = useCallback(
+    async (event, userId) => {
+      event.preventDefault();
+      try {
+        console.log(userId, projectId);
+        await addUserForProject(userId, projectId);
+        toggleSecondModal();
+        loadData();
+      } catch (error) {
+        console.error("Ошибка при создании hghfgачи:", error);
+      }
+    },
+    [loadData, toggleSecondModal]
   );
 
   const handleSaveClick = async () => {
@@ -141,7 +151,7 @@ const ProjectPage = () => {
 
   return (
     <div className="projects-page">
-      <MyModal isOpen={isModalOpen} onToggle={toggleModal}>
+      <MyModal isOpen={isFirstModalOpen} onToggle={toggleFirstModal}>
         <div className="modal-header">
           <MyTitle>Добавление задачи</MyTitle>
         </div>
@@ -220,13 +230,47 @@ const ProjectPage = () => {
             </div>
             <div className="modal-footer">
               <button type="submit">Добавить задачу</button>
-              <button type="button" onClick={toggleModal}>
+              <button type="button" onClick={toggleFirstModal}>
                 Отмена
               </button>
             </div>
           </form>
         </div>
       </MyModal>
+
+      <MyModal isOpen={isSecondModalOpen} onToggle={toggleSecondModal}>
+        <div className="modal-header">
+          <MyTitle>Добавление задачи</MyTitle>
+        </div>
+        <div className="modal-body">
+          <div className="members-list">
+            <MyTitle>Список работников</MyTitle>
+            {members.map((member) => (
+              <div key={member.id} className="member-card">
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="member-icon"
+                />
+                <div className="member-info">
+                  <h2 className="member-name">{member.name}</h2>
+                  <MyText>{member.desk}</MyText>
+                </div>
+                <MyButton
+                  type="button"
+                  onClick={(event) => handleAddUser(event, member.id)}
+                >
+                  Добавить
+                </MyButton>
+              </div>
+            ))}
+          </div>
+          <button type="button" onClick={toggleSecondModal}>
+            Отмена
+          </button>
+        </div>
+      </MyModal>
+
       <div className="left_menu">
         <MenuBar />
       </div>
@@ -238,7 +282,7 @@ const ProjectPage = () => {
         {userRole === "Админ" ? (
           <div>
             <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
-            <MyButton onClick={toggleModal}>Добавить</MyButton>
+            <MyButton onClick={toggleFirstModal}>Добавить</MyButton>
           </div>
         ) : (
           ""
@@ -398,18 +442,21 @@ const ProjectPage = () => {
           </div>
           <div className="project-members">
             <MyTitle>Участники</MyTitle>
-            <div className="workers-page">
-              <div className="workers-list">
-                {workers.map((worker) => (
-                  <div key={worker.id} className="worker-card">
+            <div className="add">
+              <MyButton onClick={toggleSecondModal}>Добавить</MyButton>
+            </div>
+            <div className="members-pag">
+              <div className="members-list">
+                {members.map((member) => (
+                  <div key={member.id} className="member-card">
                     <img
-                      src={worker.img}
-                      alt={worker.name}
-                      className="worker-icon"
+                      src={member.picture}
+                      alt={member.name}
+                      className="member-icon"
                     />
-                    <div className="worker-info">
-                      <h2 className="worker-name">{worker.name}</h2>
-                      <MyText>{worker.position}</MyText>
+                    <div className="member-info">
+                      <h2 className="member-name">{member.name}</h2>
+                      <MyText>{member.position}</MyText>
                     </div>
                   </div>
                 ))}

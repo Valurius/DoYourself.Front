@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../profile/profile.css";
 import MyText from "../../../components/myUi/MyText/MyText";
 import { fetchUserById } from "../../../api/UserApi";
+import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 
 const ProfilePage = () => {
   const [user, setUser] = useState([]);
@@ -25,10 +26,9 @@ const ProfilePage = () => {
           <img src={user.picture || ""} />
         </div>
         <div className="profile-info">
-          <MyText>Профиль пользователя</MyText>
+          <MyTitle>Профиль пользователя</MyTitle>
           <MyText>Имя: {user.name}</MyText>
           <MyText>Email: {user.email}</MyText>
-          <MyText>Роль: {user.permition}</MyText>
         </div>
       </div>
     </div>

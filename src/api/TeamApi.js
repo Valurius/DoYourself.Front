@@ -37,6 +37,21 @@ export const fetchTeamTitleById = async (id) => {
   }
 };
 
+export const fetchTeamMembersById = async (teamId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:44305/api/TeamUser/${teamId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      throw new Error("Участники команды не найдены");
+    }
+    const users = await response.json();
+    return users; // Теперь возвращаем список пользователей
+  } catch (error) {
+    console.error("Ошибка при получении участников команды:", error);
+    return null; // Возвращаем null или другое значение, указывающее на ошибку
+  }
+};
 export const createTeam = async (teamData) => {
   try {
     const userId = localStorage.getItem("userId");

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import "../styles/projects.css";
 import "../styles/card.css";
 import "../../../../styles/componentStyles/Modal.css";
@@ -38,8 +38,10 @@ const ProjectsPage = () => {
   const loadProjects = useCallback(async () => {
     try {
       const projectsData = await fetchProjects(teamId);
-      setProjects(projectsData);
-      console.log(userRole);
+      const filteredProjects = projectsData.filter(
+        (project) => project.teamId == teamId
+      );
+      setProjects(filteredProjects);
     } catch (error) {
       console.error("Ошибка при загрузке проектов:", error);
     }
