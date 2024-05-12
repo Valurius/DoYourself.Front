@@ -4,7 +4,7 @@ import MyTitle from "../../../components/myUi/MyTitle/MyTitle";
 import MyLink from "../../../components/myUi/MyLink/MyLink";
 import MyButton from "../../../components/myUi/MyButton/MyButton";
 import MyModal from "../../../components/myUi/MyModal/MyModal";
-import { fetchTeams, createTeam } from "../../../api/TeamApi";
+import { fetchTeamsByUserId, createTeam } from "../../../api/TeamApi"; // Импорт обновленной функции
 import MyText from "../../../components/myUi/MyText/MyText";
 
 const TeamsPage = () => {
@@ -12,18 +12,20 @@ const TeamsPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [teamData, setTeamData] = useState({ title: "" });
   const userRole = localStorage.getItem("permission");
+  const userId = localStorage.getItem("userId"); // Получаем userId из localStorage
 
   const openModal = useCallback(() => setModalOpen(true), []);
   const closeModal = useCallback(() => setModalOpen(false), []);
 
+  // Обновленная функция loadTeams для загрузки команд пользователя
   const loadTeams = useCallback(async () => {
     try {
-      const teamsData = await fetchTeams();
+      const teamsData = await fetchTeamsByUserId(userId); // Вызов функции с userId
       setTeams(teamsData);
     } catch (error) {
       console.error("Ошибка при загрузке команд:", error);
     }
-  }, []);
+  }, [userId]); // Добавляем userId в список зависимостей
 
   useEffect(() => {
     loadTeams();
@@ -38,7 +40,7 @@ const TeamsPage = () => {
     try {
       await createTeam(teamData);
       closeModal();
-      await loadTeams();
+      await loadTeams(); // Перезагрузка команд после создания новой
     } catch (error) {
       console.error("Ошибка при создании команды:", error);
     }
@@ -77,7 +79,6 @@ const TeamsPage = () => {
             </MyLink>
           </li>
         ))}
-
         {userRole === "Админ" ? (
           <li className="team-li">
             <button onClick={openModal} className="newTeam">

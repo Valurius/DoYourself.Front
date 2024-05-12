@@ -5,14 +5,23 @@ import MyText from "../../components/myUi/MyText/MyText";
 import MyButton from "../../components/myUi/MyButton/MyButton";
 import MyTitle from "../../components/myUi/MyTitle/MyTitle";
 import axios from "axios";
+import { loginUser, registerUser } from "../../api/AuthApi";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const RegistrationPage = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     phone: "",
     email: "",
     password: "",
   });
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,13 +33,14 @@ const RegistrationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios({
-        method: "post",
-        url: "https://localhost:44305/api/Auth/Register",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      console.log("Ответ сервера: ", response.data);
+      await registerUser(formData);
+      const loginData = {
+        email: formData.email,
+        password: formData.password,
+      };
+      const userData = await loginUser(loginData);
+      await login(userData.token, userData.userId);
+      navigate("/teams");
     } catch (error) {
       console.error(
         "Ошибка при регистрации:",
@@ -47,10 +57,10 @@ const RegistrationPage = () => {
           <label htmlFor="phone"></label>
           <input
             className="auth-input"
-            placeholder="Телефон"
+            placeholder="Номер телефона с 7"
             id="phone"
             name="phone"
-            pattern="[8]{1}[0-9]{10}"
+            pattern="[7]{1}[0-9]{10}"
             type="tel"
             value={formData.phone}
             onChange={handleChange}

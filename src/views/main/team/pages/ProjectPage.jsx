@@ -116,7 +116,7 @@ const ProjectPage = () => {
         toggleSecondModal();
         loadData();
       } catch (error) {
-        console.error("Ошибка при создании hghfgачи:", error);
+        console.error("Ошибка при добавлении пользователя:", error);
       }
     },
     [loadData, toggleSecondModal]
@@ -152,122 +152,126 @@ const ProjectPage = () => {
   return (
     <div className="projects-page">
       <MyModal isOpen={isFirstModalOpen} onToggle={toggleFirstModal}>
-        <div className="modal-header">
-          <MyTitle>Добавление задачи</MyTitle>
-        </div>
-        <div className="modal-body">
-          <form onSubmit={handleCreateTask}>
-            <div className="form-group">
-              <label htmlFor="title">Название задачи:</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={taskData.title}
-                onChange={handleInputChange}
-                placeholder="Название"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Описание задачи:</label>
-              <textarea
-                id="description"
-                value={taskData.description}
-                name="description"
-                onChange={handleInputChange}
-                placeholder="Описание"
-                rows="3"
-                required
-              ></textarea>
-            </div>
-            <div className="form-group">
-              <label htmlFor="priority">Приоритет:</label>
-              <select
-                id="priority"
-                name="priority"
-                value={taskData.priority}
-                onChange={handleInputChange}
-              >
-                <option value="Низкий">Низкий</option>
-                <option value="Средний">Средний</option>
-                <option value="Высокий">Высокий</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="userId">Ответственный:</label>
-              <select
-                id="userId"
-                name="userId"
-                required
-                onChange={handleInputChange}
-              >
-                <option value="">Ответственный</option>
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="taskPriority">Временная задача?</label>
-              <select id="taskManager" name="taskManager">
-                <option value="Да">Да</option>
-                <option value="Нет">Нет</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="needToBeDoneAt">Срок выполнения:</label>
-              <input
-                type="date"
-                id="deadline"
-                value={taskData.deadline}
-                name="deadline"
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="modal-footer">
-              <button type="submit">Добавить задачу</button>
-              <button type="button" onClick={toggleFirstModal}>
-                Отмена
-              </button>
-            </div>
-          </form>
+        <div className="modal-content">
+          <div className="modal-header">
+            <MyTitle>Добавление задачи</MyTitle>
+          </div>
+          <div className="modal-body">
+            <form onSubmit={handleCreateTask}>
+              <div className="form-group">
+                <label htmlFor="title">Название задачи:</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={taskData.title}
+                  onChange={handleInputChange}
+                  placeholder="Название"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Описание задачи:</label>
+                <textarea
+                  id="description"
+                  value={taskData.description}
+                  name="description"
+                  onChange={handleInputChange}
+                  placeholder="Описание"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <label htmlFor="priority">Приоритет:</label>
+                <select
+                  id="priority"
+                  name="priority"
+                  value={taskData.priority}
+                  onChange={handleInputChange}
+                >
+                  <option value="Низкий">Низкий</option>
+                  <option value="Средний">Средний</option>
+                  <option value="Высокий">Высокий</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="userId">Ответственный:</label>
+                <select
+                  id="userId"
+                  name="userId"
+                  required
+                  onChange={handleInputChange}
+                >
+                  <option value="">Ответственный</option>
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="taskPriority">Временная задача?</label>
+                <select id="taskManager" name="taskManager">
+                  <option value="Да">Да</option>
+                  <option value="Нет">Нет</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="needToBeDoneAt">Срок выполнения:</label>
+                <input
+                  type="date"
+                  id="deadline"
+                  value={taskData.deadline}
+                  name="deadline"
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="modal-footer">
+                <button type="submit">Добавить задачу</button>
+                <button type="button" onClick={toggleFirstModal}>
+                  Отмена
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </MyModal>
 
       <MyModal isOpen={isSecondModalOpen} onToggle={toggleSecondModal}>
-        <div className="modal-header">
-          <MyTitle>Добавление задачи</MyTitle>
-        </div>
-        <div className="modal-body">
-          <div className="members-list">
-            <MyTitle>Список работников</MyTitle>
-            {members.map((member) => (
-              <div key={member.id} className="member-card">
-                <img
-                  src={member.img}
-                  alt={member.name}
-                  className="member-icon"
-                />
-                <div className="member-info">
-                  <h2 className="member-name">{member.name}</h2>
-                  <MyText>{member.desk}</MyText>
-                </div>
-                <MyButton
-                  type="button"
-                  onClick={(event) => handleAddUser(event, member.id)}
-                >
-                  Добавить
-                </MyButton>
-              </div>
-            ))}
+        <div className="modal-content">
+          <div className="modal-header">
+            <MyTitle>Добавление задачи</MyTitle>
           </div>
-          <button type="button" onClick={toggleSecondModal}>
-            Отмена
-          </button>
+          <div className="modal-body">
+            <div className="members-list">
+              <MyTitle>Список работников</MyTitle>
+              {members.map((member) => (
+                <div key={member.id} className="member-card">
+                  <img
+                    src={member.img}
+                    alt={member.name}
+                    className="member-icon"
+                  />
+                  <div className="member-info">
+                    <h2 className="member-name">{member.name}</h2>
+                    <MyText>{member.desk}</MyText>
+                  </div>
+                  <MyButton
+                    type="button"
+                    onClick={(event) => handleAddUser(event, member.id)}
+                  >
+                    Добавить
+                  </MyButton>
+                </div>
+              ))}
+            </div>
+            <button type="button" onClick={toggleSecondModal}>
+              Отмена
+            </button>
+          </div>
         </div>
       </MyModal>
 

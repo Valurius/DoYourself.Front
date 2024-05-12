@@ -5,6 +5,7 @@ import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useParams } from "react-router-dom";
+import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 
 const TasksPage = () => {
   const { teamId, projectId } = useParams();
@@ -66,7 +67,7 @@ const TasksPage = () => {
         {tasks.map((task) => (
           <div key={task.id} className="task-page-content">
             <div className="task-details">
-              <h2 className="name">{task.name}</h2>
+              <MyTitle>{task.name}</MyTitle>
               <MyText>{task.desk}</MyText>
               <MyText>{`Ответственный: ${task.member}`}</MyText>
               <MyText>{`Проект: ${task.project}`}</MyText>
@@ -74,30 +75,34 @@ const TasksPage = () => {
           </div>
         ))}
         <div className="comments-section">
-          <MyText>Комментарии</MyText>
+          <MyTitle>Комментарии</MyTitle>
           {comments.map((comment, index) => (
             <div key={index} className="comment">
+              <div className="comment-photo">
+                {comment.file && (
+                  <img
+                    src={
+                      "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666389923_30-mykaleidoscope-ru-p-klassnaya-priroda-oboi-32.jpg"
+                    }
+                    alt="Фото комментария"
+                    className="comment-icon"
+                  />
+                )}
+              </div>
               <div className="comment-text">
                 <MyText>{comment.text}</MyText>
               </div>
-              {comment.file && (
-                <a
-                  href={comment.file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {comment.fileName}
-                </a>
-              )}
-              {comment.file && (
-                <img
-                  src={
-                    "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666389923_30-mykaleidoscope-ru-p-klassnaya-priroda-oboi-32.jpg"
-                  }
-                  alt="Фото комментария"
-                  className="comment-icon"
-                />
-              )}
+              <div className="comment-file">
+                {comment.file && (
+                  <a
+                    href={comment.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {comment.fileName}
+                  </a>
+                )}
+              </div>
             </div>
           ))}
           <div className="comment-input">

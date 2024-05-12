@@ -10,6 +10,20 @@ export const fetchTeams = async () => {
   }
 };
 
+export const fetchTeamsByUserId = async (userId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:44305/api/TeamUser/teamUser/${userId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      return [];
+    }
+    return await response.json(); // Предполагаем, что ответ в формате JSON
+  } catch (error) {
+    console.error("Ошибка при получении команд пользователя:", error);
+  }
+};
+
 export const fetchTeamById = async (id) => {
   try {
     const response = await fetch(`https://localhost:44305/api/Team/${id}`);
@@ -52,6 +66,28 @@ export const fetchTeamMembersById = async (teamId) => {
     return null; // Возвращаем null или другое значение, указывающее на ошибку
   }
 };
+
+export const addTeamMember = async (teamId, userId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:44305/api/TeamUser/${userId}/${teamId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "",
+      }
+    );
+    if (response.status === 404 || !response.ok) {
+      throw new Error("Участники команды не найдены");
+    }
+  } catch (error) {
+    console.error("Ошибка при добавлении участника:", error);
+    return null; // Возвращаем null или другое значение, указывающее на ошибку
+  }
+};
+
 export const createTeam = async (teamData) => {
   try {
     const userId = localStorage.getItem("userId");

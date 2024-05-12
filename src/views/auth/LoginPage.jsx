@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useRole } from "../../context/RoleContext";
+import { loginUser } from "../../api/AuthApi";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -28,13 +29,8 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios({
-        method: "post",
-        url: "https://localhost:44305/api/Auth/login",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      await login(response.data.token, response.data.userId);
+      const userData = await loginUser(formData);
+      await login(userData.token, userData.userId);
       navigate("/teams");
     } catch (error) {
       console.error(

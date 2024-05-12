@@ -13,9 +13,7 @@ const Team = () => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        console.log(teamId);
         const membersOfTeam = await fetchTeamMembersById(teamId);
-        console.log(membersOfTeam);
         setMembers(membersOfTeam);
       } catch (error) {
         console.error("Ошибка при получении участников команды:", error);
@@ -37,7 +35,7 @@ const Team = () => {
             <div key={member.id} className="member-card">
               <img src={member.img} alt={member.name} className="member-icon" />
               <div className="member-info">
-                <h2 className="member-name">{member.name}</h2>
+                <MyText className="member-name">{member.name}</MyText>
                 <MyText>{member.desk}</MyText>
               </div>
             </div>

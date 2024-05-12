@@ -38,26 +38,30 @@
 }
 
 .comment {
-  position: relative;
-  padding: 0.73em;
+  display: flex;
+  flex-direction: column;
   background-color: #fafafa;
   box-shadow: 5px 5px 5px 5px #c8c9c7;
   min-width: 100%;
   border-radius: 5px;
-  margin-top: 3em;
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
-
+.comment-file {
+  padding: 3px;
+}
 .comment-icon {
-  position: absolute;
-  top: -1.5em;
-  left: 0.5em;
   width: 8vmin;
   height: 8vmin;
+  float: left;
+  margin-right: 1.25em;
   box-shadow: 5px 5px 5px 5px #c8c9c7;
   transform: rotate(-4deg);
+  transition: all 0.4s ease;
   padding: 1px;
   border-radius: 0.25em;
   overflow: hidden;
+  margin-left: -3em;
 }
 
 .comment a {
