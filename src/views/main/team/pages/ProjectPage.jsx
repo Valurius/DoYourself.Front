@@ -306,9 +306,7 @@ const ProjectPage = () => {
                 {tasks.map((task) => (
                   <div key={task.id} className="card">
                     <div className="card-header">
-                      <div className="card-title">
-                        <MyText>{task.title}</MyText>
-                      </div>
+                      <div className="card-title">{task.title}</div>
                       <div
                         className={
                           task.priority === "Высокий"

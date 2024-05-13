@@ -1,6 +1,6 @@
 export const fetchProjects = async () => {
   try {
-    const response = await fetch("https://localhost:44305/api/Project");
+    const response = await fetch("https://109.161.71.21/api/Project");
     return await response.json();
   } catch (error) {
     console.error("Ошибка при получении команд:", error);
@@ -9,7 +9,7 @@ export const fetchProjects = async () => {
 
 export const fetchProjectById = async (id) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Project/${id}`);
+    const response = await fetch(`https://109.161.71.21/api/Project/${id}`);
     if (response.status === 404 || !response.ok) {
       throw new Error("Задача не найдена");
     }
@@ -22,7 +22,7 @@ export const fetchProjectById = async (id) => {
 
 export const createProject = async (projectData) => {
   try {
-    const response = await fetch("https://localhost:44305/api/Project", {
+    const response = await fetch("https://109.161.71.21/api/Project", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const createProject = async (projectData) => {
 
 export const updateProject = async (id, projectData) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Project/${id}`, {
+    const response = await fetch(`https://109.161.71.21/api/Project/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +66,7 @@ export const updateProject = async (id, projectData) => {
 
 export const deleteProject = async (id) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Project/${id}`, {
+    const response = await fetch(`https://109.161.71.21/api/Project/${id}`, {
       method: "DELETE",
     });
 
@@ -85,7 +85,7 @@ export const deleteProject = async (id) => {
 export const addUserForProject = async (userId, ProjectId) => {
   try {
     const response = await fetch(
-      `https://localhost:44305/api/ProjectUser/${userId}/${ProjectId}`,
+      `https://109.161.71.21/api/ProjectUser/${userId}/${ProjectId}`,
       {
         method: "POST",
         headers: {

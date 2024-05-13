@@ -1,6 +1,6 @@
 export const fetchTags = async () => {
   try {
-    const response = await fetch("https://localhost:44305/api/Tags");
+    const response = await fetch("https://109.161.71.21/api/Tags");
     return await response.json();
   } catch (error) {
     console.error("Ошибка при получении тегов:", error);
@@ -9,7 +9,7 @@ export const fetchTags = async () => {
 
 export const fetchTagById = async (id) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Tags/${id}`);
+    const response = await fetch(`https://109.161.71.21/api/Tags/${id}`);
     if (response.status === 404 || !response.ok) {
       throw new Error("Тег не найден");
     }
@@ -22,7 +22,7 @@ export const fetchTagById = async (id) => {
 
 export const createTag = async (tagData) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Tags`, {
+    const response = await fetch(`https://109.161.71.21/api/Tags`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const createTag = async (tagData) => {
 
 export const updateTag = async (id, tagData) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Tags/${id}`, {
+    const response = await fetch(`https://109.161.71.21/api/Tags/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const updateTag = async (id, tagData) => {
 
 export const deleteTag = async (id) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Tags/${id}`, {
+    const response = await fetch(`https://109.161.71.21/api/Tags/${id}`, {
       method: "DELETE",
     });
 

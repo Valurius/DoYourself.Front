@@ -5,7 +5,7 @@ export const loginUser = async (formData) => {
   try {
     const response = await axios({
       method: "post",
-      url: "https://localhost:44305/api/Auth/login",
+      url: "https://109.161.71.21/api/Auth/login",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     });

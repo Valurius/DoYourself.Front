@@ -1,6 +1,6 @@
 export const fetchTasks = async () => {
   try {
-    const response = await fetch("https://localhost:44305/api/Task");
+    const response = await fetch("https://109.161.71.21/api/Task");
     return await response.json();
   } catch (error) {
     console.error("Ошибка при получении команд:", error);
@@ -9,9 +9,7 @@ export const fetchTasks = async () => {
 
 export const fetchTasksByProjectId = async (projectId) => {
   try {
-    const response = await fetch(
-      `https://localhost:44305/api/Task/${projectId}`
-    );
+    const response = await fetch(`https://109.161.71.21/api/Task/${projectId}`);
     if (response.status === 404 || !response.ok) {
       return [];
     }
@@ -23,7 +21,7 @@ export const fetchTasksByProjectId = async (projectId) => {
 
 export const fetchTaskById = async (id) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Task/${id}`);
+    const response = await fetch(`https://109.161.71.21/api/Task/${id}`);
     if (response.status === 404 || !response.ok) {
       throw new Error("Задача не найдена");
     }
@@ -37,7 +35,7 @@ export const fetchTaskById = async (id) => {
 export const fetchTeamUserTasks = async (userId, teamId) => {
   try {
     const response = await fetch(
-      `https://localhost:44305/api/TeamUser/teamUser/task/${userId}/${teamId}`
+      `https://109.161.71.21/api/TeamUser/teamUser/task/${userId}/${teamId}`
     );
     if (response.status === 404 || !response.ok) {
       throw new Error("Задачи для данного пользователя не найдены");
@@ -51,7 +49,7 @@ export const fetchTeamUserTasks = async (userId, teamId) => {
 
 export const createTask = async (taskData, teamId) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Task/${teamId}`, {
+    const response = await fetch(`https://109.161.71.21/api/Task/${teamId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +70,7 @@ export const createTask = async (taskData, teamId) => {
 
 // export const updateTeam = async (id, teamData) => {
 //   try {
-//     const response = await fetch(`https://localhost:44305/api/Team/${id}`, {
+//     const response = await fetch(`https://109.161.71.21/api/Team/${id}`, {
 //       method: "PUT",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -92,7 +90,7 @@ export const createTask = async (taskData, teamId) => {
 
 export const deleteTask = async (id) => {
   try {
-    const response = await fetch(`https://localhost:44305/api/Task/${id}`, {
+    const response = await fetch(`https://109.161.71.21/api/Task/${id}`, {
       method: "DELETE",
     });
 
