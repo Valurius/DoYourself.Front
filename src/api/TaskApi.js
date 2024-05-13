@@ -34,6 +34,21 @@ export const fetchTaskById = async (id) => {
   }
 };
 
+export const fetchTeamUserTasks = async (userId, teamId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:44305/api/TeamUser/teamUser/task/${userId}/${teamId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      throw new Error("Задачи для данного пользователя не найдены");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении задач пользователя:", error);
+    return null;
+  }
+};
+
 export const createTask = async (taskData, teamId) => {
   try {
     const response = await fetch(`https://localhost:44305/api/Task/${teamId}`, {

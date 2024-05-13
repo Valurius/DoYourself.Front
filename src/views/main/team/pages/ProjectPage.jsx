@@ -16,13 +16,11 @@ import {
 import { fetchUsers, fetchUserById } from "../../../../api/UserApi";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import { fetchTeamMembersById } from "../../../../api/TeamApi";
-import { Padding } from "@mui/icons-material";
 
 const ProjectPage = () => {
   const { teamId, projectId } = useParams();
   const userRole = localStorage.getItem("permission");
   const [editing, setEditing] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
   const [project, setProject] = useState("");
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -71,16 +69,20 @@ const ProjectPage = () => {
     } catch (error) {
       console.error("Ошибка при загрузке данных:", error);
     }
-  }, [projectId]);
+  }, [projectId, teamId]);
 
   // Обработчики событий
   // Состояния и функции для управления первым модальным окном
   const [isFirstModalOpen, setFirstModalOpen] = useState(false);
-  const toggleFirstModal = () => setFirstModalOpen(!isFirstModalOpen);
+  const toggleFirstModal = useCallback(() => {
+    setFirstModalOpen((prev) => !prev);
+  }, []);
 
   // Состояния и функции для управления вторым модальным окном
   const [isSecondModalOpen, setSecondModalOpen] = useState(false);
-  const toggleSecondModal = () => setSecondModalOpen(!isSecondModalOpen);
+  const toggleSecondModal = useCallback(() => {
+    setSecondModalOpen((prev) => !prev);
+  }, []);
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -119,7 +121,7 @@ const ProjectPage = () => {
         console.error("Ошибка при добавлении пользователя:", error);
       }
     },
-    [loadData, toggleSecondModal]
+    [loadData, toggleSecondModal, projectId]
   );
 
   const handleSaveClick = async () => {
@@ -285,7 +287,7 @@ const ProjectPage = () => {
         <MyTitle>Проект "{project.title}"</MyTitle>
         {userRole === "Админ" ? (
           <div>
-            <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
+            <MyLink to={`/${teamId}/${projectId}/tags/`}>Тэги</MyLink>
             <MyButton onClick={toggleFirstModal}>Добавить</MyButton>
           </div>
         ) : (
@@ -303,26 +305,28 @@ const ProjectPage = () => {
                 <MyTitle>Задачи проекта</MyTitle>
                 {tasks.map((task) => (
                   <div key={task.id} className="card">
-                    <div className="card-content">
-                      <div className="card-header">
-                        <div className="card-title">{task.title}</div>
-                        <div
-                          className={
-                            task.priority === "Высокий"
-                              ? "card-priority-high"
-                              : task.priority === "Средний"
-                              ? "card-priority-medium"
-                              : "card-priority-low"
-                          }
-                        >
-                          {task.priority === "Высокий"
-                            ? "☆☆☆"
-                            : task.priority === "Средний"
-                            ? "☆☆"
-                            : "☆"}
-                          {task.priority}
-                        </div>
+                    <div className="card-header">
+                      <div className="card-title">
+                        <MyText>{task.title}</MyText>
                       </div>
+                      <div
+                        className={
+                          task.priority === "Высокий"
+                            ? "card-priority-high"
+                            : task.priority === "Средний"
+                            ? "card-priority-medium"
+                            : "card-priority-low"
+                        }
+                      >
+                        {task.priority === "Высокий"
+                          ? "☆☆☆"
+                          : task.priority === "Средний"
+                          ? "☆☆"
+                          : "☆"}
+                        {task.priority}
+                      </div>
+                    </div>
+                    <div className="card-body">
                       <div className="card-description">
                         Описание задачи: {task.description}
                       </div>

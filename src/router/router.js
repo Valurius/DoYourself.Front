@@ -99,7 +99,7 @@ export const privateRoutes = [
     ),
   },
   {
-    path: "/:teamId/tags",
+    path: "/:teamId/:projectId/tags",
     element: (
       <RequireAuth>
         <TagsPage />

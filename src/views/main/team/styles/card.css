@@ -31,17 +31,14 @@
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #eaeaea; /* Добавляет линию для визуального разделения */
+  background-image: url("http://alexlib.ru/wp-content/uploads/2021/07/623522_nebo_oblaka_zakat_peyzaj_vid-s-aeroplana_3888x2592_www.Gde-Fon.com_.jpg");
+  background-size: cover;
 }
 
 .card-body {
   padding: 20px;
 }
 
-/* Переносим стили .card-title, .card-status и .card-priority в .card-header */
-.card-title {
-  margin-bottom: 0; /* Убираем нижний отступ */
-  text-align: center;
-}
 .card-priority {
   margin-bottom: 0; /* Убираем нижний отступ */
   text-align: center;
@@ -69,9 +66,12 @@
 .card-title {
   font-size: 24px;
   padding: 10px;
-  color: #333;
+  color: #191616;
   margin-bottom: 10px;
   font-weight: bold;
+  opacity: 1;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(131, 162, 163, 0.5);
 }
 
 .card-description {
@@ -103,21 +103,24 @@
 .card-priority-low {
   font-size: 24px;
   padding: 10px;
-  color: #497e4b;
+  color: #00ff08;
+  text-shadow: 3px 3px 5px black, -1px -1px 2px grey; /* Две тени */
   margin-bottom: 15px;
   font-weight: bold;
 }
 .card-priority-medium {
   font-size: 24px;
   padding: 10px;
-  color: #b4b22d;
+  color: #fffb00;
+  text-shadow: 3px 3px 5px black, -1px -1px 2px grey; /* Две тени */
   margin-bottom: 15px;
   font-weight: bold;
 }
 .card-priority-high {
   font-size: 24px;
   padding: 10px;
-  color: #eca093;
+  color: #ff2600;
+  text-shadow: 3px 3px 5px black, -1px -1px 2px grey; /* Две тени */
   margin-bottom: 15px;
   font-weight: bold;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "../styles/projects.css";
 import "../styles/card.css";
 import "../../../../styles/componentStyles/Modal.css";
@@ -9,6 +9,7 @@ import MyModal from "../../../../components/myUi/MyModal/MyModal";
 import { Link, useParams } from "react-router-dom";
 import { fetchProjects, createProject } from "../../../../api/ProjectApi";
 import { fetchTeamTitleById } from "../../../../api/TeamApi";
+import MyText from "../../../../components/myUi/MyText/MyText";
 
 const ProjectsPage = () => {
   const { teamId } = useParams();
@@ -39,13 +40,13 @@ const ProjectsPage = () => {
     try {
       const projectsData = await fetchProjects(teamId);
       const filteredProjects = projectsData.filter(
-        (project) => project.teamId == teamId
+        (project) => project.teamId === teamId
       );
       setProjects(filteredProjects);
     } catch (error) {
       console.error("Ошибка при загрузке проектов:", error);
     }
-  }, [teamId, userRole]);
+  }, [teamId]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -170,7 +171,9 @@ const ProjectsPage = () => {
         {projects.map((project) => (
           <div key={project.id} className="card">
             <div className="card-header">
-              <div className="card-title">{project.title}</div>
+              <div className="card-title">
+                <MyText>{project.title}</MyText>
+              </div>
 
               <div
                 className={
