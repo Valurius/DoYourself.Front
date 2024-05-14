@@ -1,6 +1,6 @@
 export const fetchTasks = async () => {
   try {
-    const response = await fetch("https://109.161.71.21/api/Task");
+    const response = await fetch("https://doyourself.ddns.net/api/Task");
     return await response.json();
   } catch (error) {
     console.error("Ошибка при получении команд:", error);
@@ -9,7 +9,9 @@ export const fetchTasks = async () => {
 
 export const fetchTasksByProjectId = async (projectId) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Task/${projectId}`);
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Task/${projectId}`
+    );
     if (response.status === 404 || !response.ok) {
       return [];
     }
@@ -21,7 +23,7 @@ export const fetchTasksByProjectId = async (projectId) => {
 
 export const fetchTaskById = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Task/${id}`);
+    const response = await fetch(`https://doyourself.ddns.net/api/Task/${id}`);
     if (response.status === 404 || !response.ok) {
       throw new Error("Задача не найдена");
     }
@@ -35,7 +37,7 @@ export const fetchTaskById = async (id) => {
 export const fetchTeamUserTasks = async (userId, teamId) => {
   try {
     const response = await fetch(
-      `https://109.161.71.21/api/TeamUser/teamUser/task/${userId}/${teamId}`
+      `https://doyourself.ddns.net/api/TeamUser/teamUser/task/${userId}/${teamId}`
     );
     if (response.status === 404 || !response.ok) {
       throw new Error("Задачи для данного пользователя не найдены");
@@ -49,14 +51,17 @@ export const fetchTeamUserTasks = async (userId, teamId) => {
 
 export const createTask = async (taskData, teamId) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Task/${teamId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Task/${teamId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-      body: JSON.stringify(taskData),
-    });
+        body: JSON.stringify(taskData),
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -70,7 +75,7 @@ export const createTask = async (taskData, teamId) => {
 
 // export const updateTeam = async (id, teamData) => {
 //   try {
-//     const response = await fetch(`https://109.161.71.21/api/Team/${id}`, {
+//     const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`, {
 //       method: "PUT",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -90,7 +95,7 @@ export const createTask = async (taskData, teamId) => {
 
 export const deleteTask = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Task/${id}`, {
+    const response = await fetch(`https://doyourself.ddns.net/api/Task/${id}`, {
       method: "DELETE",
     });
 

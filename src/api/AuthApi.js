@@ -5,7 +5,7 @@ export const loginUser = async (formData) => {
   try {
     const response = await axios({
       method: "post",
-      url: "https://109.161.71.21/api/Auth/login",
+      url: "https://doyourself.ddns.net/api/Auth/login",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -20,7 +20,7 @@ export const registerUser = async (formData) => {
   try {
     const response = await axios({
       method: "post",
-      url: "https://localhost:44305/api/Auth/Register",
+      url: "https://doyourself.ddns.net/api/Auth/Register",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     });

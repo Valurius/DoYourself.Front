@@ -1,6 +1,6 @@
 export const fetchTeams = async () => {
   try {
-    const response = await fetch("https://109.161.71.21/api/Team");
+    const response = await fetch("https://doyourself.ddns.net/api/Team");
     if (response.status === 404 || !response.ok) {
       return [];
     }
@@ -13,7 +13,7 @@ export const fetchTeams = async () => {
 export const fetchTeamsByUserId = async (userId) => {
   try {
     const response = await fetch(
-      `https://109.161.71.21/api/TeamUser/teamUser/${userId}`
+      `https://doyourself.ddns.net/api/TeamUser/teamUser/${userId}`
     );
     if (response.status === 404 || !response.ok) {
       return [];
@@ -26,7 +26,7 @@ export const fetchTeamsByUserId = async (userId) => {
 
 export const fetchTeamById = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Team/${id}`);
+    const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`);
     if (response.status === 404 || !response.ok) {
       throw new Error("Команда не найдена");
     }
@@ -39,7 +39,7 @@ export const fetchTeamById = async (id) => {
 
 export const fetchTeamTitleById = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Team/${id}`);
+    const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`);
     if (response.status === 404 || !response.ok) {
       throw new Error("Команда не найдена");
     }
@@ -54,7 +54,7 @@ export const fetchTeamTitleById = async (id) => {
 export const fetchTeamMembersById = async (teamId) => {
   try {
     const response = await fetch(
-      `https://109.161.71.21/api/TeamUser/${teamId}`
+      `https://doyourself.ddns.net/api/TeamUser/${teamId}`
     );
     if (response.status === 404 || !response.ok) {
       throw new Error("Участники команды не найдены");
@@ -70,7 +70,7 @@ export const fetchTeamMembersById = async (teamId) => {
 export const addTeamMember = async (teamId, userId) => {
   try {
     const response = await fetch(
-      `https://109.161.71.21/api/TeamUser/${userId}/${teamId}`,
+      `https://doyourself.ddns.net/api/TeamUser/${userId}/${teamId}`,
       {
         method: "POST",
         headers: {
@@ -92,7 +92,7 @@ export const createTeam = async (teamData) => {
   try {
     const userId = localStorage.getItem("userId");
     const response = await fetch(
-      `https://109.161.71.21/api/Team?userId=${userId}`,
+      `https://doyourself.ddns.net/api/Team?userId=${userId}`,
       {
         method: "POST",
         headers: {
@@ -113,7 +113,7 @@ export const createTeam = async (teamData) => {
 
 export const updateTeam = async (id, teamData) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Team/${id}`, {
+    const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +133,7 @@ export const updateTeam = async (id, teamData) => {
 
 export const deleteTeam = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Team/${id}`, {
+    const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`, {
       method: "DELETE",
     });
 

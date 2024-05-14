@@ -1,6 +1,6 @@
 export const fetchProjects = async () => {
   try {
-    const response = await fetch("https://109.161.71.21/api/Project");
+    const response = await fetch("https://doyourself.ddns.net/api/Project");
     return await response.json();
   } catch (error) {
     console.error("Ошибка при получении команд:", error);
@@ -9,7 +9,9 @@ export const fetchProjects = async () => {
 
 export const fetchProjectById = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Project/${id}`);
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Project/${id}`
+    );
     if (response.status === 404 || !response.ok) {
       throw new Error("Задача не найдена");
     }
@@ -22,7 +24,7 @@ export const fetchProjectById = async (id) => {
 
 export const createProject = async (projectData) => {
   try {
-    const response = await fetch("https://109.161.71.21/api/Project", {
+    const response = await fetch("https://doyourself.ddns.net/api/Project", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,13 +44,16 @@ export const createProject = async (projectData) => {
 
 export const updateProject = async (id, projectData) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Project/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(projectData),
-    });
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Project/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -66,9 +71,12 @@ export const updateProject = async (id, projectData) => {
 
 export const deleteProject = async (id) => {
   try {
-    const response = await fetch(`https://109.161.71.21/api/Project/${id}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Project/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -85,7 +93,7 @@ export const deleteProject = async (id) => {
 export const addUserForProject = async (userId, ProjectId) => {
   try {
     const response = await fetch(
-      `https://109.161.71.21/api/ProjectUser/${userId}/${ProjectId}`,
+      `https://doyourself.ddns.net/api/ProjectUser/${userId}/${ProjectId}`,
       {
         method: "POST",
         headers: {
