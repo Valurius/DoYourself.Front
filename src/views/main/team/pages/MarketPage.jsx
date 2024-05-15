@@ -3,11 +3,11 @@ import "../styles/market.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
-import { useRoleContext } from "../../../../context/RoleContext";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 const MarketPage = () => {
-  // Здесь может быть логика для получения данных о команде и участниках
   const { userRole } = localStorage.getItem("permission");
+  const { teamId } = useParams();
+
   const [products] = useState([
     {
       id: 1,
@@ -26,29 +26,39 @@ const MarketPage = () => {
       <div className="team-products">
         <MyTitle>Призы</MyTitle>
         {userRole === "admin" ? <MyButton>Добавить</MyButton> : ""}
-        {products.map((product) => (
-          <div key={product.id} className="card-product">
-            <h2 className="card-product-title">
-              <MyTitle>{product.name}</MyTitle>
-            </h2>
-            <div className="card-product-content">
-              <div className="card-product-image">
-                <img src={product.img} alt={product.name} />
-              </div>
-              <div className="card-product-description">
-                <div className="card-product-description">{product.desk}</div>
-                <div className="card-product-description">
-                  {product.price} очков
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div key={product.id} className="card">
+              <div className="card-body">
+                <div className="card-body-market">
+                  <div className="card-image">
+                    <img
+                      src="https://i.ebayimg.com/00/s/MTEyNVgxNTAw/z/absAAOSwWUtbYQPf/$_57.JPG?set_id=8800005007"
+                      alt=""
+                    ></img>
+                  </div>
+                  <div className="card-desc-body">
+                    <div className="card-description">{product.name}</div>
+                    <div className="card-description">{product.desk}</div>
+                    <div className="card-deadline">
+                      Стоимость: {product.price} бонусов
+                    </div>
+                    <div className="link-button-container">
+                      <Link
+                        to={`/${teamId}/${product.projectId}/${product.id}/`}
+                        className="link-button"
+                      >
+                        Перейти
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="link-button-container">
-                <Link href="#" className="link-button">
-                  Купить
-                </Link>
-              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="noTasks">У вас нет задач</p>
+        )}
       </div>
     </div>
   );

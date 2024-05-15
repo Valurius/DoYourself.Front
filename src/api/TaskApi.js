@@ -23,7 +23,9 @@ export const fetchTasksByProjectId = async (projectId) => {
 
 export const fetchTaskById = async (id) => {
   try {
-    const response = await fetch(`https://doyourself.ddns.net/api/Task/${id}`);
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Task/getTask/${id}`
+    );
     if (response.status === 404 || !response.ok) {
       throw new Error("Задача не найдена");
     }
@@ -107,6 +109,30 @@ export const deleteTask = async (id) => {
     return await response.text();
   } catch (error) {
     console.error("Ошибка при удалении задачи:", error);
+    throw error;
+  }
+};
+
+export const updateTaskStatus = async (id, status) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Task/status/${id}/?status=${status}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+
+    return await response.text();
+  } catch (error) {
+    console.error("Ошибка при обновлении статуса задачи:", error);
     throw error;
   }
 };

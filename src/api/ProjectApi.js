@@ -17,7 +17,22 @@ export const fetchProjectById = async (id) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Ошибка при получении задачи:", error);
+    console.error("Ошибка при получении проекта:", error);
+    return null;
+  }
+};
+
+export const fetchProjectUsersByProjectId = async (ProjectId) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/ProjectUser/${ProjectId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      throw new Error("Задача не найдена");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении проекта:", error);
     return null;
   }
 };

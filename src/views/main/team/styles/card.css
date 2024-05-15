@@ -30,15 +30,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #eaeaea; /* Добавляет линию для визуального разделения */
-  background-image: url("../pages/623522_nebo_oblaka_zakat_peyzaj_vid-s-aeroplana_3888x2592_www.Gde-Fon.com_.jpg");
+  border-bottom: 1px solid #eaeaea;
+  background-image: url("../styles/img/Card_background.jpg");
   background-size: cover;
 }
 
 .card-body {
   padding: 20px;
 }
-
+.card-body-market {
+  display: flex;
+  flex-direction: row;
+  height: 100%; /* Установите высоту, чтобы flexbox мог правильно распределить пространство */
+}
 .card-priority {
   margin-bottom: 0; /* Убираем нижний отступ */
   text-align: center;
@@ -82,6 +86,12 @@
   margin-bottom: 15px;
 }
 
+.card-desc-body {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
 .card-goal {
   font-size: 18px;
   color: #333;
@@ -90,7 +100,7 @@
 }
 
 .link-button-container {
-  margin-top: auto;
+  padding-bottom: auto;
 }
 .link-button {
   background: linear-gradient(to right, #92bfb1, #55a6ca);

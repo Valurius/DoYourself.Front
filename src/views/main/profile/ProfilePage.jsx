@@ -11,11 +11,9 @@ const ProfilePage = () => {
     const userId = localStorage.getItem("userId");
 
     const getUser = async () => {
-      {
-        const userf = await fetchUserById(userId);
-        setUser(userf);
-        console.log(userf);
-      }
+      const userf = await fetchUserById(userId);
+      setUser(userf);
+      console.log(userf);
     };
     getUser();
   }, []);
@@ -24,7 +22,7 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-container">
         <div className="profile-photo">
-          <img src={user.picture || ""} />
+          <img src={user.picture || ""} alt="" />
         </div>
         <div className="profile-info">
           <MyTitle>Профиль пользователя</MyTitle>

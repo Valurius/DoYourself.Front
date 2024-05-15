@@ -4,7 +4,6 @@ import MyLink from "../../components/myUi/MyLink/MyLink";
 import MyText from "../../components/myUi/MyText/MyText";
 import MyButton from "../../components/myUi/MyButton/MyButton";
 import MyTitle from "../../components/myUi/MyTitle/MyTitle";
-import axios from "axios";
 import { loginUser, registerUser } from "../../api/AuthApi";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -13,10 +12,6 @@ const RegistrationPage = () => {
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     phone: "",
-    email: "",
-    password: "",
-  });
-  const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });

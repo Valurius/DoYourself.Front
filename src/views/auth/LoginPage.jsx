@@ -4,10 +4,8 @@ import MyLink from "../../components/myUi/MyLink/MyLink";
 import MyText from "../../components/myUi/MyText/MyText";
 import MyButton from "../../components/myUi/MyButton/MyButton";
 import MyTitle from "../../components/myUi/MyTitle/MyTitle";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useRole } from "../../context/RoleContext";
 import { loginUser } from "../../api/AuthApi";
 
 const LoginPage = () => {

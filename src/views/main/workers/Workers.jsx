@@ -13,10 +13,10 @@ const Workers = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isSecondModalOpen, setSecondModalOpen] = useState(false);
 
-  const toggleModal = (userId) => {
+  const toggleModal = useCallback((userId) => {
     setSelectedUserId(userId);
-    setSecondModalOpen(!isSecondModalOpen);
-  };
+    setSecondModalOpen((prevState) => !prevState);
+  }, []);
 
   const loadTeams = useCallback(async () => {
     try {
@@ -42,7 +42,7 @@ const Workers = () => {
   useEffect(() => {
     loadTeams();
     loadUsers();
-  }, []);
+  }, [loadTeams]);
 
   const handleAddUser = useCallback(
     async (event, userId) => {
@@ -56,7 +56,7 @@ const Workers = () => {
         console.error("Ошибка при создании hghfgачи:", error);
       }
     },
-    [loadUsers, toggleModal]
+    [toggleModal, loadTeams, selectedUserId]
   );
   return (
     <div className="workers-page">
@@ -93,24 +93,34 @@ const Workers = () => {
 
       <div className="workers-list">
         <MyTitle>Список работников</MyTitle>
-        {workers.map((worker) => (
-          <div key={worker.id} className="worker-card">
-            <img
-              src={worker.picture}
-              alt={worker.name}
-              className="worker-icon"
-            />
-            <div className="worker-info">
-              <MyText className="worker-name">{worker.name}</MyText>
-              <MyText className="worker-name">{worker.surname}</MyText>
-              <MyText className="worker-name">{worker.surname}</MyText>
-              <MyButton onClick={() => toggleModal(worker.id)}>
-                Добавить в команду
-              </MyButton>
-              <MyText>{worker.position}</MyText>
+        {workers.map((worker) => {
+          return (
+            <div key={worker.id} className="worker-card">
+              {worker.picture ? (
+                <img
+                  src={worker.picture}
+                  alt={worker.name}
+                  className="worker-icon"
+                />
+              ) : (
+                <img
+                  src="https://sun9-46.userapi.com/impg/aLcIsmmt6Zvgr5tyCY68krWL6QJr8o9w2qhTrw/k9sU8l05H60.jpg?size=2048x1290&quality=96&sign=e9f338a2b74c4e35d98013db0c9c650f&type=album"
+                  alt={worker.name}
+                  className="worker-icon"
+                />
+              )}
+              <div className="worker-info">
+                <MyText className="worker-name">{worker.name}</MyText>
+                <MyText className="worker-name">{worker.surname}</MyText>
+                <MyText className="worker-name">{worker.surname}</MyText>
+                <MyButton onClick={() => toggleModal(worker.id)}>
+                  Добавить в команду
+                </MyButton>
+                <MyText>{worker.position}</MyText>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

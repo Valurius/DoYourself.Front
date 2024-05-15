@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../styles/task.css";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
@@ -6,15 +6,21 @@ import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useParams } from "react-router-dom";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
+import { fetchTaskById, updateTaskStatus } from "../../../../api/TaskApi";
+import { fetchUserById } from "../../../../api/UserApi";
+import { fetchProjectById } from "../../../../api/ProjectApi";
 
 const TasksPage = () => {
-  const { teamId, projectId } = useParams();
+  const { teamId, projectId, taskId } = useParams();
   const [comments, setComments] = useState([]);
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
-  const [commentText, setCommentText] = useState(""); // Добавлено состояние для текста комментария
+  const [commentText, setCommentText] = useState("");
+  const [task, setTask] = useState([]); // Изменено на использование состояния
+  const [project, setProject] = useState([]); // Изменено на использование состояния
+  const [user, setUser] = useState([]); // Изменено на использование состояния
+  const [status, setStatus] = useState("");
 
-  // Функция для добавления нового комментария
   const addComment = (text, file, fileName) => {
     const newComment = { text, file, fileName };
     setComments([...comments, newComment]);
@@ -32,7 +38,6 @@ const TasksPage = () => {
     setCommentText(e.target.value);
   };
 
-  // Обработчик для кнопки отправки комментария
   const handleSubmission = () => {
     if (file || commentText) {
       const fileUrl = file ? URL.createObjectURL(file) : null;
@@ -43,17 +48,39 @@ const TasksPage = () => {
     }
   };
 
-  const [tasks] = useState([
-    {
-      id: 1,
-      name: "Дизайн сайта",
-      desk: "Нужно разработать новый дизайн для проекта 'Венера'.",
-      member: "Мартиросян Гарегин",
-      project: "Венера",
-      img: "",
-    },
-    // Другие задачи...
-  ]);
+  const fetchData = useCallback(async () => {
+    try {
+      const taskData = await fetchTaskById(taskId);
+      if (taskData) {
+        const [userData, projectData] = await Promise.all([
+          fetchUserById(taskData.userId),
+          fetchProjectById(taskData.projectId),
+        ]);
+
+        setTask([taskData]);
+        setUser(userData || {});
+        setProject(projectData || {});
+      }
+    } catch (error) {
+      console.error("Ошибка при получении данных:", error);
+    }
+  }, [taskId]);
+  useEffect(() => {
+    fetchData();
+  }, [taskId, fetchData]);
+
+  const handleStatusChange = async (e) => {
+    const newStatus = e.target.value;
+    console.log(newStatus);
+    setStatus(newStatus);
+    try {
+      await updateTaskStatus(taskId, newStatus);
+      fetchData();
+      console.log("Статус задачи успешно обновлен");
+    } catch (error) {
+      console.error("Ошибка при обновлении статуса задачи:", error);
+    }
+  };
 
   return (
     <div className="task-page">
@@ -64,44 +91,68 @@ const TasksPage = () => {
         <div>
           <MyLink to={`/${teamId}/${projectId}/`}>Назад</MyLink>
         </div>
-        {tasks.map((task) => (
+        {task.map((task) => (
           <div key={task.id} className="task-page-content">
+            <MyTitle>{task.title}</MyTitle>
             <div className="task-details">
-              <MyTitle>{task.name}</MyTitle>
-              <MyText>{task.desk}</MyText>
-              <MyText>{`Ответственный: ${task.member}`}</MyText>
-              <MyText>{`Проект: ${task.project}`}</MyText>
+              <div className="task-details-text">
+                <MyText>{task.description}</MyText>
+                <MyText>{`Ответственный: ${user.name}`}</MyText>
+                <MyText>{`Проект: ${project.title}`}</MyText>
+              </div>
+              <div className="select-task">
+                <select
+                  id="status"
+                  name="status"
+                  value={task.status}
+                  defaultValue={status}
+                  onChange={handleStatusChange}
+                  className="select"
+                >
+                  <option className="option" value="Новая">
+                    Новая
+                  </option>
+                  <option className="option" value="В работе">
+                    В работе
+                  </option>
+                  <option className="option" value="Выполнено">
+                    Выполнено
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         ))}
         <div className="comments-section">
           <MyTitle>Комментарии</MyTitle>
           {comments.map((comment, index) => (
-            <div key={index} className="comment">
-              <div className="comment-photo">
-                {comment.file && (
-                  <img
-                    src={
-                      "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666389923_30-mykaleidoscope-ru-p-klassnaya-priroda-oboi-32.jpg"
-                    }
-                    alt="Фото комментария"
-                    className="comment-icon"
-                  />
-                )}
-              </div>
-              <div className="comment-text">
-                <MyText>{comment.text}</MyText>
-              </div>
-              <div className="comment-file">
-                {comment.file && (
-                  <a
-                    href={comment.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {comment.fileName}
-                  </a>
-                )}
+            <div className="comments">
+              <div key={index} className="comment">
+                <div className="comment-photo">
+                  {comment.file && (
+                    <img
+                      src={
+                        "https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666389923_30-mykaleidoscope-ru-p-klassnaya-priroda-oboi-32.jpg"
+                      }
+                      alt="Фото комментария"
+                      className="comment-icon"
+                    />
+                  )}
+                </div>
+                <div className="comment-text">
+                  <MyText>{comment.text}</MyText>
+                </div>
+                <div className="comment-file">
+                  {comment.file && (
+                    <a
+                      href={comment.file}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {comment.fileName}
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}

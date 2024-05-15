@@ -11,20 +11,20 @@ import { createTask, fetchTasksByProjectId } from "../../../../api/TaskApi";
 import {
   addUserForProject,
   fetchProjectById,
+  fetchProjectUsersByProjectId,
   updateProject,
 } from "../../../../api/ProjectApi";
-import { fetchUsers, fetchUserById } from "../../../../api/UserApi";
 import MyText from "../../../../components/myUi/MyText/MyText";
 import { fetchTeamMembersById } from "../../../../api/TeamApi";
+import { fetchUserById } from "../../../../api/UserApi";
 
 const ProjectPage = () => {
   const { teamId, projectId } = useParams();
   const userRole = localStorage.getItem("permission");
   const [editing, setEditing] = useState(false);
   const [project, setProject] = useState("");
-  const [users, setUsers] = useState([]);
+  const [projectMembers, setProjectMembers] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [userNames, setUserNames] = useState({});
   const [members, setMembers] = useState([]);
 
   const [taskData, setTaskData] = useState({
@@ -47,29 +47,47 @@ const ProjectPage = () => {
   // Функция для загрузки данных
   const loadData = useCallback(async () => {
     try {
-      const [membersOfTeam, usersData, tasksData, projectData] =
+      const [projectUsers, membersOfTeam, tasksData, projectData] =
         await Promise.all([
+          fetchProjectUsersByProjectId(projectId),
           fetchTeamMembersById(teamId),
-          fetchUsers(),
           fetchTasksByProjectId(projectId),
           fetchProjectById(projectId),
         ]);
+
+      setProjectMembers(projectUsers);
       setMembers(membersOfTeam);
-      setUsers(usersData);
       setTasks(tasksData);
       setProject(projectData);
-      const names = {};
-      for (const task of tasksData) {
-        if (!names[task.userId]) {
-          const user = await fetchUserById(task.userId);
-          names[task.userId] = user.name;
-        }
-      }
-      setUserNames(names);
+
+      const tasksWithAdditionalInfo = await Promise.all(
+        tasksData.map(async (task) => {
+          try {
+            const userData = await fetchUserById(task.userId);
+            return {
+              ...task,
+              projectName: projectData?.title, // Используйте опциональный оператор цепочки
+              userName: userData?.name, // Используйте опциональный оператор цепочки
+            };
+          } catch (taskError) {
+            console.error(
+              `Ошибка при загрузке данных для задачи ${task.id}:`,
+              taskError
+            );
+            return task; // Возвращаем исходную задачу, если произошла ошибка
+          }
+        })
+      );
+
+      setTasks(tasksWithAdditionalInfo);
     } catch (error) {
       console.error("Ошибка при загрузке данных:", error);
     }
   }, [projectId, teamId]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   // Обработчики событий
   // Состояния и функции для управления первым модальным окном
@@ -133,11 +151,6 @@ const ProjectPage = () => {
       console.error("Ошибка при обновлении проекта:", error);
     }
   };
-
-  // Использование useEffect для вызова loadData при монтировании
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
 
   // Дополнительные функции для редактирования
   const handleEditClick = () => {
@@ -206,18 +219,11 @@ const ProjectPage = () => {
                   onChange={handleInputChange}
                 >
                   <option value="">Ответственный</option>
-                  {users.map((user) => (
+                  {projectMembers.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name}
                     </option>
                   ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label htmlFor="taskPriority">Временная задача?</label>
-                <select id="taskManager" name="taskManager">
-                  <option value="Да">Да</option>
-                  <option value="Нет">Нет</option>
                 </select>
               </div>
               <div className="form-group">
@@ -252,11 +258,19 @@ const ProjectPage = () => {
               <MyTitle>Список работников</MyTitle>
               {members.map((member) => (
                 <div key={member.id} className="member-card">
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    className="member-icon"
-                  />
+                  {member.picture ? (
+                    <img
+                      src={member.picture}
+                      alt={member.name}
+                      className="member-icon"
+                    />
+                  ) : (
+                    <img
+                      src="https://sun9-46.userapi.com/impg/aLcIsmmt6Zvgr5tyCY68krWL6QJr8o9w2qhTrw/k9sU8l05H60.jpg?size=2048x1290&quality=96&sign=e9f338a2b74c4e35d98013db0c9c650f&type=album"
+                      alt={member.name}
+                      className="member-icon"
+                    />
+                  )}
                   <div className="member-info">
                     <h2 className="member-name">{member.name}</h2>
                     <MyText>{member.desk}</MyText>
@@ -329,7 +343,7 @@ const ProjectPage = () => {
                         Описание задачи: {task.description}
                       </div>
                       <div className="card-description">
-                        Ответственный: {userNames[task.userId]}
+                        Ответственный: {task.userName}
                       </div>
                       <div className="card-deadline">
                         Задачу необходимо выполнить до:{" "}
@@ -453,19 +467,33 @@ const ProjectPage = () => {
             </div>
             <div className="members-pag">
               <div className="members-list">
-                {members.map((member) => (
-                  <div key={member.id} className="member-card">
-                    <img
-                      src={member.picture}
-                      alt={member.name}
-                      className="member-icon"
-                    />
-                    <div className="member-info">
-                      <h2 className="member-name">{member.name}</h2>
-                      <MyText>{member.position}</MyText>
+                {projectMembers.length > 0 ? (
+                  projectMembers.map((member) => (
+                    <div key={member.id} className="member-card">
+                      {member.picture ? (
+                        <img
+                          src={member.picture}
+                          alt={member.name}
+                          className=" member-icon"
+                        />
+                      ) : (
+                        <img
+                          src="https://sun9-46.userapi.com/impg/aLcIsmmt6Zvgr5tyCY68krWL6QJr8o9w2qhTrw/k9sU8l05H60.jpg?size=2048x1290&quality=96&sign=e9f338a2b74c4e35d98013db0c9c650f&type=album"
+                          alt={member.name}
+                          className=" member-icon"
+                        />
+                      )}
+                      <div className="member-info">
+                        <h2 className="member-name">{member.name}</h2>
+                        <MyText>{member.position}</MyText>
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="no-members">
+                    <MyText>Участников нет</MyText>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>

@@ -66,7 +66,7 @@ const TasksPage = () => {
         console.error("Ошибка при создании задачи:", error);
       }
     },
-    [taskData, loadTasks]
+    [taskData, loadTasks, closeModal]
   );
 
   return (

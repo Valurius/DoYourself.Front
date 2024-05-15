@@ -25,6 +25,8 @@
 }
 
 .task-details {
+  display: flex;
+  justify-content: space-between;
   margin-top: 15px;
   padding: 1rem;
   background-color: white;
@@ -37,16 +39,74 @@
   margin-bottom: 0.5rem;
 }
 
+.comments {
+  margin-left: 5%;
+  width: 90%;
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+}
+
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background-image: linear-gradient(to left, #92bfb1, #55a6ca);
+  flex: 1;
+  padding: 0 0.5em;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+}
+.select::-ms-expand {
+  display: none;
+}
+.select-task {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  border-radius: 4px;
+  background: #00ffcc;
+  overflow: hidden;
+}
+.select-task::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #92bfb1;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+}
+.select-task:hover::after {
+  color: #ffffff;
+}
+.option {
+  background-color: #55a6ca;
+  color: rgb(255, 255, 255);
+}
+
 .comment {
   display: flex;
   flex-direction: column;
   background-color: #fafafa;
   box-shadow: 5px 5px 5px 5px #c8c9c7;
-  min-width: 100%;
   border-radius: 5px;
   margin-bottom: 1em;
   margin-top: 1em;
 }
+
 .comment-file {
   padding: 3px;
 }
@@ -82,7 +142,6 @@
 .comments-section {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Убедитесь, что .comments-section занимает всю доступную ширину */
   margin-top: auto;
 }
 

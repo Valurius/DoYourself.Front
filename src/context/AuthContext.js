@@ -8,13 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem("token") ? true : false
   );
-  const [userId, setUserId] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [user, setUser] = useState({});
+
   const updateAuthState = (token) => {
     if (token) {
       setIsAuthenticated(true);
-      setUserId();
     } else {
       setIsAuthenticated(false);
     }
@@ -28,8 +25,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (token, userId) => {
     const userf = await fetchUserById(userId);
-    setUser(userf);
-    console.log(userf);
     localStorage.setItem("permission", userf.permission);
     localStorage.setItem("token", token);
     localStorage.setItem("userId", userId);

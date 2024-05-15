@@ -44,7 +44,7 @@ const TeamsPage = () => {
     } catch (error) {
       console.error("Ошибка при создании команды:", error);
     }
-  }, [teamData, loadTeams]);
+  }, [teamData, loadTeams, closeModal]);
 
   return (
     <div className="team-list">
