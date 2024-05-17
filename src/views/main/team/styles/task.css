@@ -70,6 +70,7 @@
 }
 .select-task {
   position: relative;
+  margin-top: 20px;
   display: flex;
   width: 20em;
   height: 3em;
@@ -169,20 +170,51 @@
   }
 }
 
-@media (max-width: 768px) {
-  .task-page {
-    grid-template-columns: 1fr;
-    margin-top: 1%;
+.completed-popup {
+  position: fixed;
+  background-image: url("../styles/img/TaskDone.png");
+  left: 5%;
+  bottom: 0;
+  width: 250px;
+  height: 150px;
+  z-index: 100; /* Убедитесь, что всплывающее окно находится над другими элементами */
+  animation: slideIn 0.5s ease-out, fadeIn 0.5s ease-out;
+}
+.completed-popup img {
+  width: auto; /* Ширина изображения будет автоматически подстроена */
+  height: 70%; /* Высота изображения составит 80% от высоты всплывающего окна */
+}
+@keyframes slideIn {
+  from {
+    bottom: -120px; /* Начальное положение всплывающего окна */
   }
+  to {
+    bottom: 0px; /* Конечное положение всплывающего окна */
+  }
+}
 
-  .left_menu,
-  .task-window {
-    width: 100%;
-    margin-right: 0;
-    padding: 10px;
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Начальная прозрачность */
   }
+  to {
+    opacity: 1; /* Конечная прозрачность */
+  }
+}
 
-  .task-window {
-    border-radius: 10px;
+@keyframes fadeOut {
+  from {
+    opacity: 1; /* Начальная прозрачность */
   }
+  to {
+    opacity: 0; /* Конечная прозрачность */
+  }
+}
+
+.completed-popup.fade-out {
+  animation: fadeOut 0.5s ease-out;
+}
+
+.task-tags {
+  display: flex;
 }

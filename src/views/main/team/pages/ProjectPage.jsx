@@ -17,6 +17,7 @@ import {
 import MyText from "../../../../components/myUi/MyText/MyText";
 import { fetchTeamMembersById } from "../../../../api/TeamApi";
 import { fetchUserById } from "../../../../api/UserApi";
+import { addTagForTask, fetchTags } from "../../../../api/TagsApi";
 
 const ProjectPage = () => {
   const { teamId, projectId } = useParams();
@@ -26,6 +27,8 @@ const ProjectPage = () => {
   const [projectMembers, setProjectMembers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [members, setMembers] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [taskData, setTaskData] = useState({
     projectId: projectId,
@@ -34,6 +37,7 @@ const ProjectPage = () => {
     description: "",
     priority: "Низкий",
     Deadline: "2024-04-25",
+    tags: [],
   });
 
   const [projectData, setProjectData] = useState({
@@ -47,19 +51,20 @@ const ProjectPage = () => {
   // Функция для загрузки данных
   const loadData = useCallback(async () => {
     try {
-      const [projectUsers, membersOfTeam, tasksData, projectData] =
+      const [projectUsers, membersOfTeam, tasksData, projectData, tagsData] =
         await Promise.all([
           fetchProjectUsersByProjectId(projectId),
           fetchTeamMembersById(teamId),
           fetchTasksByProjectId(projectId),
           fetchProjectById(projectId),
+          fetchTags(),
         ]);
 
       setProjectMembers(projectUsers);
       setMembers(membersOfTeam);
       setTasks(tasksData);
       setProject(projectData);
-
+      setTags(tagsData);
       const tasksWithAdditionalInfo = await Promise.all(
         tasksData.map(async (task) => {
           try {
@@ -107,6 +112,25 @@ const ProjectPage = () => {
     setTaskData((prevData) => ({ ...prevData, [name]: value }));
   }, []);
 
+  const handleInputManyChange = useCallback(
+    (event) => {
+      const { name, value } = event.target;
+      const newTags = [...taskData.tags];
+      if (event.target.checked) {
+        // Добавляем тег, если чекбокс отмечен
+        newTags.push(value);
+      } else {
+        // Удаляем тег, если чекбокс не отмечен
+        const index = newTags.indexOf(value);
+        if (index > -1) {
+          newTags.splice(index, 1);
+        }
+      }
+      setTaskData((prevData) => ({ ...prevData, [name]: newTags }));
+    },
+    [taskData.tags]
+  );
+
   const handleInputChangeProject = useCallback((event) => {
     const { name, value } = event.target;
     setProjectData((prevData) => ({ ...prevData, [name]: value }));
@@ -117,9 +141,21 @@ const ProjectPage = () => {
     async (event) => {
       event.preventDefault();
       try {
-        await createTask(taskData, teamId);
-        toggleFirstModal();
-        loadData();
+        const response = await createTask(taskData, teamId);
+        const responseData = await response.json(); // Обработка JSON-ответа
+        const taskId = responseData.taskId; // Извлечение taskId из ответа
+
+        if (taskId) {
+          for (const tagId of taskData.tags) {
+            await addTagForTask(taskId, tagId);
+          }
+          toggleFirstModal();
+          loadData();
+        } else {
+          console.error(
+            "Не удалось получить идентификатор задачи из ответа сервера"
+          );
+        }
       } catch (error) {
         console.error("Ошибка при создании задачи:", error);
       }
@@ -237,6 +273,34 @@ const ProjectPage = () => {
                   required
                 />
               </div>
+              <div className="form-group">
+                <label>Теги:</label>
+                {tags.map((tag) => (
+                  <div key={tag.id} className="many">
+                    <input
+                      type="checkbox"
+                      id={`tag-${tag.id}`}
+                      name="tags"
+                      value={tag.id}
+                      checked={taskData.tags.includes(tag.id)}
+                      onChange={handleInputManyChange}
+                    />
+                    <label htmlFor={`tag-${tag.id}`}>
+                      {tag.title} ({tag.points} очков)
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <strong>Выбранные теги:</strong>
+                <ul>
+                  {taskData.tags &&
+                    taskData.tags.map((tagId) => {
+                      const tag = tags.find((t) => t.id === tagId);
+                      return <li key={tagId}>{tag?.title}</li>;
+                    })}
+                </ul>
+              </div>
               <div className="modal-footer">
                 <button type="submit">Добавить задачу</button>
                 <button type="button" onClick={toggleFirstModal}>
@@ -250,9 +314,6 @@ const ProjectPage = () => {
 
       <MyModal isOpen={isSecondModalOpen} onToggle={toggleSecondModal}>
         <div className="modal-content">
-          <div className="modal-header">
-            <MyTitle>Добавление задачи</MyTitle>
-          </div>
           <div className="modal-body">
             <div className="members-list">
               <MyTitle>Список работников</MyTitle>
@@ -317,49 +378,60 @@ const ProjectPage = () => {
             ) : (
               <>
                 <MyTitle>Задачи проекта</MyTitle>
-                {tasks.map((task) => (
-                  <div key={task.id} className="card">
-                    <div className="card-header">
-                      <div className="card-title">{task.title}</div>
-                      <div
-                        className={
-                          task.priority === "Высокий"
-                            ? "card-priority-high"
-                            : task.priority === "Средний"
-                            ? "card-priority-medium"
-                            : "card-priority-low"
-                        }
-                      >
-                        {task.priority === "Высокий"
-                          ? "☆☆☆"
-                          : task.priority === "Средний"
-                          ? "☆☆"
-                          : "☆"}
-                        {task.priority}
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <div className="card-description">
-                        Описание задачи: {task.description}
-                      </div>
-                      <div className="card-description">
-                        Ответственный: {task.userName}
-                      </div>
-                      <div className="card-deadline">
-                        Задачу необходимо выполнить до:{" "}
-                        {new Date(task.deadline).toLocaleDateString("ru-RU")}
-                      </div>
-                      <div className="link-button-container">
-                        <Link
-                          to={`/${teamId}/${projectId}/${task.id}/`}
-                          className="link-button"
+                <input
+                  type="text"
+                  placeholder="Поиск по названию..."
+                  value={searchQuery}
+                  className="search-input"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {tasks
+                  .filter((task) =>
+                    task.title.toLowerCase().includes(searchQuery.toLowerCase())
+                  )
+                  .map((task) => (
+                    <div key={task.id} className="card">
+                      <div className="card-header">
+                        <div className="card-title">{task.title}</div>
+                        <div
+                          className={
+                            task.priority === "Высокий"
+                              ? "card-priority-high"
+                              : task.priority === "Средний"
+                              ? "card-priority-medium"
+                              : "card-priority-low"
+                          }
                         >
-                          Перейти
-                        </Link>
+                          {task.priority === "Высокий"
+                            ? "☆☆☆"
+                            : task.priority === "Средний"
+                            ? "☆☆"
+                            : "☆"}
+                          {task.priority}
+                        </div>
+                      </div>
+                      <div className="card-body">
+                        <div className="card-description">
+                          Описание задачи: {task.description}
+                        </div>
+                        <div className="card-description">
+                          Ответственный: {task.userName}
+                        </div>
+                        <div className="card-deadline">
+                          Задачу необходимо выполнить до:{" "}
+                          {new Date(task.deadline).toLocaleDateString("ru-RU")}
+                        </div>
+                        <div className="link-button-container">
+                          <Link
+                            to={`/${teamId}/${projectId}/${task.id}/`}
+                            className="link-button"
+                          >
+                            Перейти
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </>
             )}
           </div>

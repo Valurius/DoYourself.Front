@@ -79,3 +79,41 @@ export const deleteTag = async (id) => {
     throw error;
   }
 };
+
+export const addTagForTask = async (taskId, tagId) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Tags/${taskId}/${tagId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "",
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+  } catch (error) {
+    console.error("Ошибка:", error);
+    throw error;
+  }
+};
+
+export const fetchTaskTagsByTaskId = async (taskId) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Tags/Task/${taskId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      throw new Error("Задача не найдена");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении проекта:", error);
+    return null;
+  }
+};

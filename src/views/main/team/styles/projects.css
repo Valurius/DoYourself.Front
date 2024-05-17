@@ -18,6 +18,11 @@
   margin-right: 5%;
 }
 
+.search {
+  width: 25%;
+  margin-top: 10px;
+}
+
 @media (max-width: 1024px) {
   .left_menu {
     width: 130px !important;

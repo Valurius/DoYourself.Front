@@ -24,6 +24,21 @@ export const fetchTeamsByUserId = async (userId) => {
   }
 };
 
+export const fetchTeamMemberProfile = async (teamId, userId) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/TeamUser/TeamMember/${teamId}/${userId}`
+    );
+    if (!response.ok) {
+      throw new Error("Профиль участника команды не найден");
+    }
+    return await response.json(); // Предполагаем, что ответ в формате JSON
+  } catch (error) {
+    console.error("Ошибка при получении профиля участника команды:", error);
+    return null; // Возвращаем null в случае ошибки
+  }
+};
+
 export const fetchTeamById = async (id) => {
   try {
     const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`);

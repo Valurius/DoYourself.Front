@@ -60,7 +60,6 @@ export const createTask = async (taskData, teamId) => {
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify(taskData),
       }
     );
@@ -69,31 +68,37 @@ export const createTask = async (taskData, teamId) => {
       const errorText = await response.text();
       throw new Error(errorText);
     }
+
+    return response; // Убедитесь, что возвращается объект response
   } catch (error) {
     console.error("Ошибка:", error);
     throw error;
   }
 };
 
-// export const updateTeam = async (id, teamData) => {
-//   try {
-//     const response = await fetch(`https://doyourself.ddns.net/api/Team/${id}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(teamData),
-//     });
+export const updateTeamMemberScore = async (teamId, userId, points) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/TeamUser/${teamId}/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(points),
+      }
+    );
 
-//     if (!response.ok) {
-//       const errorText = await response.text();
-//       throw new Error(errorText);
-//     }
-//   } catch (error) {
-//     console.error("Ошибка при обновлении команды:", error);
-//     throw error;
-//   }
-// };
+    if (!response.ok) {
+      throw new Error("Не удалось обновить счет пользователя в команде");
+    }
+
+    const result = await response.text();
+    return result;
+  } catch (error) {
+    console.error("Ошибка:", error);
+  }
+};
 
 export const deleteTask = async (id) => {
   try {

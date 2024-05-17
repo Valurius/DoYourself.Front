@@ -3,7 +3,7 @@ import "../../../../styles/componentStyles/Modal.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
-import { useRoleContext } from "../../../../context/RoleContext";
+
 import MyText from "../../../../components/myUi/MyText/MyText";
 import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyModal from "../../../../components/myUi/MyModal/MyModal";
@@ -13,7 +13,6 @@ import { fetchTeamTitleById } from "../../../../api/TeamApi";
 
 const TasksPage = () => {
   const { teamId } = useParams();
-  const { userRole } = useRoleContext();
   const [isModalOpen, setModalOpen] = useState(false);
   const [teamTitle, setTeamTitle] = useState("");
   const [tasks, setTasks] = useState([]);
@@ -160,14 +159,11 @@ const TasksPage = () => {
       <div className="team-tasks">
         <MyLink to={`/${teamId}/projects/`}>Назад</MyLink>
         <MyTitle>Задачи команды "{teamTitle}"</MyTitle>
-        {userRole === "Админ" ? (
-          <div>
-            <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
-            <MyButton onClick={openModal}>Добавить</MyButton>
-          </div>
-        ) : (
-          ""
-        )}
+
+        <div>
+          <MyLink to={`/${teamId}/tags/`}>Тэги</MyLink>
+          <MyButton onClick={openModal}>Добавить</MyButton>
+        </div>
 
         {tasks.map((task) => (
           <div key={task.id}>

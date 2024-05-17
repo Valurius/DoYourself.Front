@@ -90,3 +90,56 @@
 .add {
   padding: 6px;
 }
+
+.many {
+  display: flex;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none; /* Убираем стандартный стиль в WebKit-браузерах */
+  -moz-appearance: none; /* Убираем стандартный стиль в Firefox */
+  appearance: none; /* Убираем стандартный стиль */
+  width: 15px; /* Ширина чекбокса */
+  height: 15px; /* Высота чекбокса */
+  border: 2px solid #999; /* Граница чекбокса */
+  border-radius: 50%; /* Скругление границы для круглой формы */
+  vertical-align: middle; /* Выравнивание по вертикали */
+  position: relative; /* Относительное позиционирование */
+}
+
+/* Стили для иконки галочки */
+input[type="checkbox"]:checked::before {
+  content: ""; /* Пустое содержимое */
+  position: absolute; /* Абсолютное позиционирование */
+  top: 0px; /* Отступ сверху */
+  left: 4px; /* Отступ слева */
+  width: 3px; /* Ширина иконки */
+  height: 9px; /* Высота иконки */
+  border: solid #fff; /* Белая граница */
+  border-width: 0 3px 3px 0; /* Толщина границы */
+  transform: rotate(45deg); /* Поворот на 45 градусов */
+  border-radius: 0; /* Убираем скругление */
+}
+.search-input {
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #55a6ca;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 8px 0 rgba(0, 123, 255, 0.25);
+}
+/* Стили для фона чекбокса при выборе */
+input[type="checkbox"]:checked {
+  background-color: #007bff; /* Синий фон */
+  border-color: #007bff; /* Синяя граница */
+}

@@ -30,7 +30,6 @@ const Workers = () => {
   const loadUsers = async () => {
     try {
       const usersData = await fetchUsers();
-      // Фильтрация пользователей с permission равным "Юзер"
       const filteredUsers = usersData.filter(
         (user) => user.permission === "Юзер"
       );
@@ -104,7 +103,7 @@ const Workers = () => {
                 />
               ) : (
                 <img
-                  src="https://sun9-46.userapi.com/impg/aLcIsmmt6Zvgr5tyCY68krWL6QJr8o9w2qhTrw/k9sU8l05H60.jpg?size=2048x1290&quality=96&sign=e9f338a2b74c4e35d98013db0c9c650f&type=album"
+                  src={require("../team/styles/img/NoPhoto.jpg")}
                   alt={worker.name}
                   className="worker-icon"
                 />

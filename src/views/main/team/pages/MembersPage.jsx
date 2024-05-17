@@ -3,7 +3,10 @@ import "../styles/members.css";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
 import MenuBar from "../../../../components/Menu";
 import MyText from "../../../../components/myUi/MyText/MyText";
-import { fetchTeamMembersById } from "../../../../api/TeamApi";
+import {
+  fetchTeamMemberProfile,
+  fetchTeamMembersById,
+} from "../../../../api/TeamApi";
 import { useParams } from "react-router-dom";
 
 const Team = () => {
@@ -14,7 +17,16 @@ const Team = () => {
     const fetchMembers = async () => {
       try {
         const membersOfTeam = await fetchTeamMembersById(teamId);
-        setMembers(membersOfTeam);
+        const membersWithScore = await Promise.all(
+          membersOfTeam.map(async (member) => {
+            const profile = await fetchTeamMemberProfile(teamId, member.id);
+            console.log(profile);
+            return { ...member, points: profile.score };
+          })
+        );
+        membersWithScore.sort((a, b) => b.points - a.points);
+        console.log(membersWithScore);
+        setMembers(membersWithScore);
       } catch (error) {
         console.error("Ошибка при получении участников команды:", error);
       }
@@ -41,7 +53,7 @@ const Team = () => {
                 />
               ) : (
                 <img
-                  src="https://sun9-46.userapi.com/impg/aLcIsmmt6Zvgr5tyCY68krWL6QJr8o9w2qhTrw/k9sU8l05H60.jpg?size=2048x1290&quality=96&sign=e9f338a2b74c4e35d98013db0c9c650f&type=album"
+                  src={require("../styles/img/NoPhoto.jpg")}
                   alt={member.name}
                   className="member-icon"
                 />
@@ -50,6 +62,12 @@ const Team = () => {
               <div className="member-info">
                 <MyText className="member-name">{member.name}</MyText>
                 <MyText>{member.desk}</MyText>
+                <MyText>
+                  Очки:{" "}
+                  {member.points !== null
+                    ? member.points
+                    : "нолик... кругленький... Приступай к задачам, дружок"}
+                </MyText>
               </div>
             </div>
           ))}

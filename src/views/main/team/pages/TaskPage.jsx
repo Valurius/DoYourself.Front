@@ -6,9 +6,14 @@ import MyLink from "../../../../components/myUi/MyLink/MyLink";
 import MyButton from "../../../../components/myUi/MyButton/MyButton";
 import { useParams } from "react-router-dom";
 import MyTitle from "../../../../components/myUi/MyTitle/MyTitle";
-import { fetchTaskById, updateTaskStatus } from "../../../../api/TaskApi";
+import {
+  fetchTaskById,
+  updateTaskStatus,
+  updateTeamMemberScore,
+} from "../../../../api/TaskApi";
 import { fetchUserById } from "../../../../api/UserApi";
 import { fetchProjectById } from "../../../../api/ProjectApi";
+import { fetchTaskTagsByTaskId } from "../../../../api/TagsApi";
 
 const TasksPage = () => {
   const { teamId, projectId, taskId } = useParams();
@@ -16,10 +21,12 @@ const TasksPage = () => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [commentText, setCommentText] = useState("");
-  const [task, setTask] = useState([]); // Изменено на использование состояния
+  const [task, setTask] = useState(null);
   const [project, setProject] = useState([]); // Изменено на использование состояния
   const [user, setUser] = useState([]); // Изменено на использование состояния
   const [status, setStatus] = useState("");
+  const [showCompletedPopup, setShowCompletedPopup] = useState(false);
+  const [taskTags, setTaskTags] = useState([]);
 
   const addComment = (text, file, fileName) => {
     const newComment = { text, file, fileName };
@@ -56,8 +63,7 @@ const TasksPage = () => {
           fetchUserById(taskData.userId),
           fetchProjectById(taskData.projectId),
         ]);
-
-        setTask([taskData]);
+        setTask(taskData); // Установка task как объекта
         setUser(userData || {});
         setProject(projectData || {});
       }
@@ -65,14 +71,49 @@ const TasksPage = () => {
       console.error("Ошибка при получении данных:", error);
     }
   }, [taskId]);
+
+  const fetchTags = useCallback(async () => {
+    try {
+      const tags = await fetchTaskTagsByTaskId(taskId);
+      setTaskTags(tags || []);
+    } catch (error) {
+      console.error("Ошибка при получении тегов задачи:", error);
+    }
+  }, [taskId]);
+
   useEffect(() => {
     fetchData();
-  }, [taskId, fetchData]);
+    fetchTags();
+  }, [fetchData, fetchTags]);
 
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
-    console.log(newStatus);
     setStatus(newStatus);
+
+    if (newStatus === "Выполнено") {
+      setShowCompletedPopup(true);
+      setTimeout(() => {
+        const completedPopup = document.querySelector(".completed-popup");
+        if (completedPopup) {
+          completedPopup.classList.add("fade-out");
+          setTimeout(() => setShowCompletedPopup(false), 500);
+        }
+      }, 3000);
+
+      // Вызов метода для обновления счета пользователя
+      const userId = task.userId;
+      console.log(task); // ID пользователя, ответственного за задачу
+      const pointsToAdd = totalPoints; // Общее количество очков из тегов задачи
+      try {
+        await updateTeamMemberScore(teamId, userId, pointsToAdd);
+        console.log(teamId);
+        console.log(userId);
+        console.log(pointsToAdd);
+      } catch (updateError) {
+        console.error("Ошибка при обновлении счета пользователя:", updateError);
+      }
+    }
+
     try {
       await updateTaskStatus(taskId, newStatus);
       fetchData();
@@ -82,6 +123,7 @@ const TasksPage = () => {
     }
   };
 
+  const totalPoints = taskTags.reduce((sum, tag) => sum + (tag.points || 0), 0);
   return (
     <div className="task-page">
       <div className="left_menu">
@@ -91,15 +133,37 @@ const TasksPage = () => {
         <div>
           <MyLink to={`/${teamId}/${projectId}/`}>Назад</MyLink>
         </div>
-        {task.map((task) => (
+
+        {task && (
           <div key={task.id} className="task-page-content">
-            <MyTitle>{task.title}</MyTitle>
+            {showCompletedPopup && (
+              <div className="completed-popup">
+                <MyText>+ {totalPoints}</MyText>
+                <img src={require("../styles/img/TaskDone.png")} />
+              </div>
+            )}
+            <MyTitle>Задача: {task.title}</MyTitle>
             <div className="task-details">
               <div className="task-details-text">
+                <MyTitle>Описание</MyTitle>
                 <MyText>{task.description}</MyText>
                 <MyText>{`Ответственный: ${user.name}`}</MyText>
                 <MyText>{`Проект: ${project.title}`}</MyText>
               </div>
+              <div className="task">
+                <MyTitle>Теги</MyTitle>
+                {taskTags.length > 0 && (
+                  <div>
+                    {taskTags.map((tag) => (
+                      <div key={tag.id} className="task-tags">
+                        <MyText>{tag.title}</MyText>
+                        <MyText>{tag.points}</MyText>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className="select-task">
                 <select
                   id="status"
@@ -122,7 +186,7 @@ const TasksPage = () => {
               </div>
             </div>
           </div>
-        ))}
+        )}
         <div className="comments-section">
           <MyTitle>Комментарии</MyTitle>
           {comments.map((comment, index) => (
