@@ -557,6 +557,7 @@ const ProjectPage = () => {
                       )}
                       <div className="member-info">
                         <h2 className="member-name">{member.name}</h2>
+                        <h2 className="member-name">{member.surname}</h2>
                         <MyText>{member.position}</MyText>
                       </div>
                     </div>

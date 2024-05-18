@@ -195,10 +195,10 @@ const ProjectsPage = () => {
                   }
                 >
                   {project.priority === "Высокий"
-                    ? "☆☆☆"
+                    ? "☆☆☆ "
                     : project.priority === "Средний"
-                    ? "☆☆"
-                    : "☆"}
+                    ? "☆☆ "
+                    : "☆ "}
                   {project.priority}
                 </div>
               </div>

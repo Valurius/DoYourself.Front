@@ -14,6 +14,10 @@
   max-width: 60%;
 }
 
+.workers-info {
+  display: flex;
+  flex-direction: row;
+}
 .teams-list {
   grid-row: 1;
   padding: 20px;
@@ -148,18 +152,55 @@
 }
 
 @media (max-width: 768px) {
-  .team-page {
+  .workers-page {
+    justify-content: center;
     flex-direction: column;
+    margin: 0 10px; /* Добавляет небольшие отступы слева и справа */
+    width: calc(100% - 20px); /* Вычитает отступы из ширины страницы */
+    box-sizing: border-box; /* Включает отступы в общую ширину */
   }
 
-  .team-workers,
-  .team-teams {
-    margin-right: 0;
-    margin-bottom: 20px;
+  .workers-list,
+  .teams-list {
+    margin: 20px auto;
+    max-width: 90%; /* Устанавливает максимальную ширину с учетом отступов */
+    padding: 10px;
+    box-shadow: 2px 2px 5px 2px #c8c9c7;
   }
 
-  .team .thumb {
-    width: 100px;
-    height: 50px;
+  .team-card,
+  .worker-card {
+    margin: 10px auto; /* Автоматические отступы слева и справа для центрирования */
+    padding: 10px; /* Устанавливает максимальную ширину карточек */
+  }
+
+  .team-icon,
+  .worker-icon {
+    width: 22vmin;
+    height: 18vmin;
+    float: left;
+    margin-right: 1.25em;
+    box-shadow: 5px 5px 5px 5px #c8c9c7;
+    transform: rotate(-4deg);
+    transition: all 0.4s ease;
+    padding: 1px;
+    border-radius: 0.25em;
+    overflow: hidden;
+    margin-left: -3em;
+  }
+
+  .team-name,
+  .worker-name {
+    font-size: 5vw;
+  }
+
+  .worker-status:after {
+    top: 0;
+    right: 0;
+    transform: rotate(0deg);
+  }
+
+  .worker-description {
+    display: block;
   }
 }

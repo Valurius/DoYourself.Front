@@ -58,10 +58,10 @@ const MyTasksPage = () => {
                   }
                 >
                   {task.priority === "Высокий"
-                    ? "☆☆☆"
+                    ? "☆☆☆ "
                     : task.priority === "Средний"
-                    ? "☆☆"
-                    : "☆"}
+                    ? "☆☆ "
+                    : "☆ "}
                   {task.priority}
                 </div>
               </div>

@@ -111,3 +111,41 @@
     background-position: 0px 60px;
   }
 }
+
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workers-teams,
+.profile-buttons {
+  display: flex;
+  align-items: center;
+}
+
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    height: auto;
+  }
+  .header-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end; /* Выравнивание элементов по правому краю */
+    margin-top: 10px;
+  }
+  .header-frame {
+    width: calc(100%);
+  }
+  .workers-teams,
+  .profile-buttons {
+    width: 100%;
+    justify-content: flex-end; /* Добавлено для выравнивания по правому краю */
+  }
+
+  .profile-buttons {
+    padding-top: 10px;
+  }
+}

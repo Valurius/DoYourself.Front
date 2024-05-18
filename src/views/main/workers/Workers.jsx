@@ -61,17 +61,13 @@ const Workers = () => {
     <div className="workers-page">
       <MyModal isOpen={isSecondModalOpen} onToggle={toggleModal}>
         <div className="modal-content">
-          <div className="modal-header">
-            <MyTitle>Добавление задачи</MyTitle>
-          </div>
           <div className="modal-body">
             <div className="teams-list">
               <MyTitle>Список команд</MyTitle>
               {teams.map((team) => (
                 <div key={team.id} className="team-card">
-                  <img src={team.img} alt={team.name} className="team-icon" />
                   <div className="team-info">
-                    <h2 className="team-name">{team.name}</h2>
+                    <h2 className="team-name">{team.title}</h2>
                     <MyText>{team.desk}</MyText>
                   </div>
                   <MyButton
@@ -108,15 +104,13 @@ const Workers = () => {
                   className="worker-icon"
                 />
               )}
-              <div className="worker-info">
+              <div className="workers-info">
                 <MyText className="worker-name">{worker.name}</MyText>
                 <MyText className="worker-name">{worker.surname}</MyText>
-                <MyText className="worker-name">{worker.surname}</MyText>
-                <MyButton onClick={() => toggleModal(worker.id)}>
-                  Добавить в команду
-                </MyButton>
-                <MyText>{worker.position}</MyText>
               </div>
+              <MyButton onClick={() => toggleModal(worker.id)}>
+                Добавить в команду
+              </MyButton>
             </div>
           );
         })}

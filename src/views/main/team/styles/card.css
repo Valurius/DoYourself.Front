@@ -143,3 +143,68 @@
   font-size: 12px;
   color: #999;
 }
+
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    max-width: 100%; /* Полная ширина для мобильных устройств */
+    margin: 15px;
+    box-shadow: 4px 4px 8px 4px rgba(207, 205, 205, 0.2);
+  }
+
+  .card-image {
+    width: 100%; /* Полная ширина для мобильных устройств */
+    height: auto; /* Автоматическая высота для сохранения пропорций изображения */
+  }
+
+  .card-header {
+    padding: 5px; /* Уменьшенные отступы для мобильных устройств */
+  }
+
+  .card-body,
+  .card-body-market {
+    flex-direction: column; /* Столбцовое расположение для мобильных устройств */
+  }
+
+  .card-priority-medium {
+    width: 30%;
+    word-wrap: break-word;
+  }
+
+  .card-priority,
+  .card-status {
+    width: 30%;
+    flex: none; /* Отменяет flex-распределение пространства */
+    margin-bottom: 10px; /* Добавляет отступ снизу */
+  }
+
+  .card-title {
+    font-size: 20px; /* Уменьшенный размер шрифта для мобильных устройств */
+  }
+
+  .card-description {
+    font-size: 14px; /* Уменьшенный размер шрифта для мобильных устройств */
+  }
+
+  .card-goal {
+    font-size: 16px; /* Уменьшенный размер шрифта для мобильных устройств */
+  }
+
+  .link-button-container {
+    padding-bottom: 10px; /* Уменьшенный отступ снизу */
+  }
+
+  .link-button {
+    padding: 8px 16px; /* Уменьшенные отступы для кнопки */
+  }
+
+  .card-priority-low,
+  .card-priority-medium,
+  .card-priority-high {
+    font-size: 20px; /* Уменьшенный размер шрифта для мобильных устройств */
+  }
+
+  .card-deadline {
+    font-size: 10px; /* Уменьшенный размер шрифта для мобильных устройств */
+  }
+}

@@ -27,12 +27,18 @@ const Header = () => {
               </div>
             </div>
             <div className="header-buttons">
-              <MyLink to="/profile">
-                <PersonIcon />
-              </MyLink>
-              {userRole === "Админ" && <MyLink to="/workers">Работники</MyLink>}
-              <MyLink to="/teams">Команды</MyLink>
-              <MyButton onClick={logout}>Выйти</MyButton>
+              <div className="workers-teams">
+                {userRole === "Админ" && (
+                  <MyLink to="/workers">Работники</MyLink>
+                )}
+                <MyLink to="/teams">Команды</MyLink>
+              </div>
+              <div className="profile-buttons">
+                <MyLink to="/profile">
+                  <PersonIcon />
+                </MyLink>
+                <MyButton onClick={logout}>Выйти</MyButton>
+              </div>
             </div>
           </>
         )}

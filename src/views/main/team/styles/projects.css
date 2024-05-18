@@ -19,12 +19,28 @@
 }
 
 .search {
-  width: 25%;
+  width: 35%;
   margin-top: 10px;
 }
 
 @media (max-width: 1024px) {
   .left_menu {
     width: 130px !important;
+  }
+}
+@media (max-width: 768px) {
+  .projects-page {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+  }
+
+  .team-projects {
+    padding: 10px; /* Уменьшаем внутренние отступы */
+  }
+
+  .search {
+    width: 100%; /* Поисковая строка также займет всю ширину */
+    margin-top: 0; /* Убираем отступ сверху */
   }
 }
