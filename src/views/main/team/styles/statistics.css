@@ -22,8 +22,12 @@
 
 .chart-container {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 100px;
   display: flex;
+}
+
+chart-statistic {
+  margin-top: 150px;
 }
 
 @media (max-width: 1024px) {

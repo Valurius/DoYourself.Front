@@ -84,19 +84,6 @@ const Team = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="image">Фото:</label>
-              <input
-                type="text"
-                id="image"
-                name="image"
-                value={tagsData.image}
-                onChange={handleInputChange}
-                placeholder="Фото"
-                required
-              />
-            </div>
-
-            <div className="form-group">
               <label htmlFor="points">Награда метки:</label>
               <input
                 type="number"
@@ -142,7 +129,6 @@ const Team = () => {
                 >
                   ×
                 </button>
-                <img src={tag.image} alt={tag.title} className="tag-icon" />
                 <div className="tag-info">
                   <MyTitle className="tag-name">{tag.title}</MyTitle>
                   <MyText> Цена: {tag.points}</MyText>

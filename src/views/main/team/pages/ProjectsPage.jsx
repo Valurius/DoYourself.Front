@@ -176,52 +176,56 @@ const ProjectsPage = () => {
             className="search-input" // Добавьте этот класс для стилей
           />
         </div>
-        {projects
-          .filter((project) =>
-            project.title.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-          .map((project) => (
-            <div key={project.id} className="card">
-              <div className="card-header">
-                <div className="card-title">{project.title}</div>
+        {projects.length > 0 ? (
+          projects
+            .filter((project) =>
+              project.title.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((project) => (
+              <div key={project.id} className="card">
+                <div className="card-header">
+                  <div className="card-title">{project.title}</div>
 
-                <div
-                  className={
-                    project.priority === "Высокий"
-                      ? "card-priority-high"
-                      : project.priority === "Средний"
-                      ? "card-priority-medium"
-                      : "card-priority-low"
-                  }
-                >
-                  {project.priority === "Высокий"
-                    ? "☆☆☆ "
-                    : project.priority === "Средний"
-                    ? "☆☆ "
-                    : "☆ "}
-                  {project.priority}
-                </div>
-              </div>
-              <div className="card-body">
-                <div className="card-description">
-                  Описание проекта: {project.description}
-                </div>
-                <div className="card-goal">Цель проекта: {project.goal}</div>
-                <div className="card-deadline">
-                  Проект необходимо выполнить до:{" "}
-                  {new Date(project.deadline).toLocaleDateString("ru-RU")}
-                </div>
-                <div className="link-button-container">
-                  <Link
-                    to={`/${teamId}/${project.id}/`}
-                    className="link-button"
+                  <div
+                    className={
+                      project.priority === "Высокий"
+                        ? "card-priority-high"
+                        : project.priority === "Средний"
+                        ? "card-priority-medium"
+                        : "card-priority-low"
+                    }
                   >
-                    Перейти
-                  </Link>
+                    {project.priority === "Высокий"
+                      ? "☆☆☆ "
+                      : project.priority === "Средний"
+                      ? "☆☆ "
+                      : "☆ "}
+                    {project.priority}
+                  </div>
+                </div>
+                <div className="card-body">
+                  <div className="card-description">
+                    Описание проекта: {project.description}
+                  </div>
+                  <div className="card-goal">Цель проекта: {project.goal}</div>
+                  <div className="card-deadline">
+                    Проект необходимо выполнить до:{" "}
+                    {new Date(project.deadline).toLocaleDateString("ru-RU")}
+                  </div>
+                  <div className="link-button-container">
+                    <Link
+                      to={`/${teamId}/${project.id}/`}
+                      className="link-button"
+                    >
+                      Перейти
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+        ) : (
+          <p className="noTasks">Проектов нет</p>
+        )}
       </div>
     </div>
   );

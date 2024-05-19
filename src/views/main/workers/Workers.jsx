@@ -105,8 +105,9 @@ const Workers = () => {
                 />
               )}
               <div className="workers-info">
-                <MyText className="worker-name">{worker.name}</MyText>
-                <MyText className="worker-name">{worker.surname}</MyText>
+                <MyText className="worker-name">
+                  {worker.name} {worker.surname}
+                </MyText>
               </div>
               <MyButton onClick={() => toggleModal(worker.id)}>
                 Добавить в команду

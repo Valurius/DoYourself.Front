@@ -22,16 +22,24 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-container">
         <div className="profile-photo">
-          <img src={user.picture || ""} alt="" />
+          {user.picture ? (
+            <img src={user.picture} alt={user.name} className="user-icon" />
+          ) : (
+            <img
+              src={require("../team/styles/img/NoPhoto.jpg")}
+              alt={user.name}
+              className="user-icon"
+            />
+          )}
         </div>
         <div className="profile-info">
           <MyTitle>Профиль пользователя</MyTitle>
           <MyText>Имя: {user.name}</MyText>
-          <MyText>Email: {user.email}</MyText>
-          <MyText>Очки: {user.email}</MyText>
+          <MyText>Фамилия: {user.surname}</MyText>
           <MyText>Email: {user.email}</MyText>
           <form action="https://web.telegram.org/a/#7194534654" target="_blank">
             <MyButton type="submit">Подключить уведомления Телеграм</MyButton>
+            <MyButton type="submit">Редактировать профиль</MyButton>
           </form>
         </div>
       </div>

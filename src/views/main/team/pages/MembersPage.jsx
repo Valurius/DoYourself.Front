@@ -8,6 +8,7 @@ import {
   fetchTeamMembersById,
 } from "../../../../api/TeamApi";
 import { useParams } from "react-router-dom";
+import MyButton from "../../../../components/myUi/MyButton/MyButton";
 
 const Team = () => {
   const [members, setMembers] = useState([]);
@@ -60,14 +61,15 @@ const Team = () => {
               )}
 
               <div className="member-info">
-                <MyText className="member-name">{member.name}</MyText>
-                <MyText>{member.desk}</MyText>
-                <MyText>
-                  Очки:{" "}
-                  {member.points !== null
-                    ? member.points
-                    : "нолик... кругленький... Приступай к задачам, дружок"}
+                <MyText className="member-name">
+                  {member.name} {member.surname}
                 </MyText>
+                <MyText>
+                  Очки: {member.points !== null ? member.points : "0"}
+                </MyText>
+              </div>
+              <div>
+                <MyButton>Перейти</MyButton>
               </div>
             </div>
           ))}

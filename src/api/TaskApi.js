@@ -21,6 +21,20 @@ export const fetchTasksByProjectId = async (projectId) => {
   }
 };
 
+export const fetchTasksByTeamId = async (teamId) => {
+  try {
+    const response = await fetch(
+      `https://doyourself.ddns.net/api/Task/TeamTasks/${teamId}`
+    );
+    if (response.status === 404 || !response.ok) {
+      return [];
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Ошибка при получении задач по ID команды:", error);
+  }
+};
+
 export const fetchTaskById = async (id) => {
   try {
     const response = await fetch(
