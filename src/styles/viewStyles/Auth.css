@@ -28,7 +28,7 @@
 .auth-input {
   border: none;
   outline: none;
-  max-width: 150px;
+  max-width: 160px;
   background: linear-gradient(to right, #f0f0f0, #e6e6e6);
   padding: 10px 15px;
   border-radius: 20px;
