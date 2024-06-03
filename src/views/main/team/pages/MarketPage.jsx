@@ -130,6 +130,7 @@ const MarketPage = () => {
             </form>
           </div>
         </MyModal>
+
         <div className="products-cards">
           <div className="products">
             <MyTitle>Награды</MyTitle>
@@ -164,6 +165,7 @@ const MarketPage = () => {
               <p className="noTasks">Продуктов нет</p>
             )}
           </div>
+
           <div className="purchased-products">
             <MyTitle>Купленные награды</MyTitle>
             {selectedProduct ? (

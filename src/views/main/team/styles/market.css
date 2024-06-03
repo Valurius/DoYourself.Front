@@ -23,13 +23,6 @@
   }
 }
 
-.purchased-products {
-  grid-row: 1;
-  background-color: #ffffff;
-  border-radius: 20px;
-  margin-left: 5%;
-}
-
 .purchased-card {
   display: flex;
   flex-direction: column;
@@ -54,16 +47,8 @@
 
 .products-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Создает две колонки с равной шириной */
-  gap: 20px; /* Добавляет промежуток между колонками */
-}
-
-.products {
-  grid-column: 1; /* Размещает карточки товаров в первой колонке */
-}
-
-.purchased-products {
-  grid-column: 2; /* Размещает купленные товары во второй колонке */
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 .card-product {
@@ -129,50 +114,21 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
 @media (max-width: 768px) {
-  .products-page {
-    display: flex;
+  .team-page {
     flex-direction: column;
-    margin-top: 1%;
-  }
-  .myTasks-list {
-    width: 70%;
-  }
-  .team-products {
-    padding: 10px;
-    margin-right: 0; /* Убирает отступ справа */
-    margin-bottom: 20px; /* Добавляет отступ снизу */
   }
 
-  .card-product {
-    flex-direction: column;
-    max-width: 100%; /* Полная ширина для мобильных устройств */
-    margin: 15px auto;
-    box-shadow: 4px 4px 8px 4px rgba(207, 205, 205, 0.2);
+  .team-members,
+  .team-members {
+    margin-right: 0;
+    margin-bottom: 20px;
   }
-
-  .card-product-image {
-    width: 100%; /* Полная ширина для мобильных устройств */
-    height: auto; /* Автоматическая высота для сохранения пропорций изображения */
+  .products {
+    grid-column: 1;
   }
-
-  .card-product-content {
-    flex-direction: column; /* Столбцовое расположение для мобильных устройств */
-  }
-
-  .card-product-title {
-    font-size: 20px; /* Уменьшенный размер шрифта для мобильных устройств */
-  }
-
-  .card-product-description {
-    font-size: 14px; /* Уменьшенный размер шрифта для мобильных устройств */
-  }
-
-  .link-button-container {
-    margin-top: 10px; /* Уменьшенный отступ сверху */
-  }
-
-  .link-button {
-    padding: 8px 16px; /* Уменьшенные отступы для кнопки */
+  .purchased-products {
+    grid-column: 1;
   }
 }
