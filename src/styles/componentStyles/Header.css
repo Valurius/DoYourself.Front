@@ -130,15 +130,17 @@
     flex-direction: column;
     height: auto;
   }
+  .header-frame {
+    display: inline;
+  }
+
   .header-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end; /* Выравнивание элементов по правому краю */
     margin-top: 10px;
   }
-  .header-frame {
-    width: calc(100%);
-  }
+
   .workers-teams,
   .profile-buttons {
     width: 100%;
