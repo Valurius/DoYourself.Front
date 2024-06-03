@@ -12,7 +12,9 @@ const MarketPage = () => {
   const { teamId } = useParams();
 
   const [products, setProducts] = useState([]);
+  const [purchasedProducts, setPurchasedProducts] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -30,6 +32,11 @@ const MarketPage = () => {
     } catch (error) {
       console.error("Ошибка при добавлении награды:", error);
     }
+  };
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    // Открыть модальное окно или показать детали продукта
   };
 
   useEffect(() => {
@@ -123,37 +130,80 @@ const MarketPage = () => {
             </form>
           </div>
         </MyModal>
-
-        {products.length > 0 ? (
-          products.map((product) => (
-            <div key={product.id} className="card">
-              <div className="card-body">
-                <div className="card-body-market">
-                  <div className="card-image">
-                    <img src={product.picture} alt=""></img>
-                  </div>
-                  <div className="card-desc-body">
-                    <div className="card-description">
-                      <MyText>{product.name}</MyText>
+        <div className="products-cards">
+          <div className="products">
+            <MyTitle>Награды</MyTitle>
+            {products.length > 0 ? (
+              products.map((product) => (
+                <div key={product.id} className="card">
+                  <div className="card-body">
+                    <div className="card-body-market">
+                      <div className="card-image">
+                        <img src={product.picture} alt=""></img>
+                      </div>
+                      <div className="card-desc-body">
+                        <div className="card-description">
+                          <MyText>{product.name}</MyText>
+                        </div>
+                        <MyText>{product.description}</MyText>
+                        <MyText>
+                          Стоимость: <br></br>
+                          {product.price} очков
+                        </MyText>
+                        <div className="link-button-container">
+                          <MyButton onClick={() => handleProductClick(product)}>
+                            Приобрести
+                          </MyButton>
+                        </div>
+                      </div>
                     </div>
-                    <MyText>{product.desk}</MyText>
-                    <MyText>Стоимость: {product.price} очков</MyText>
-                    <div className="link-button-container">
-                      <Link
-                        to={`/${teamId}/${product.projectId}/${product.id}/`}
-                        className="link-button"
-                      >
-                        Перейти
-                      </Link>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="noTasks">Продуктов нет</p>
+            )}
+          </div>
+          <div className="purchased-products">
+            <MyTitle>Купленные награды</MyTitle>
+            {selectedProduct ? (
+              // Отображение выбранной карточки товара
+              <div key={selectedProduct.id} className="card">
+                <div className="card-body">
+                  <div className="card-body-market">
+                    <div className="card-image">
+                      <img
+                        src={selectedProduct.picture}
+                        alt={selectedProduct.name}
+                      ></img>
+                    </div>
+                    <div className="card-desc-body">
+                      <div className="card-description">
+                        <MyText>{selectedProduct.name}</MyText>
+                      </div>
+
+                      <MyText>
+                        Стоимость: <br></br>
+                        {selectedProduct.price} очков
+                      </MyText>
+                      <MyText>Приобрел: Илья Халезин</MyText>
+                      <div className="link-button-container">
+                        <MyButton
+                          onClick={() => handleProductClick(selectedProduct)}
+                        >
+                          Выдать
+                        </MyButton>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p className="noTasks">Продуктов нет</p>
-        )}
+            ) : (
+              // Сообщение, если ничего не выбрано
+              <p className="noTasks">Купленных наград нет</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

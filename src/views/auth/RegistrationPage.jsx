@@ -46,7 +46,7 @@ const RegistrationPage = () => {
 
   return (
     <div className="form-page">
-      <MyTitle className="auth-h2">Регистрация</MyTitle>
+      <div className="auth-h2">Регистрация</div>
       <form className="auth-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="phone"></label>

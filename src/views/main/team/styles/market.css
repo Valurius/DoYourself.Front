@@ -23,6 +23,49 @@
   }
 }
 
+.purchased-products {
+  grid-row: 1;
+  background-color: #ffffff;
+  border-radius: 20px;
+  margin-left: 5%;
+}
+
+.purchased-card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.purchased-card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.purchased-card-body img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.products-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Создает две колонки с равной шириной */
+  gap: 20px; /* Добавляет промежуток между колонками */
+}
+
+.products {
+  grid-column: 1; /* Размещает карточки товаров в первой колонке */
+}
+
+.purchased-products {
+  grid-column: 2; /* Размещает купленные товары во второй колонке */
+}
+
 .card-product {
   display: flex;
   flex-direction: column;
